@@ -1,0 +1,11 @@
+
+services:
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    environment:
+      RAILS_ENV: development
+    command: bin/rails server -b 0.0.0.0
