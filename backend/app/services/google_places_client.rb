@@ -58,7 +58,7 @@ class GooglePlacesClient
         name: place["name"],
         lat: place.dig("geometry", "location", "lat"),
         lng: place.dig("geometry", "location", "lng"),
-        address: place["vicinity"]
+        address: place["vicinity"] # なんでVicinity?
       }
     end
   end

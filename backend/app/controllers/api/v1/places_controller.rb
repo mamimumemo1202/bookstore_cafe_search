@@ -16,9 +16,6 @@ class Api::V1::PlacesController < ApplicationController
       client = GooglePlacesClient.new
       place_details = client.fetch_place_details(place_id)
 
-      Rails.logger.info("===== PLACE DETAILS =====")
-      Rails.logger.info(place_details.inspect)
-
       render json: { place: place_details }
 
       # エラー処理
