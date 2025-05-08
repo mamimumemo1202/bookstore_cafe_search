@@ -5,8 +5,8 @@ import axios from 'axios';
 
 // 地図のスタイルを定数化
 const containerStyle = {
-  width: '100vw',
-  height: '100vh'
+  width: '100%',
+  height: '100%'
 };
 
 // ピンの位置を定数化
@@ -16,7 +16,7 @@ const center = {
   lng: 139.767125
 };
 
-export const PlacesMap = () => {
+export const PlacesMap = ({ onPlacesFetched} ) => {
     const [places, setPlaces] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false); // ロード完了フラグ追加！
   
@@ -32,6 +32,7 @@ export const PlacesMap = () => {
       .then(response => {
         console.log(response)
         setPlaces(response.data.places);
+        onPlacesFetched(response.data.places);
       })
       .catch(error => {
         console.error('APIエラー:', error);
@@ -47,7 +48,7 @@ export const PlacesMap = () => {
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={center}
-            zoom={15}
+            zoom={13}
           >
             {places.map((place) => (
               <Marker
