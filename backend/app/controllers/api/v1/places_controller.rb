@@ -10,6 +10,8 @@ class Api::V1::PlacesController < ApplicationController
       render json: { places: places }
     end
 
+    # いまは使ってないけど将来クリックしたときに表示する用に残しておくけど、詳細の住所だけ表示して
+    # クリックしたときはGooglemapの遷移するようにしたほうがいい
     def show
       place_id = params[:id]
 

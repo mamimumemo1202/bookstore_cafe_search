@@ -60,7 +60,7 @@ class GooglePlacesClient
         name: place["name"],
         lat: place.dig("geometry", "location", "lat"),
         lng: place.dig("geometry", "location", "lng"),
-        address: place["vicinity"] # なんでVicinity?
+        vicinity: place["vicinity"] # これは詳細の住所ではない
       }
     end
   end
