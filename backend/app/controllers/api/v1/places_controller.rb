@@ -2,7 +2,7 @@ class Api::V1::PlacesController < ApplicationController
     def index
       lat = params[:lat]
       lng = params[:lng]
-      keyword = params[:keyword] || 'cafe'
+      keyword = params[:keyword] 
   
       client = GooglePlacesClient.new
       places = client.search_nearby(lat: lat, lng: lng, keyword: keyword)

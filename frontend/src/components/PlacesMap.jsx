@@ -48,7 +48,7 @@ export const PlacesMap = ({ onPlacesFetched} ) => {
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={center}
-            zoom={13}
+            zoom={14}
           >
             {places.map((place) => (
               <Marker

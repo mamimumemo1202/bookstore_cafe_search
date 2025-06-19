@@ -9,13 +9,14 @@ class GooglePlacesClient
     @api_key = api_key
   end
 
-  def search_nearby(lat:, lng:, keyword: 'cafe', radius: 1000)
+  def search_nearby(lat:, lng:, keyword:, radius: 1000)
     options = {
       query: {
         location: "#{lat},#{lng}",
         radius: radius,
         keyword: keyword,
-        key: @api_key
+        key: @api_key,
+        language: 'ja'
       }
     }
 # self = インスタンス自身 .class = そのクラス（=GooglePlacesClient） クラスが持っているGETメソッドを使うために明記
@@ -35,7 +36,8 @@ class GooglePlacesClient
         query: {
             place_id: place_id,
             key: @api_key,
-            fields: 'name'
+            fields: 'name',
+            language: 'ja'
         }
     }
     response = self.class.get('/details/json', options)
