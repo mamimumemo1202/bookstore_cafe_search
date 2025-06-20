@@ -1,7 +1,8 @@
 // src/components/PlacesMap.jsx
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import axios from 'axios';
+
 
 // 地図のスタイルを定数化
 const containerStyle = {
@@ -9,15 +10,14 @@ const containerStyle = {
   height: '100%'
 };
 
-export const PlacesMap = ({ onPlacesFetched, lat, lng, type} ) => {
+export const PlacesMap = ({ onPlacesFetched, lat, lng, type, activePlace} ) => {
     const [places, setPlaces] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false); // ロード完了フラグ追加！
+    const mapRef = useRef(null); // mapインスタンス保持用
+
 
     // 今後ここを現在地、駅、書店名みたいに変わる予定
-    const center = {
-      lat: lat,
-      lng: lng
-    }; 
+    const defaultCenter = {lat, lng}; 
   
     useEffect(() => {
       axios.get('/api/v1/places', {
@@ -37,6 +37,13 @@ export const PlacesMap = ({ onPlacesFetched, lat, lng, type} ) => {
         console.error('APIエラー:', error);
       });
     }, []);
+
+
+    useEffect(()=>{
+      if(mapRef.current && activePlace){
+        mapRef.current.panTo({lat: activePlace.lat, lng: activePlace.lng});
+      };
+    },[activePlace])
   
     return (
       <LoadScript
@@ -46,8 +53,9 @@ export const PlacesMap = ({ onPlacesFetched, lat, lng, type} ) => {
         {isLoaded && ( // ロード完了後だけ地図を出す！
           <GoogleMap
             mapContainerStyle={containerStyle}
-            center={center}
+            center={defaultCenter}
             zoom={14}
+            onLoad={(map) => (mapRef.current = map)} // map インスタンスを保存
           >
             {places.map((place) => (
               <Marker

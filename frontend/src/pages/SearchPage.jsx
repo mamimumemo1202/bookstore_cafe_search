@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export function SearchPage() {
     const [places, setPlaces] = useState([]);
+    const [activePlace, setActivePlace] = useState(null);
     // HomePageぁらStateを自動で引き継ぐ（URLで受け取らない代わり）
     const location = useLocation();
     const { lat, lng, type } = location.state || {};
@@ -29,8 +30,6 @@ export function SearchPage() {
         return null;
         };
 
-    
-
     return (
         <>
         <div className = "flex h-screen ">
@@ -40,12 +39,14 @@ export function SearchPage() {
                 onPlacesFetched={setPlaces}
                 lat={lat}
                 lng={lng}
-                type={type}/>
+                type={type}
+                activePlace={activePlace}/>
             </div>
             {/* 検索結果カード */}
             <div className = "w-1/2 h-full  overflow-y-auto">
                 <PlaceCard 
-                places={places} />
+                places={places}
+                onSelectPlace={setActivePlace} />
             </div>
             
         </div>
