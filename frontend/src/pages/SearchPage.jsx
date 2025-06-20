@@ -1,18 +1,35 @@
 // 検索バー、検索結果を含む
 // 画面構成は
 // 左にマップ　右にカードで検索結果を表示
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PlacesMap } from '../components/PlacesMap'
 import { PlaceCard } from '../components/PlaceCard'
+import { useNavigate } from "react-router-dom";
+
 
 export function SearchPage() {
     const [places, setPlaces] = useState([]);
     // HomePageぁらStateを自動で引き継ぐ（URLで受け取らない代わり）
     const location = useLocation();
     const { lat, lng, type } = location.state || {};
+    const navigate = useNavigate();
 
-    console.log(lat, lng, type)
+
+    useEffect(() => {
+        if(!lat || !lng|| !type) {
+         alert("このページには直接アクセスできません。トップページに戻ります。");
+        navigate('/');
+        }
+    }, [lat, lng, type, navigate]
+
+    );
+    // useEffectは描画完成した後に副作用として発砲する。つまり、これが先に発砲されnullで描画終了後useEffectが作動し'/'に遷移
+    if(!lat || !lng|| !type) {
+        return null;
+        };
+
+    
 
     return (
         <>
