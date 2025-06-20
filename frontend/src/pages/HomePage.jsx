@@ -25,20 +25,29 @@ export function HomePage() {
                 ペア（未実装）
             </div>
             <div className="bg-white text-gray-700 border px-4 py-2 text-center cursor-pointer hover:bg-gray-100"
-            onClick={async () =>{ 
-             const pos = await getLocation();
-            navigate('/searchpage',{
-                state: {
-                    lat: pos.lat,
-                    lng: pos.lng,
-                    type: '本屋'
-                }
-            })
-            }}>
+                onClick={ async () =>{ 
+                const pos = await getLocation();
+                navigate('/searchpage',{
+                    state: {
+                        lat: pos.lat,
+                        lng: pos.lng,
+                        type: '本屋'
+                    }
+                })
+                }}>
                 本屋
             </div>
             <div className="bg-white text-gray-700 border rounded-br-md px-4 py-2 text-center cursor-pointer hover:bg-gray-100"
-            onClick={getLocation} >
+            onClick={ async () =>{ 
+                const pos = await getLocation();
+                navigate('/searchpage',{
+                    state: {
+                        lat: pos.lat,
+                        lng: pos.lng,
+                        type: 'カフェ'
+                    }
+                })
+                }}>
                 カフェ
             </div>
         </div>

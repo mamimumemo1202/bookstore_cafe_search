@@ -9,23 +9,22 @@ const containerStyle = {
   height: '100%'
 };
 
-// ピンの位置を定数化
-// 今後ここを現在地、駅、書店名みたいに変わる予定
-const center = {
-  lat: 35.681236, // 東京駅
-  lng: 139.767125
-};
-
-export const PlacesMap = ({ onPlacesFetched} ) => {
+export const PlacesMap = ({ onPlacesFetched, lat, lng, type} ) => {
     const [places, setPlaces] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false); // ロード完了フラグ追加！
+
+    // 今後ここを現在地、駅、書店名みたいに変わる予定
+    const center = {
+      lat: lat,
+      lng: lng
+    }; 
   
     useEffect(() => {
       axios.get('/api/v1/places', {
         params: {
-          lat: center.lat,
-          lng: center.lng,
-          keyword: 'station'
+          lat: lat,
+          lng: lng,
+          keyword: type
         }
       })
     //   .then()の中身は必ずAPIからの返事

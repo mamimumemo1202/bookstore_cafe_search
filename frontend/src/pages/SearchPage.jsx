@@ -20,7 +20,10 @@ export function SearchPage() {
             {/* 検索結果マップ */}
             <div className = "w-1/2 h-full">
                 <PlacesMap
-                onPlacesFetched={setPlaces} />
+                onPlacesFetched={setPlaces}
+                lat={lat}
+                lng={lng}
+                type={type}/>
             </div>
             {/* 検索結果カード */}
             <div className = "w-1/2 h-full  overflow-y-auto">

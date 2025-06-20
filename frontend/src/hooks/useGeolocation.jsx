@@ -15,6 +15,6 @@ export function useGeolocation() {
                 reject(err.message)
             })})
     };
-    {console.log("動いている１")}
+
     return { getLocation }
 }
