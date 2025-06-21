@@ -1,16 +1,20 @@
 // 検索バー、検索結果を含む
 // 画面構成は
 // 左にマップ　右にカードで検索結果を表示
+// response.data.placesで受け取っているのでAPIが壊れるとここの構造も変わる可能性あり
+// activeBookstore or activeCafeが同時に存在する場合の対処（いまのところ前者が優先される）
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PlacesMap } from '../components/PlacesMap'
 import { PlaceCard } from '../components/PlaceCard'
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
 
 
 export function SearchPage() {
-    const [places, setPlaces] = useState([]);
-    const [activePlace, setActivePlace] = useState(null); //本屋とカフェ共通。どちらかのみを検索したとき。
+    const [bookstores, setBookstores] = useState([]);
+    const [cafes, setCafes] = useState([]);
     const [activeBookstore, setActiveBookstore] = useState(null);
     const [activeCafe, setActiveCafe] = useState(null);
 
@@ -19,7 +23,7 @@ export function SearchPage() {
     const { lat, lng, type } = location.state || {};
     const navigate = useNavigate();
 
-
+// 1. 現在地が取得できない場合、'/'にリダイレクト
     useEffect(() => {
         if(!lat || !lng|| !type) {
          alert("このページには直接アクセスできません。トップページに戻ります。");
@@ -28,6 +32,46 @@ export function SearchPage() {
     }, [lat, lng, type, navigate]
 
     );
+
+// 2. HomePageにて位置情報が正しく取得できているかつ、type ='bookstore'の場合、本屋を取得する。
+    useEffect(() =>{
+        const fetchBookstores = async () => {
+        if(lat && lng && type === 'bookstore'){
+            try{const response = await axios.get('/api/v1/places', {
+                params: {  
+                lat,
+                lng,
+                keyword: type
+                }
+            });
+            setBookstores(response.data.places)
+        } catch (err){
+            console.error('本屋を所得できませんでした。', err)
+        }
+        }}  
+            fetchBookstores();
+        },[lat, lng, type]);
+    
+
+// 3. 本屋が選択されたとき近くのカフェを表示する
+    useEffect(() => {
+      if(activeBookstore){
+      axios.get('/api/v1/places', {
+        params: {
+          lat: activeBookstore.lat,
+          lng: activeBookstore.lng,
+          keyword: 'cafe'
+        }
+      })
+    //   .then()の中身は必ずAPIからの返事
+      .then(response => {
+        setCafes(response.data.places);
+      })
+      .catch(error => {
+        console.error('カフェの取得エラー:', error);
+      });}
+    }, [activeBookstore]);
+
     // useEffectは描画完成した後に副作用として発砲する。つまり、これが先に発砲されnullで描画終了後useEffectが作動し'/'に遷移
     if(!lat || !lng|| !type) {
         return null;
@@ -39,19 +83,22 @@ export function SearchPage() {
             {/* 検索結果マップ */}
             <div className = "w-1/2 h-full">
                 <PlacesMap
-                onPlacesFetched={setPlaces}
                 lat={lat}
                 lng={lng}
                 type={type}
-                activePlace={activePlace}
-                activeBookstore={activeBookstore}/>
+                bookstores={bookstores}
+                cafes={cafes}
+                activeBookstore={activeBookstore}
+                activeCafe={activeCafe}/>
             </div>
             {/* 検索結果カード */}
             <div className = "w-1/2 h-full overflow-y-auto">
                 <PlaceCard 
-                places={places}
-                onSelectPlace={setActivePlace}
-                onSelectBookstore={setActiveBookstore} />
+                bookstores={bookstores}
+                cafes={cafes}
+                type={type}
+                onSelectBookstore={setActiveBookstore}
+                onSelectCafe={setActiveCafe} />
             </div>
             
         </div>

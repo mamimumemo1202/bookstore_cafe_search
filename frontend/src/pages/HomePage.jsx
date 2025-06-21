@@ -31,7 +31,7 @@ export function HomePage() {
                     state: {
                         lat: pos.lat,
                         lng: pos.lng,
-                        type: '本屋'
+                        type: 'bookstore'
                     }
                 })
                 }}>
@@ -44,7 +44,7 @@ export function HomePage() {
                     state: {
                         lat: pos.lat,
                         lng: pos.lng,
-                        type: 'カフェ'
+                        type: 'cafe'
                     }
                 })
                 }}>
@@ -53,10 +53,6 @@ export function HomePage() {
         </div>
         </div>
      </div>
-
-
-
-    
      </>
     )
 }

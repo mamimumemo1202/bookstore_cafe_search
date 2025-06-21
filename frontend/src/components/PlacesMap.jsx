@@ -1,7 +1,7 @@
 // src/components/PlacesMap.jsx
 import { useEffect, useState, useRef } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import axios from 'axios';
+
 
 
 // 地図のスタイルを定数化
@@ -10,52 +10,14 @@ const containerStyle = {
   height: '100%'
 };
 
-export const PlacesMap = ({ onPlacesFetched, lat, lng, type, activePlace, activeBookstore} ) => {
-    const [places, setPlaces] = useState([]);
-    const [isLoaded, setIsLoaded] = useState(false); // ロード完了フラグ
-    const mapRef = useRef(null); // mapインスタンス保持用
+export const PlacesMap = ({ lat, lng, type, bookstores, cafes, activeBookstore, activeCafe} ) => {
+  const [isLoaded, setIsLoaded] = useState(false); // ロード完了フラグ
+  const mapRef = useRef(null); // mapインスタンス保持用
 
+  const defaultCenter = {lat, lng}; 
 
-    // 今後ここを現在地、駅、書店名みたいに変わる予定
-    const defaultCenter = {lat, lng}; 
-  
-    useEffect(() => {
-      axios.get('/api/v1/places', {
-        params: {
-          lat: lat,
-          lng: lng,
-          keyword: type
-        }
-      })
-    //   .then()の中身は必ずAPIからの返事
-      .then(response => {
-        setPlaces(response.data.places);
-        onPlacesFetched(response.data.places);
-      })
-      .catch(error => {
-        console.error('本屋かカフェの取得エラー:', error);
-      });
-    }, []);
-
-    useEffect(() => {
-      if(activeBookstore){
-      axios.get('/api/v1/places', {
-        params: {
-          lat: activeBookstore.lat,
-          lng: activeBookstore.lng,
-          keyword: 'cafe'
-        }
-      })
-    //   .then()の中身は必ずAPIからの返事
-      .then(response => {
-        setPlaces(response.data.places);
-        onPlacesFetched(response.data.places);
-      })
-      .catch(error => {
-        console.error('カフェの取得エラー:', error);
-      });}
-    }, [activeBookstore]);
-
+  const activePlace = activeBookstore || activeCafe;
+  const places = bookstores || cafes || [];
 
     useEffect(()=>{
       if(mapRef.current && activePlace){
@@ -68,6 +30,7 @@ export const PlacesMap = ({ onPlacesFetched, lat, lng, type, activePlace, active
         googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
         onLoad={() => setIsLoaded(true)} // ロード完了したらセット！
       >
+        {console.log(places)}
         {isLoaded && ( // ロード完了後だけ地図を出す！
           <GoogleMap
             mapContainerStyle={containerStyle}
