@@ -10,7 +10,10 @@ import { useNavigate } from "react-router-dom";
 
 export function SearchPage() {
     const [places, setPlaces] = useState([]);
-    const [activePlace, setActivePlace] = useState(null);
+    const [activePlace, setActivePlace] = useState(null); //本屋とカフェ共通。どちらかのみを検索したとき。
+    const [activeBookstore, setActiveBookstore] = useState(null);
+    const [activeCafe, setActiveCafe] = useState(null);
+
     // HomePageぁらStateを自動で引き継ぐ（URLで受け取らない代わり）
     const location = useLocation();
     const { lat, lng, type } = location.state || {};
@@ -40,13 +43,15 @@ export function SearchPage() {
                 lat={lat}
                 lng={lng}
                 type={type}
-                activePlace={activePlace}/>
+                activePlace={activePlace}
+                activeBookstore={activeBookstore}/>
             </div>
             {/* 検索結果カード */}
-            <div className = "w-1/2 h-full  overflow-y-auto">
+            <div className = "w-1/2 h-full overflow-y-auto">
                 <PlaceCard 
                 places={places}
-                onSelectPlace={setActivePlace} />
+                onSelectPlace={setActivePlace}
+                onSelectBookstore={setActiveBookstore} />
             </div>
             
         </div>

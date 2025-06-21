@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 // カードに必要な要素　名前、評価、
-export function PlaceCard({ places, onSelectPlace }) {
+export function PlaceCard({ places, onSelectPlace, onSelectBookstore }) {
   const [openIds, setOpenIds] = useState({});
 
   const detailedToggle = (id) =>{
@@ -20,7 +20,8 @@ export function PlaceCard({ places, onSelectPlace }) {
             className="text-lg font-semibold text-gray-800 cursor-pointer"
             onClick={() => {
                 detailedToggle(place.id);
-                onSelectPlace(place)}
+                onSelectPlace(place);
+                onSelectBookstore(place)}
             }
           >
             {place.name}

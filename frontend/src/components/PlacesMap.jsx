@@ -10,9 +10,9 @@ const containerStyle = {
   height: '100%'
 };
 
-export const PlacesMap = ({ onPlacesFetched, lat, lng, type, activePlace} ) => {
+export const PlacesMap = ({ onPlacesFetched, lat, lng, type, activePlace, activeBookstore} ) => {
     const [places, setPlaces] = useState([]);
-    const [isLoaded, setIsLoaded] = useState(false); // ロード完了フラグ追加！
+    const [isLoaded, setIsLoaded] = useState(false); // ロード完了フラグ
     const mapRef = useRef(null); // mapインスタンス保持用
 
 
@@ -29,14 +29,32 @@ export const PlacesMap = ({ onPlacesFetched, lat, lng, type, activePlace} ) => {
       })
     //   .then()の中身は必ずAPIからの返事
       .then(response => {
-        console.log(response)
         setPlaces(response.data.places);
         onPlacesFetched(response.data.places);
       })
       .catch(error => {
-        console.error('APIエラー:', error);
+        console.error('本屋かカフェの取得エラー:', error);
       });
     }, []);
+
+    useEffect(() => {
+      if(activeBookstore){
+      axios.get('/api/v1/places', {
+        params: {
+          lat: activeBookstore.lat,
+          lng: activeBookstore.lng,
+          keyword: 'cafe'
+        }
+      })
+    //   .then()の中身は必ずAPIからの返事
+      .then(response => {
+        setPlaces(response.data.places);
+        onPlacesFetched(response.data.places);
+      })
+      .catch(error => {
+        console.error('カフェの取得エラー:', error);
+      });}
+    }, [activeBookstore]);
 
 
     useEffect(()=>{
