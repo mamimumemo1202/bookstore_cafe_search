@@ -6,9 +6,10 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PlacesMap } from '../components/PlacesMap'
-import { PlaceCard } from '../components/PlaceCard'
+import { BookstoreCard } from '../components/BookstoreCard'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { CafeCard } from '../components/CafeCard';
 
 
 
@@ -36,41 +37,40 @@ export function SearchPage() {
 // 2. HomePageにて位置情報が正しく取得できているかつ、type ='bookstore'の場合、本屋を取得する。
     useEffect(() =>{
         const fetchBookstores = async () => {
-        if(lat && lng && type === 'bookstore'){
-            try{const response = await axios.get('/api/v1/places', {
-                params: {  
-                lat,
-                lng,
-                keyword: type
-                }
-            });
-            setBookstores(response.data.places)
-        } catch (err){
-            console.error('本屋を所得できませんでした。', err)
-        }
-        }}  
-            fetchBookstores();
-        },[lat, lng, type]);
+            if(lat && lng && type === 'bookstore'){
+                try{const response = await axios.get('/api/v1/places', {
+                    params: {  
+                    lat,
+                    lng,
+                    keyword: type
+                    }
+                });
+                setBookstores(response.data.places)
+            } catch (err){
+                console.error('本屋を所得できませんでした。', err)
+            }
+            }}  
+                fetchBookstores();
+            },[lat, lng, type]);
     
 
 // 3. 本屋が選択されたとき近くのカフェを表示する
     useEffect(() => {
-      if(activeBookstore){
-      axios.get('/api/v1/places', {
-        params: {
-          lat: activeBookstore.lat,
-          lng: activeBookstore.lng,
-          keyword: 'cafe'
-        }
-      })
-    //   .then()の中身は必ずAPIからの返事
-      .then(response => {
-        setCafes(response.data.places);
-      })
-      .catch(error => {
-        console.error('カフェの取得エラー:', error);
-      });}
-    }, [activeBookstore]);
+        const fetchCafesNearBookstore = async () =>{
+            if(activeBookstore){
+                try { const response = await axios.get('/api/v1/places', {
+                    params: {
+                    lat: activeBookstore.lat,
+                    lng: activeBookstore.lng,
+                    keyword: 'cafe'
+                    }});
+                    setCafes(response.data.places);
+                } catch (err){
+                    console.error('カフェを所得できませんでした。', err)
+
+                }}};fetchCafesNearBookstore();
+                
+                }, [activeBookstore]);
 
     // useEffectは描画完成した後に副作用として発砲する。つまり、これが先に発砲されnullで描画終了後useEffectが作動し'/'に遷移
     if(!lat || !lng|| !type) {
@@ -93,14 +93,20 @@ export function SearchPage() {
             </div>
             {/* 検索結果カード */}
             <div className = "w-1/2 h-full overflow-y-auto">
-                <PlaceCard 
+                <BookstoreCard 
                 bookstores={bookstores}
-                cafes={cafes}
-                type={type}
-                onSelectBookstore={setActiveBookstore}
-                onSelectCafe={setActiveCafe} />
+                onSelectBookstore={setActiveBookstore}/>
             </div>
-            
+            {activeBookstore ? <div className="w-1/2 h-full overflow-y-auto">
+                <CafeCard
+                cafes={cafes}
+                onSelectCafe={setActiveCafe}/>
+            </div>
+            :
+            <div className="w-1/2 h-full flex items-center justify-center text-gray-500">
+                書店を選択してカフェを表示してください。
+            </div>
+             }      
         </div>
         </>
     )

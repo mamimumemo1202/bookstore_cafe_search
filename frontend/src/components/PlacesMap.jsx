@@ -11,7 +11,7 @@ const containerStyle = {
 };
 
 export const PlacesMap = ({ lat, lng, type, bookstores, cafes, activeBookstore, activeCafe} ) => {
-  const [isLoaded, setIsLoaded] = useState(false); // ロード完了フラグ
+  const [isLoaded, setIsLoaded] = useState(false); // マップ用のLoading
   const mapRef = useRef(null); // mapインスタンス保持用
 
   const defaultCenter = {lat, lng}; 
@@ -30,19 +30,33 @@ export const PlacesMap = ({ lat, lng, type, bookstores, cafes, activeBookstore, 
         googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
         onLoad={() => setIsLoaded(true)} // ロード完了したらセット！
       >
-        {console.log(places)}
         {isLoaded && ( // ロード完了後だけ地図を出す！
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={defaultCenter}
-            zoom={14}
+            zoom={16}
             onLoad={(map) => (mapRef.current = map)} // map インスタンスを保存
           >
-            {places.map((place) => (
+            {/* 本屋のピン */}
+            {bookstores.map((bookstore) => (
               <Marker
-                key={place.id}
-                position={{ lat: place.lat, lng: place.lng }}
-                title={place.name}
+                key={bookstore.id}
+                position={{ lat: bookstore.lat, lng: bookstore.lng }}
+                title={bookstore.name}
+                icon={{
+                  url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                }}
+              />
+            ))}
+            {/* カフェのピン */}
+            {cafes.map((cafe) => (
+              <Marker
+                key={cafe.id}
+                position={{ lat: cafe.lat, lng: cafe.lng }}
+                title={cafe.name}
+                icon={{
+                  url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                }}
               />
             ))}
           </GoogleMap>

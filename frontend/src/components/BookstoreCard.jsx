@@ -1,0 +1,42 @@
+import { useState } from 'react';
+
+// カードに必要な要素　名前、評価、
+export function BookstoreCard({ 
+    bookstores,
+    onSelectBookstore }) {
+
+  const [openIds, setOpenIds] = useState({});
+
+  const detailedToggle = (id) =>{
+    setOpenIds(prev => ({
+        ...prev,
+        [id]:!prev[id]
+    }))
+  }
+
+  const handleBookstoreSelect = (bookstore) => {
+    detailedToggle(bookstore.id)
+    onSelectBookstore(bookstore)
+    };
+
+  return (
+    <>
+    <div className="grid grid-cols-2">
+      {bookstores.map(bookstore => (  
+        <div key={bookstore.id} className="bg-white rounded-xl shadow-md p-4 mb-4">
+          <h2 className="text-lg font-semibold text-gray-800 cursor-pointer"
+            onClick = { () =>handleBookstoreSelect(bookstore)}>
+                {bookstore.name}
+          </h2>
+
+          {openIds[bookstore.id] && (
+            <div className="text-sm text-gray-600 mt-2">
+                {bookstore.vicinity}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+    </>
+  );
+}
