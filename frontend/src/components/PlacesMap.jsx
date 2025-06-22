@@ -10,15 +10,17 @@ const containerStyle = {
   height: '100%'
 };
 
-export const PlacesMap = ({ lat, lng, type, bookstores, cafes, activeBookstore, activeCafe} ) => {
+export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, activeCafe} ) => {
   const [isLoaded, setIsLoaded] = useState(false); // マップ用のLoading
   const mapRef = useRef(null); // mapインスタンス保持用
 
   const defaultCenter = {lat, lng}; 
 
   const activePlace = activeBookstore || activeCafe;
-  const places = bookstores || cafes || [];
+  const center = activePlace ? {lat: activePlace.lat, lng: activePlace.lng} : defaultCenter; 
 
+ 
+// なくても動くけどPanToで滑らかに動かすのがねらい
     useEffect(()=>{
       if(mapRef.current && activePlace){
         mapRef.current.panTo({lat: activePlace.lat, lng: activePlace.lng});
@@ -33,10 +35,10 @@ export const PlacesMap = ({ lat, lng, type, bookstores, cafes, activeBookstore, 
         {isLoaded && ( // ロード完了後だけ地図を出す！
           <GoogleMap
             mapContainerStyle={containerStyle}
-            center={defaultCenter}
+            center={center}
             zoom={16}
             onLoad={(map) => (mapRef.current = map)} // map インスタンスを保存
-          >
+          > 
             {/* 本屋のピン */}
             {bookstores.map((bookstore) => (
               <Marker
