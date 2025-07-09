@@ -135,9 +135,6 @@ export function SearchPage() {
             
             {activeBookstore ? 
             <div className="w-full h-full overflow-y-auto">
-                <div className="text-sm text-gray-600 px-4 py-2">
-                    現在の書店: <span className="font-semibold">{activeBookstore.name}</span>
-                </div>
                 <CafeCard
                 cafes={cafes}
                 onSelectCafe={setActiveCafe}/>
