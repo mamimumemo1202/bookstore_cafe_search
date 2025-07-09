@@ -31,7 +31,7 @@ export function HomePage() {
                     state: {
                         lat: pos.lat,
                         lng: pos.lng,
-                        type: 'bookstore'
+                        type: 'book_store'
                     }
                 })
                 }}>
@@ -45,6 +45,7 @@ export function HomePage() {
                         lat: pos.lat,
                         lng: pos.lng,
                         type: 'cafe'
+                        // TODO: 今後はマックとかのカフェとして不適切な検索結果を排除
                     }
                 })
                 }}>

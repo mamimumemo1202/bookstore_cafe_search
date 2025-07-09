@@ -34,12 +34,13 @@ export function SearchPage() {
 // 2. HomePageにて位置情報が正しく取得できているかつ、type ='bookstore'の場合、本屋を取得する。
     useEffect(() =>{
         const fetchBookstores = async () => {
-            if(lat && lng && type === 'bookstore'){
+            if(lat && lng && type === 'book_store'){
                 try{const response = await axios.get('/api/v1/places', {
                     params: {  
                     lat,
                     lng,
-                    keyword: type
+                    type,
+                    keyword: 'book'
                     }
                 });
                 setBookstores(response.data.places)
@@ -59,7 +60,7 @@ export function SearchPage() {
                     params: {  
                     lat,
                     lng,
-                    keyword: type
+                    type,
                     }
                 });
                 setCafes(response.data.places)
@@ -78,8 +79,9 @@ export function SearchPage() {
                 try { const response = await axios.get('/api/v1/places', {
                     params: {
                     lat: activeBookstore.lat,
-                    lng: activeBookstore.lng,
-                    keyword: 'cafe'
+                    lng: activeBookstore.lng,                   
+                    type: 'cafe',
+                    keyword: 'coffee'
                     }});
                     setCafes(response.data.places);
                 } catch (err){
@@ -93,10 +95,6 @@ export function SearchPage() {
     if(!lat || !lng|| !type) {
         return null;
         };
-
-
-    
-  
 
 
     return (

@@ -41,6 +41,7 @@ export function BookstoreCard({
   return (
     <>
       {/* ナビゲーションUI */}
+      {/* 本屋の長さで次への位置が変わってうざい */}
       <div className="w-full p-4 bg-gray-100 flex justify-center items-center gap-4">
         <button onClick={handlePrevBookstore}>前へ</button>
         <div className="px-4 py-2 bg-white rounded shadow">
