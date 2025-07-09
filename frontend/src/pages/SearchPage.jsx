@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PlacesMap } from '../components/PlacesMap'
-import { BookstoreCard } from '../components/BookstoreCard'
+import { BookstoreSelector } from '../components/BookstoreSelector'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { CafeCard } from '../components/CafeCard';
@@ -31,7 +31,16 @@ export function SearchPage() {
 
     );
 
-// 2. HomePageにて位置情報が正しく取得できているかつ、type ='bookstore'の場合、本屋を取得する。
+    useEffect(()=>{
+        const initializeActiveBookstore = () => {
+            if(bookstores.length > 0 && !activeBookstore){
+                setActiveBookstore(bookstores[0])
+            }
+        };
+
+        initializeActiveBookstore();
+    },[bookstores, activeCafe]);
+
     useEffect(() =>{
         const fetchBookstores = async () => {
             if(lat && lng && type === 'book_store'){
@@ -40,7 +49,7 @@ export function SearchPage() {
                     lat,
                     lng,
                     type,
-                    keyword: 'book'
+                    // keyword: 'book'
                     }
                 });
                 setBookstores(response.data.places)
@@ -61,6 +70,8 @@ export function SearchPage() {
                     lat,
                     lng,
                     type,
+                    // TODO: keywordを反映させるにはRails側の処理が必要
+                    keyword: 'coffee'
                     }
                 });
                 setCafes(response.data.places)
@@ -70,8 +81,6 @@ export function SearchPage() {
             }}  
                 fetchCafes();
             },[lat, lng, type]);
-
-// 4. 本屋が選択されたとき近くのカフェを表示する
 
     useEffect(() => {
         const fetchCafesNearBookstore = async () =>{
@@ -119,7 +128,7 @@ export function SearchPage() {
             {/* 検索結果カード */}
             <div className = "w-1/2 h-full ">
             {/* ここはカードではなく、スライドできるナビゲーションバーにする予定 */}
-                <BookstoreCard 
+                <BookstoreSelector 
                 bookstores={bookstores}
                 onSelectBookstore={setActiveBookstore}
                 activeBookstore={activeBookstore}/>
@@ -135,7 +144,7 @@ export function SearchPage() {
             </div>
             :
             <div className="w-full h-full flex items-center justify-center text-gray-500">
-                書店を選択してカフェを表示してください。
+                読み込み中
             </div>
              } 
             </div>     

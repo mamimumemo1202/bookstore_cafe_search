@@ -5,8 +5,6 @@ import { useGeolocation } from "../hooks/useGeolocation";
 import { useNavigate } from "react-router-dom";
 
 
-
-
 // 現在地から探すボタンの下に本屋、ペア、カフェを置く
 export function HomePage() {
     const navigate = useNavigate();

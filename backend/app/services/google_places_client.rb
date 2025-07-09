@@ -9,12 +9,12 @@ class GooglePlacesClient
     @api_key = api_key
   end
 
-  def search_nearby(lat:, lng:, keyword:, radius: 1000)
+  def search_nearby(lat:, lng:, type:, radius: 1000)
     options = {
       query: {
         location: "#{lat},#{lng}",
         radius: radius,
-        keyword: keyword,
+        type: type,
         key: @api_key,
         language: 'ja'
       }
