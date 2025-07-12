@@ -5,8 +5,6 @@ export function BookstoreSelector({
     onSelectBookstore,
     activeBookstore }) {
 
-  const [openIds, setOpenIds] = useState({});
-
     const bookstoresLength = bookstores.length 
     const currentBookstoreIndex = activeBookstore? bookstores.findIndex(bookstore => bookstore.id === activeBookstore.id): -1;
 
