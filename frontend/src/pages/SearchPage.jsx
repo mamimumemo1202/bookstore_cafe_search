@@ -16,7 +16,10 @@ export function SearchPage() {
     const [activeBookstore, setActiveBookstore] = useState(null);
     const [activeCafe, setActiveCafe] = useState(null);
 
-    // HomePageぁらStateを自動で引き継ぐ（URLで受け取らない代わり）
+// TODO: SearchModeを実装する。SearchMode(Bookstore, cafe, pair)でそれぞれに分岐しレンダリングするようにする
+
+
+    // HomePageからStateを自動で引き継ぐ（URLで受け取らない代わり）
     const location = useLocation();
     const { lat, lng, type } = location.state || {};
     const navigate = useNavigate();
@@ -133,6 +136,7 @@ export function SearchPage() {
                 onSelectBookstore={setActiveBookstore}
                 activeBookstore={activeBookstore}/>
             
+            {/* TODO: 本屋に依存しているため、カフェ単体で検索結果を表示できるようにする */}
             {activeBookstore ? 
             <div className="w-full h-full overflow-y-auto">
                 <CafeCard

@@ -25,9 +25,6 @@ export function BookstoreCard({
 
   return (
     <>
-
-      {/* なびげーしょんできたらこのカードはいらない
-      書店一覧ボタンを設けて一覧を取得できるようにするのはあり（） */}
     <div className="grid grid-cols-2">
       {bookstores.map(bookstore => (  
         <div key={bookstore.id} className="bg-white rounded-xl shadow-md p-4 mb-4">
