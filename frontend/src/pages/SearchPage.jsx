@@ -16,13 +16,12 @@ export function SearchPage() {
     const [activeBookstore, setActiveBookstore] = useState(null);
     const [activeCafe, setActiveCafe] = useState(null);
 
-// TODO: SearchModeを実装する。SearchMode(Bookstore, cafe, pair)でそれぞれに分岐しレンダリングするようにする
-
-
     // HomePageからStateを自動で引き継ぐ（URLで受け取らない代わり）
     const location = useLocation();
     const { lat, lng, type } = location.state || {};
     const navigate = useNavigate();
+
+
 
 // 1. 現在地が取得できない場合、'/'にリダイレクト
     useEffect(() => {
@@ -42,7 +41,7 @@ export function SearchPage() {
         };
 
         initializeActiveBookstore();
-    },[bookstores, activeCafe]);
+    },[bookstores]);
 
     useEffect(() =>{
         const fetchBookstores = async () => {
@@ -62,10 +61,11 @@ export function SearchPage() {
             }}  
                 fetchBookstores();
             },[lat, lng, type]);
-//3. HomePageにて位置情報が正しく取得できているかつ、type ='cafe'の場合、カフェを取得する。
-// ただ、今はactiveBookstoreで表示をコントロールしているため、カフェの直接検索はできなくなっている。
+
 
     useEffect(() =>{
+        if(type !== 'cafe') return;
+
         const fetchCafes = async () => {
             if(lat && lng && type === 'cafe'){
                 try{const response = await axios.get('/api/v1/places', {
@@ -86,6 +86,8 @@ export function SearchPage() {
             },[lat, lng, type]);
 
     useEffect(() => {
+        if(type !=='book_store' || !activeBookstore) return;
+
         const fetchCafesNearBookstore = async () =>{
             if(activeBookstore){
                 try { const response = await axios.get('/api/v1/places', {
@@ -97,14 +99,14 @@ export function SearchPage() {
                     }});
                     setCafes(response.data.places);
                 } catch (err){
-                    console.error('カフェを所得できませんでした。', err)
+                    console.error('選択した書店周辺のカフェを所得できませんでした。', err)
 
                 }}};fetchCafesNearBookstore();
                 
-                }, [activeBookstore]);
+                }, [activeBookstore, type]);
 
     // useEffectは描画完成した後に副作用として発砲する。つまり、これが先に発砲されnullで描画終了後useEffectが作動し'/'に遷移
-    if(!lat || !lng|| !type) {
+    if(!lat || !lng || !type) {
         return null;
         };
 
@@ -128,26 +130,29 @@ export function SearchPage() {
                 activeBookstore={activeBookstore}
                 activeCafe={activeCafe}/>
             </div>
-            {/* 検索結果カード */}
+
+
             <div className = "w-1/2 h-full ">
-            {/* ここはカードではなく、スライドできるナビゲーションバーにする予定 */}
-                <BookstoreSelector 
-                bookstores={bookstores}
-                onSelectBookstore={setActiveBookstore}
-                activeBookstore={activeBookstore}/>
-            
-            {/* TODO: 本屋に依存しているため、カフェ単体で検索結果を表示できるようにする */}
-            {activeBookstore ? 
-            <div className="w-full h-full overflow-y-auto">
-                <CafeCard
-                cafes={cafes}
-                onSelectCafe={setActiveCafe}/>
-            </div>
-            :
-            <div className="w-full h-full flex items-center justify-center text-gray-500">
-                読み込み中
-            </div>
-             } 
+                {/* 書店セレクター */}            
+                {type === 'book_store' && (            
+                    <BookstoreSelector 
+                    bookstores={bookstores}
+                    onSelectBookstore={setActiveBookstore}
+                    activeBookstore={activeBookstore}/>
+                    )}
+                
+                {/* カフェカード */}
+                {cafes.length > 0 ? 
+                <div className="w-full h-full overflow-y-auto">
+                    <CafeCard
+                    cafes={cafes}
+                    onSelectCafe={setActiveCafe}/>
+                </div>
+                :
+                <div className="w-full h-full flex items-center justify-center text-gray-500">
+                    読み込み中
+                </div>
+                } 
             </div>     
         </div>
         </>
