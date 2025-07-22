@@ -1,5 +1,4 @@
-// 検索バー、サービスの説明、未定
-// はてなアイコンでどのようなアプリか説明する
+// TODO: 検索窓実装に合わせてファイル分離する
 
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useNavigate } from "react-router-dom";

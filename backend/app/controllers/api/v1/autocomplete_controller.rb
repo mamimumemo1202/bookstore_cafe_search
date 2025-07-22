@@ -1,5 +1,5 @@
 class Api::V1::AutocompleteController < ApplicationController
-    def index
+    def create
         input = params[:input]
 
         return render json: { error: "input is required" }, status: :bad_request if input.blank?
