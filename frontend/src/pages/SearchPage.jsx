@@ -1,5 +1,3 @@
-// response.data.placesで受け取っているのでAPIが壊れるとここの構造も変わる可能性あり
-// activeBookstore or activeCafeが同時に存在する場合の対処（いまのところ前者が優先される）
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PlacesMap } from '../components/PlacesMap'

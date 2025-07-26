@@ -1,43 +1,85 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
+import { useNavigate } from "react-router-dom";
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+
 
 export function SearchBar(){
     const[query, setQuery] = useState("")
     const[predictions, setPredictions] = useState([])
+    const[selectedPrediction, setSelectedPrediction] = useState(null)
 
+    const navigate = useNavigate();
+    // const addStationToQuery = query.includes('駅')? query : `${query}駅`
+
+
+// BUG:検索窓を空白にするとなぜか検索予測が表示される
     useEffect(()=>{
-        if(!query || query.length < 2) return
+        if(!query || query.length < 2) {
+            setPredictions([])
+        return
+    }
 
         const autocompleteTimer = setTimeout(()=>{
-        const fetchSearchPredictions = async() => {
-            try{
-                const res = await axios.post('/api/v1/autocomplete',{
-                    input: query
-                })
-                setPredictions(res.data)
-            } catch(err){
-                console.error(err)
-                setPredictions([])
-            }
-        } 
+            const fetchSearchPredictions = async() => {
+                try{
+                    const res = await axios.post('/api/v1/autocomplete',{
+                        input: query,
+                    })
+                    
+                    setPredictions(res.data)
+                } catch(err){
+                    console.error(err)
+                    setPredictions([])
+                }
+            } 
 
-        fetchSearchPredictions()}, 300)
+            fetchSearchPredictions()
+        }, 300)
 
         return () => clearTimeout(autocompleteTimer)
     },[query])
     
     return(
-        <div>
+        <div className="relative w-full max-w-md mx-auto">
+            <div className="flex">
             <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="検索ワードを入力してください。"
+            className="w-full border border-gray-300 rounded-md px-4 py-2"
+            placeholder="例：新宿駅"
             />
+            <button
+            type="button"
+            onClick={ async() => {            
+                  const pos = await axios.get('/api/v1/places', {
+                    params: {
+                        place_id:selectedPrediction.place_id
+                    }
+                  })
+                navigate('/searchpage', {
+                    state:{
+                        lat: pos.data.lat,
+                        lng: pos.data.lng
+                        // type: 
+                    }
+                })
+                
+            }}><MagnifyingGlassIcon className="w-5 h-5 mx-2 hover:text-gray-500 cursor-pointer"/></button>
+            </div>
 
-            <ul>
+                {/* INFO: 現在はdescriptionをそのまま検索予測として表示しているが
+                今後はさらにPlaceAPIを叩いてより正確な検索予測として表示する可能性あり*/}
+            <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
                 {predictions.map((prediction,index) => 
-                <li key={index}>
+                <li key={index}
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => {
+                    setQuery(prediction.description)
+                    setSelectedPrediction(prediction)
+                    setPredictions([])
+                }}>
                     {prediction.description}
                 </li>
             )}

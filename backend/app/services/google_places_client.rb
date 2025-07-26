@@ -36,7 +36,7 @@ class GooglePlacesClient
         query: {
             place_id: place_id,
             key: @api_key,
-            fields: 'name',
+            fields: 'name,geometry',
             language: 'ja'
         }
     }

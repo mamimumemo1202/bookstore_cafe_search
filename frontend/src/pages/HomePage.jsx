@@ -2,6 +2,7 @@
 
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useNavigate } from "react-router-dom";
+import { SearchBar } from "../components/SearchByKeyword";
 
 
 // 現在地から探すボタンの下に本屋、ペア、カフェを置く
@@ -12,6 +13,7 @@ export function HomePage() {
     return(
      <>
      <div className="flex items-center justify-center h-screen">
+        <SearchBar/>
         <div className = "flex flex-col">
         <div className="bg-blue-500 text-white rounded-t-md px-4 py-2 text-center">
                 現在地から探す

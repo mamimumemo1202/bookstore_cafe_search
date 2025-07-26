@@ -24,13 +24,13 @@ class GooglePlacesAutocompleteClient
       Rails.logger.error("Autocomplete API error: #{response.code} #{response.body}")
       raise "Autocomplete API request failed"
     end
-# Httpartyの仕様上、オブジェクトのJSONにはparsed_responseをつかってアクセスする
+
+
     response.parsed_response["predictions"].map do |prediction|
         {
             description: prediction["description"],
-            place_id: prediction["place_id"]
+            place_id: prediction["place_id"]  
         }
     end
-
   end
 end
