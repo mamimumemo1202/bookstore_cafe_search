@@ -1,7 +1,7 @@
 export function useGeolocation() {
    
     const getLocation = () => {
-        return new Promise((resolve, reject) =>{
+        return new Promise((resolve, reject) => {
 
         navigator.geolocation.getCurrentPosition(
             (position) => {

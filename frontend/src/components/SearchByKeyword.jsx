@@ -10,12 +10,11 @@ export function SearchBar(){
     const[selectedPrediction, setSelectedPrediction] = useState(null)
 
     const navigate = useNavigate();
-    // const addStationToQuery = query.includes('駅')? query : `${query}駅`
 
 
 // BUG:検索窓を空白にするとなぜか検索予測が表示される
     useEffect(()=>{
-        if(!query || query.length < 2) {
+        if(!query.trim() || query.trim().length < 2) {
             setPredictions([])
         return
     }
@@ -61,8 +60,9 @@ export function SearchBar(){
                 navigate('/searchpage', {
                     state:{
                         lat: pos.data.lat,
-                        lng: pos.data.lng
-                        // type: 
+                        lng: pos.data.lng,
+                        // INFO: 検索機能を拡張し今後はラジオボタンで選べるようにするかも
+                        searchMode: 'bookstore'
                     }
                 })
                 

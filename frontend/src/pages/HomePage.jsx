@@ -3,12 +3,22 @@
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useNavigate } from "react-router-dom";
 import { SearchBar } from "../components/SearchByKeyword";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 
 // 現在地から探すボタンの下に本屋、ペア、カフェを置く
 export function HomePage() {
     const navigate = useNavigate();
     const{getLocation} = useGeolocation();
+    const location = useLocation()
+    const error = location.state?.error
+
+    useEffect(()=>{
+        if(error === 'missing_location'){
+            alert('位置情報を所得できませんでした')
+        }
+    },[error])
 
     return(
      <>
@@ -20,7 +30,7 @@ export function HomePage() {
             </div>
         <div className="flex ">
             <div className="bg-white text-gray-700 border rounded-bl-md px-4 py-2 text-center cursor-pointer hover:bg-gray-100">
-                {/* ペアの機能ができたらつくる */}
+                {/* TODO: ペアの機能ができたらつくる */}
                 ペア（未実装）
             </div>
             <div className="bg-white text-gray-700 border px-4 py-2 text-center cursor-pointer hover:bg-gray-100"
@@ -30,7 +40,7 @@ export function HomePage() {
                     state: {
                         lat: pos.lat,
                         lng: pos.lng,
-                        type: 'book_store'
+                        searchMode: 'bookstore'
                     }
                 })
                 }}>
@@ -43,7 +53,7 @@ export function HomePage() {
                     state: {
                         lat: pos.lat,
                         lng: pos.lng,
-                        type: 'cafe'
+                        searchMode: 'cafe'
                         // TODO: 今後はマックとかのカフェとして不適切な検索結果を排除
                     }
                 })
