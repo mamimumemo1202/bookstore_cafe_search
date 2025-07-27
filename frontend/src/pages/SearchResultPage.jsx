@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PlacesMap } from '../components/PlacesMap'
 import { BookstoreSelector } from '../components/BookstoreSelector'
@@ -9,7 +9,7 @@ import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPairs } from
 
 
 
-export function SearchPage() {
+export function SearchResultsPage() {
     const [bookstores, setBookstores] = useState([]);
     const [cafes, setCafes] = useState([]);
     const [activeBookstore, setActiveBookstore] = useState(null);
@@ -18,6 +18,7 @@ export function SearchPage() {
     // HomePageからStateを自動で引き継ぐ（URLで受け取らない代わり）
     const location = useLocation();
     const { lat, lng, searchMode = 'bookstore' } = location.state || {};
+    console.log('location.state:', location.state);
     const navigate = useNavigate();
 
 
@@ -36,7 +37,7 @@ export function SearchPage() {
                     // TODO: pairの処理
                 } 
             } catch(err) {
-                console.error('SearchPageでのエラー', err)
+                console.error( 'SearchResultsPageでのエラー', err)
             }}
                 fetchPlaces()
             },[lat, lng, searchMode])
@@ -104,7 +105,7 @@ export function SearchPage() {
 
             <div className = "w-1/2 h-full ">
                 {/* 書店セレクター */}            
-                {type === 'book_store' && (            
+                {searchMode === 'bookstore' && (            
                     <BookstoreSelector 
                     bookstores={bookstores}
                     onSelectBookstore={setActiveBookstore}

@@ -52,19 +52,15 @@ export function SearchBar(){
             <button
             type="button"
             onClick={ async() => {            
-                  const pos = await axios.get('/api/v1/places', {
-                    params: {
-                        place_id:selectedPrediction.place_id
-                    }
-                  })
-                navigate('/searchpage', {
-                    state:{
-                        lat: pos.data.lat,
-                        lng: pos.data.lng,
-                        // INFO: 検索機能を拡張し今後はラジオボタンで選べるようにするかも
-                        searchMode: 'bookstore'
-                    }
-                })
+                  const pos = await axios.get(`/api/v1/places/${selectedPrediction.place_id}`)
+                    navigate('/SearchResultsPage', {
+                        state:{
+                            lat: pos.data.place.lat,
+                            lng: pos.data.place.lng,
+                            // INFO: 検索機能を拡張し今後はラジオボタンで選べるようにするかも
+                            searchMode: 'bookstore'
+                        }
+                    })
                 
             }}><MagnifyingGlassIcon className="w-5 h-5 mx-2 hover:text-gray-500 cursor-pointer"/></button>
             </div>

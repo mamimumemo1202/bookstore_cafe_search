@@ -47,14 +47,14 @@ class GooglePlacesClient
         raise "Google Places API request failed"
     end 
 
-    response.parsed_response
+   format_place(place_id, response.parsed_response["result"])
         
   end
 
   private
 
   def format_places(places)
-    places.map do |place|
+    places.map do |place| 
       {
         id: place["place_id"],
         name: place["name"],
@@ -63,5 +63,14 @@ class GooglePlacesClient
         vicinity: place["vicinity"] # これは詳細の住所ではない
       }
     end
+  end
+
+  def format_place(place_id, place)
+    {
+      id: place_id,
+      name: place["name"],
+      lat: place.dig("geometry", "location", "lat"),
+      lng: place.dig("geometry", "location", "lng")
+    }
   end
 end
