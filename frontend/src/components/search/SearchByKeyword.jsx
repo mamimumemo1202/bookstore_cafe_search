@@ -11,8 +11,6 @@ export function SearchBar(){
 
     const navigate = useNavigate();
 
-
-// BUG:検索窓を空白にするとなぜか検索予測が表示される
     useEffect(()=>{
         if(!query.trim() || query.trim().length < 2) {
             setPredictions([])
@@ -47,7 +45,7 @@ export function SearchBar(){
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full border border-gray-300 rounded-md px-4 py-2"
-            placeholder="例：新宿駅"
+            placeholder="住所・駅名・店舗名からさがす"
             />
             <button
             type="button"
@@ -67,7 +65,7 @@ export function SearchBar(){
 
                 {/* INFO: 現在はdescriptionをそのまま検索予測として表示しているが
                 今後はさらにPlaceAPIを叩いてより正確な検索予測として表示する可能性あり*/}
-            <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+            <ul className="absolute z-10 mt-1 w-full bg-white rounded-md shadow-lg">
                 {predictions.map((prediction,index) => 
                 <li key={index}
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"

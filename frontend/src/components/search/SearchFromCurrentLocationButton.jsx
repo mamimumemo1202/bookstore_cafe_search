@@ -1,4 +1,4 @@
-import {useGeolocation} from '../hooks/useGeolocation'
+import {useGeolocation} from '../../hooks/useGeolocation'
 import { useNavigate } from "react-router-dom";
 
 export function SearchFromCurrentLocationbutton(){
