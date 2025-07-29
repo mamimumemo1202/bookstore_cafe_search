@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SearchModal } from "../components/search/SearchModal";
+import { Header } from "../components/Header"
 
 
 export function HomePage() {
@@ -10,9 +11,9 @@ export function HomePage() {
 
     return(
      <>
-     <div className=""
-     onClick={()=>setIsOpen(true)}>検索する</div>
-
+     <Header
+     setIsOpen={setIsOpen}/>
+     
      {isOpen && (
         <div className="">
             <SearchModal onClose={handleButton} />
