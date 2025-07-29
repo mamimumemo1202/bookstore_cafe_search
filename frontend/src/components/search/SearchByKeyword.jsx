@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 
 
-export function SearchBar(){
+export function SearchBar({ searchMode }){
     const[query, setQuery] = useState("")
     const[predictions, setPredictions] = useState([])
     const[selectedPrediction, setSelectedPrediction] = useState(null)
@@ -45,7 +45,7 @@ export function SearchBar(){
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full border border-gray-300 rounded-md px-4 py-2"
-            placeholder="住所・駅名・店舗名からさがす"
+            placeholder="例：神保町駅、スターバックス"
             />
             <button
             type="button"
@@ -56,7 +56,7 @@ export function SearchBar(){
                             lat: pos.data.place.lat,
                             lng: pos.data.place.lng,
                             // INFO: 検索機能を拡張し今後はラジオボタンで選べるようにするかも
-                            searchMode: 'bookstore'
+                            searchMode: searchMode
                         }
                     })
                 
