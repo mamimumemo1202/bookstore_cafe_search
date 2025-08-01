@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import { OpenMapAppButton } from '../components/OpenMapAppButton'
 
 
 export function BookstoreCard({ 
     bookstores,
     onSelectBookstore,
-    activeBookstore }) {
+    activeBookstore, }) {
 
   const [openIds, setOpenIds] = useState({});
 
@@ -32,6 +33,11 @@ export function BookstoreCard({
             onClick = { () =>handleBookstoreSelect(bookstore)}>
                 {bookstore.name}
           </h2>
+          <div className='h-6 w-6 rounded-full border border-gray-800'>
+            {/* TODO: 詳細を確認した後に遷移できるようにする */}
+          <OpenMapAppButton 
+          activeBookstore={activeBookstore}/>
+          </div>
 
           {/* {openIds[bookstore.id] && (
             <div className="text-sm mt-2">
@@ -40,6 +46,7 @@ export function BookstoreCard({
           )} */}
         </div>
       ))}
+
     </div>
     </>
   );

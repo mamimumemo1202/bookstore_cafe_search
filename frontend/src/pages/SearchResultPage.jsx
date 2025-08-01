@@ -19,6 +19,7 @@ export function SearchResultsPage() {
     
 
     // HomePageからStateを自動で引き継ぐ（URLで受け取らない代わり）
+    // BUG: 本屋を検索ー＞トップに戻るー＞再度本屋を検索するとマップがLoadingのままの修正
     const location = useLocation();
     const { lat, lng, searchMode = 'bookstore' } = location.state || {};
     console.log('location.state:', location.state);
@@ -87,15 +88,16 @@ export function SearchResultsPage() {
 
     return (
         <>
-        <div className = "flex h-screen ">
+        <div className = "flex flex-col sm:flex-row h-screen ">
             
-            {/* 検索結果マップ */}
-            <div className = "w-1/2 h-full">
+
+            <div className = "h-2/5 w-full  sm:w-1/2 sm:h-full">
                 <div className="w-full px-4 py-2 bg-gray-100 text-sm text-right">
                 <button onClick={() => navigate('/')} className="text-blue-600 hover:underline">
                     トップに戻る
                 </button>
-            </div>
+                </div>
+                {/* 検索結果マップ */}
                 <PlacesMap
                 lat={lat}
                 lng={lng}
@@ -105,50 +107,53 @@ export function SearchResultsPage() {
                 activeCafe={activeCafe}/>
             </div>
 
-        <div className='w-1/2 h-full'>
-        {searchMode === 'bookstore' && (
-            <button
-            type='button'
-            className= "justify-end text-sm text-blue-600 hover:underline mb-2"
-            onClick={()=>setIsOpenCafeCard(prev => !prev)}>
-                { searchMode === 'bookstore' && isOpenCafeCard? "本屋を選びなおす" : "カフェも選ぶ" }
-            </button>)}
-
-        {searchMode === 'bookstore' && !isOpenCafeCard? (
-            <div className=''> 
-                {/* 本屋カード */}
-                <BookstoreCard
-                bookstores={bookstores}
-                onSelectBookstore={setActiveBookstore}
-                activeBookstore={activeBookstore}
-                setIsOpenCafeCard={setIsOpenCafeCard}
-                />
+        <div className="h-3/5 w-full  sm:w-1/2 sm:h-full overflow-y-auto">
+            <div className='sticky top-0 p-2 bg-white'>
+            {searchMode === 'bookstore' && (
+                <button
+                type='button'
+                className= " justify-end text-sm text-blue-600 hover:underline"
+                onClick={()=>setIsOpenCafeCard(prev => !prev)}>
+                    { isOpenCafeCard? "本屋を選びなおす" : "カフェも選ぶ" }
+                </button>)}
             </div>
-            ) : (
-            
-            <div className = "">
-                {/* 書店セレクター */}            
-                {searchMode === 'bookstore' && (            
-                    <BookstoreSelector 
+
+            {searchMode === 'bookstore' && !isOpenCafeCard? (
+                <div className=''> 
+                    {/* 本屋カード */}
+                    <BookstoreCard
                     bookstores={bookstores}
                     onSelectBookstore={setActiveBookstore}
-                    activeBookstore={activeBookstore}/>
-                    )}
+                    activeBookstore={activeBookstore}
+                    setIsOpenCafeCard={setIsOpenCafeCard}
+                    lat={lat}
+                    lng={lng}
+                    />
+                </div>
+                ) : (
                 
-                {/* カフェカード */}
-                {cafes.length > 0 ? 
-                <div className="w-full h-full overflow-y-auto">
-                    <CafeCard
-                    cafes={cafes}
-                    onSelectCafe={setActiveCafe}/>
-                </div>
-                :
-                <div className="w-full h-full flex items-center justify-center text-gray-500">
-                    読み込み中
-                </div>
-                } 
-            </div>)  
-            }
+                <div className = "">
+                    {/* 書店セレクター */}            
+                    {searchMode === 'bookstore' && (            
+                        <BookstoreSelector 
+                        bookstores={bookstores}
+                        onSelectBookstore={setActiveBookstore}
+                        activeBookstore={activeBookstore}/>
+                        )}
+                    
+                    {/* カフェカード */}
+                    {cafes.length > 0 ? 
+                    <div className="w-full h-full overflow-y-auto">
+                        <CafeCard
+                        cafes={cafes}
+                        onSelectCafe={setActiveCafe}/>
+                    </div>
+                    :
+                    <div className="w-full h-full flex items-center justify-center text-gray-500">
+                        読み込み中
+                    </div>
+                    } 
+                </div>)}
         </div>
         </div>
         </>
