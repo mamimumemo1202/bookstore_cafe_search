@@ -5,6 +5,7 @@ import { BookstoreSelector } from '../components/BookstoreSelector'
 import { useNavigate } from "react-router-dom";
 import { CafeCard } from '../components/CafeCard';
 import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPairs } from '../apis/places'
+import { BookstoreCard } from '../components/BookstorCard';
 
 
 
@@ -14,6 +15,8 @@ export function SearchResultsPage() {
     const [cafes, setCafes] = useState([]);
     const [activeBookstore, setActiveBookstore] = useState(null);
     const [activeCafe, setActiveCafe] = useState(null);
+    const [isOpenCafeCard, setIsOpenCafeCard] = useState(false);
+    
 
     // HomePageからStateを自動で引き継ぐ（URLで受け取らない代わり）
     const location = useLocation();
@@ -102,8 +105,28 @@ export function SearchResultsPage() {
                 activeCafe={activeCafe}/>
             </div>
 
+        <div className='w-1/2 h-full'>
+        {searchMode === 'bookstore' && (
+            <button
+            type='button'
+            className= "justify-end text-sm text-blue-600 hover:underline mb-2"
+            onClick={()=>setIsOpenCafeCard(prev => !prev)}>
+                { searchMode === 'bookstore' && isOpenCafeCard? "本屋を選びなおす" : "カフェも選ぶ" }
+            </button>)}
 
-            <div className = "w-1/2 h-full ">
+        {searchMode === 'bookstore' && !isOpenCafeCard? (
+            <div className=''> 
+                {/* 本屋カード */}
+                <BookstoreCard
+                bookstores={bookstores}
+                onSelectBookstore={setActiveBookstore}
+                activeBookstore={activeBookstore}
+                setIsOpenCafeCard={setIsOpenCafeCard}
+                />
+            </div>
+            ) : (
+            
+            <div className = "">
                 {/* 書店セレクター */}            
                 {searchMode === 'bookstore' && (            
                     <BookstoreSelector 
@@ -124,7 +147,9 @@ export function SearchResultsPage() {
                     読み込み中
                 </div>
                 } 
-            </div>     
+            </div>)  
+            }
+        </div>
         </div>
         </>
     )

@@ -3,7 +3,8 @@ import { useState } from 'react';
 
 export function CafeCard ({ 
     cafes,
-    onSelectCafe }){
+    onSelectCafe
+   }){
 
     const [openIds, setOpenIds] = useState({});
 
@@ -20,23 +21,23 @@ export function CafeCard ({
   };
 
     return(
-        <>
-    <div className="grid grid-cols-2">
-      {cafes.map(cafe => (  
-        <div key={cafe.id} className="bg-white rounded-xl shadow-md p-4 mb-4">
-          <h2 className="text-lg font-semibold text-gray-800 cursor-pointer"
-            onClick = { () =>handleCafeSelect(cafe)}>
-                {cafe.name}
-          </h2>
+      <>
+        <div className="grid grid-cols-2">
+          {cafes.map(cafe => (  
+            <div key={cafe.id} className="bg-white rounded-xl shadow-md p-4 mb-4">
+              <h2 className="text-lg font-semibold text-gray-800 cursor-pointer"
+                onClick = { () =>handleCafeSelect(cafe)}>
+                    {cafe.name}
+              </h2>
 
-          {openIds[cafe.id] && (
-            <div className="text-sm text-gray-600 mt-2">
-                {cafe.vicinity}
+              {openIds[cafe.id] && (
+                <div className="text-sm text-gray-600 mt-2">
+                    {cafe.vicinity}
+                </div>
+              )}
             </div>
-          )}
+          ))}
         </div>
-      ))}
-    </div>
-    </>
+      </>
     )
 } 

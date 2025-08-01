@@ -6,7 +6,7 @@ const navigate = useNavigate();
 
     return(
         <>
-        <div className="fixed top-0 left-0 right-0 h-1/10 shadow-sm">
+        <div className="fixed top-0 left-0 right-0 h-16 shadow-sm bg-white">
             <div className="flex justify-between w-full items-center h-full ">
             <BookOpenIcon
             className="h-6 w-6 ml-6"

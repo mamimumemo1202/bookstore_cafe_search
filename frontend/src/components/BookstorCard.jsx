@@ -1,7 +1,6 @@
-// 使ってないコンポーネント
-// 今後必要そうなので切り出し
-
 import { useState } from 'react';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
+
 
 export function BookstoreCard({ 
     bookstores,
@@ -27,17 +26,18 @@ export function BookstoreCard({
     <>
     <div className="grid grid-cols-2">
       {bookstores.map(bookstore => (  
-        <div key={bookstore.id} className="bg-white rounded-xl shadow-md p-4 mb-4">
-          <h2 className="text-lg font-semibold text-gray-800 cursor-pointer"
+        <div key={bookstore.id} 
+        className={`rounded-xl shadow-md p-4 mb-4 ${activeBookstore?.id === bookstore.id? "bg-gray-700 text-white" : "bg-white"} `}>
+          <h2 className="text-lg font-semibold  cursor-pointer"
             onClick = { () =>handleBookstoreSelect(bookstore)}>
                 {bookstore.name}
           </h2>
 
-          {openIds[bookstore.id] && (
-            <div className="text-sm text-gray-600 mt-2">
+          {/* {openIds[bookstore.id] && (
+            <div className="text-sm mt-2">
                 {bookstore.vicinity}
             </div>
-          )}
+          )} */}
         </div>
       ))}
     </div>

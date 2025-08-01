@@ -14,6 +14,7 @@ export function HomePage() {
      <Header
      setIsOpen={setIsOpen}/>
      
+     <h1 className="mt-17">これは本屋とカフェを同時に検索できるアプリです</h1>
      {isOpen && (
         <div className="">
             <SearchModal onClose={handleButton} />

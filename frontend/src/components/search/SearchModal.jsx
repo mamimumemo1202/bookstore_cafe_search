@@ -12,7 +12,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 export function SearchModal({onClose}) {
     const location = useLocation()
     const error = location.state?.error
-    const [searchMode, setSearchMode] = useState(null)
+    const [searchMode, setSearchMode] = useState('bookstore')
     
 
     useEffect(()=>{
