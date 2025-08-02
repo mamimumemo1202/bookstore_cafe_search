@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { CafeCard } from '../components/CafeCard';
 import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPairs } from '../apis/places'
 import { BookstoreCard } from '../components/BookstoreCard';
+import { LoadingIcon } from '../components/LoadingIcon';
+import { useLoading } from '../hooks/useLoading';
 
 
 
@@ -16,10 +18,10 @@ export function SearchResultsPage() {
     const [activeBookstore, setActiveBookstore] = useState(null);
     const [activeCafe, setActiveCafe] = useState(null);
     const [isOpenCafeCard, setIsOpenCafeCard] = useState(false);
+     const { isLoading, startLoading, stopLoading } = useLoading();
     
 
     // HomePageからStateを自動で引き継ぐ（URLで受け取らない代わり）
-    // BUG: 本屋を検索ー＞トップに戻るー＞再度本屋を検索するとマップがLoadingのままの修正
     const location = useLocation();
     const { lat, lng, searchMode = 'bookstore' } = location.state || {};
     console.log('location.state:', location.state);
@@ -30,6 +32,7 @@ export function SearchResultsPage() {
         if(!lat || !lng) return;
 
         const fetchPlaces = async() => {
+            startLoading()
             try{
                 if(searchMode === 'bookstore'){
                     const res = await fetchBookstores(lat, lng)
@@ -42,6 +45,8 @@ export function SearchResultsPage() {
                 } 
             } catch(err) {
                 console.error( 'SearchResultsPageでのエラー', err)
+            } finally{ stopLoading() 
+
             }}
                 fetchPlaces()
             },[lat, lng, searchMode])
@@ -85,6 +90,13 @@ export function SearchResultsPage() {
         return null;
         };
 
+    if (isLoading) {
+        return (
+            <div className="w-full h-screen flex flex-col justify-center items-center">
+            <LoadingIcon />
+            <p className="mt-2 text-gray-600 text-sm">検索中です…</p>
+            </div>
+        );}    
 
     return (
         <>
@@ -142,18 +154,12 @@ export function SearchResultsPage() {
                         )}
                     
                     {/* カフェカード */}
-                    {cafes.length > 0 ? 
                     <div className="w-full h-full overflow-y-auto">
                         <CafeCard
                         cafes={cafes}
                         onSelectCafe={setActiveCafe}
                         activeCafe={activeCafe}/>
-                    </div>
-                    :
-                    <div className="w-full h-full flex items-center justify-center text-gray-500">
-                        読み込み中
-                    </div>
-                    } 
+                    </div>                    
                 </div>)}
         </div>
         </div>

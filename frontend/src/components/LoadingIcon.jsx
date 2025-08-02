@@ -1,7 +1,9 @@
+import { StarIcon } from "@heroicons/react/24/outline"
+
 export function LoadingIcon(){
     return(
         <>
-        <div className="animate-spin w-full h-full text-gray-700"></div>
+        <StarIcon className="animate-bounce w-6 h-6 text-gray-700"/>
         </>
     )
 }

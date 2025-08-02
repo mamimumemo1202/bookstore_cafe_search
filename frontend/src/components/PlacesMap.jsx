@@ -1,6 +1,6 @@
 // src/components/PlacesMap.jsx
 import { useEffect, useState, useRef } from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, Marker } from '@react-google-maps/api';
 
 
 
@@ -11,7 +11,6 @@ const containerStyle = {
 };
 
 export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, activeCafe} ) => {
-  const [isLoaded, setIsLoaded] = useState(false); // マップ用のLoading
   const mapRef = useRef(null); // mapインスタンス保持用
 
   const defaultCenter = {lat, lng}; 
@@ -28,11 +27,7 @@ export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, active
     },[activePlace])
   
     return (
-      <LoadScript
-        googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
-        onLoad={() => setIsLoaded(true)} // ロード完了したらセット！
-      >
-        {isLoaded && ( // ロード完了後だけ地図を出す！
+      <>
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={center}
@@ -62,8 +57,7 @@ export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, active
               />
             ))}
           </GoogleMap>
-        )}
-      </LoadScript>
-    );
+          </>
+        )
   };
   
