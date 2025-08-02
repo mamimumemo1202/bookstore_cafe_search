@@ -2,9 +2,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { SearchBar } from "./SearchByKeyword";
-import { SearchPairbutton } from '../search/SearchPairButton';
-import { SearchBookstorebutton } from '../search/SearchBookstoreButton';
-import { SearchCafebutton } from '../search/SearchCafeButton';
+import { SearchButton } from '../search/SearchButton';
 import { SearchModeSelector } from '../search/SearchModeSelector';
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
@@ -32,9 +30,15 @@ export function SearchModal({onClose}) {
             <div className="">
                 <h1 className="text-xl mb-4">現在地からさがす</h1>
                     <div className="flex flex-col justify-center  sm:flex-row">
-                        <SearchPairbutton/>
-                        <SearchBookstorebutton/>
-                        <SearchCafebutton/>
+                        <SearchButton
+                        label={"本屋＋カフェ"}
+                        searchMode={"pair"}/>
+                        <SearchButton
+                        label={"本屋"}
+                        searchMode={"bookstore"}/>
+                        <SearchButton
+                        label={"カフェ"}
+                        searchMode={"cafe"}/>
                     </div> 
 
                 <hr className="my-6 border-t border-gray-300"/> 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
-import { OpenMapAppButton } from '../components/OpenMapAppButton'
+import { OpenMapAppButton } from './OpenMapAppButton'
 
 
 export function BookstoreCard({ 

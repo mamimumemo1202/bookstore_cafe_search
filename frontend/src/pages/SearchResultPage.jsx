@@ -5,7 +5,7 @@ import { BookstoreSelector } from '../components/BookstoreSelector'
 import { useNavigate } from "react-router-dom";
 import { CafeCard } from '../components/CafeCard';
 import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPairs } from '../apis/places'
-import { BookstoreCard } from '../components/BookstorCard';
+import { BookstoreCard } from '../components/BookstoreCard';
 
 
 
