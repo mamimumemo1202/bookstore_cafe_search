@@ -9,7 +9,7 @@ export function useLocationSearch() {
     const handleSearch = async (searchMode) =>{
         try {
             const pos = await getLocation();
-                navigate('/SearchResultsPage', {
+                navigate('/search', {
                     state: {
                         lat: pos.lat,
                         lng: pos.lng,

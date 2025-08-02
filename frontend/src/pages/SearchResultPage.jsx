@@ -119,16 +119,18 @@ export function SearchResultsPage() {
                 activeCafe={activeCafe}/>
             </div>
 
-        <div className="h-3/5 w-full  sm:w-1/2 sm:h-full overflow-y-auto">
-            <div className='sticky top-0 p-2 bg-white'>
+        <div className="h-3/5 w-full pt-9  sm:w-1/2 sm:h-full sm:pt-0 overflow-y-auto">
+
             {searchMode === 'bookstore' && (
+                <div className='sticky top-0 p-2 bg-white'>
                 <button
                 type='button'
-                className= " justify-end text-sm text-blue-600 hover:underline"
+                className= "justify-end text-sm text-blue-600 hover:underline"
                 onClick={()=>setIsOpenCafeCard(prev => !prev)}>
                     { isOpenCafeCard? "本屋を選びなおす" : "カフェも選ぶ" }
-                </button>)}
-            </div>
+                </button>
+                </div>)}
+            
 
             {searchMode === 'bookstore' && !isOpenCafeCard? (
                 <div className=''> 

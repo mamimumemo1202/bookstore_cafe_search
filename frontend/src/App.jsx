@@ -8,10 +8,8 @@ function App() {
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
     <BrowserRouter>
       <Routes>
-        <Route path="/SearchResultsPage" element={<SearchResultsPage />} />
-      </Routes>
-      <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/search" element={<SearchResultsPage />} />
       </Routes>
     </BrowserRouter>
     </LoadScript>

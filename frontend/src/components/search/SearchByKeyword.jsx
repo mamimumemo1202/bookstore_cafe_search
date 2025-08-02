@@ -51,7 +51,7 @@ export function SearchBar({ searchMode }){
             type="button"
             onClick={ async() => {            
                   const pos = await axios.get(`/api/v1/places/${selectedPrediction.place_id}`)
-                    navigate('/SearchResultsPage', {
+                    navigate('/search', {
                         state:{
                             lat: pos.data.place.lat,
                             lng: pos.data.place.lng,
