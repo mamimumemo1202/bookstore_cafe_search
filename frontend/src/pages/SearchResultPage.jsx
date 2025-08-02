@@ -146,7 +146,8 @@ export function SearchResultsPage() {
                     <div className="w-full h-full overflow-y-auto">
                         <CafeCard
                         cafes={cafes}
-                        onSelectCafe={setActiveCafe}/>
+                        onSelectCafe={setActiveCafe}
+                        activeCafe={activeCafe}/>
                     </div>
                     :
                     <div className="w-full h-full flex items-center justify-center text-gray-500">

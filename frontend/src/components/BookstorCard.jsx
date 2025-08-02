@@ -25,6 +25,7 @@ export function BookstoreCard({
 
   return (
     <>
+    {/* TODO: クリック時のカードのスタイルおよびカード自体のデザインの改変 */}
     <div className="grid grid-cols-2">
       {bookstores.map(bookstore => (  
         <div key={bookstore.id} 
@@ -33,11 +34,14 @@ export function BookstoreCard({
             onClick = { () =>handleBookstoreSelect(bookstore)}>
                 {bookstore.name}
           </h2>
-          <div className='h-6 w-6 rounded-full border border-gray-800'>
-            {/* TODO: 詳細を確認した後に遷移できるようにする */}
-          <OpenMapAppButton 
-          activeBookstore={activeBookstore}/>
-          </div>
+          {openIds[bookstore.id] && (
+            <div 
+            className={`${bookstore.id === activeBookstore?.id? "text-white border-white": "text-gray-800 border-gray-800"} h-6 w-6 rounded-full border p-1`}>
+              <OpenMapAppButton 
+              place={bookstore}/>
+            </div>
+          )}
+          
 
           {/* {openIds[bookstore.id] && (
             <div className="text-sm mt-2">
