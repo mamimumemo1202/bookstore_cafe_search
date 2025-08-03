@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { OpenMapAppButton } from './search/OpenMapAppButton'
+import { OpenMapAppButton } from '../search/OpenMapAppButton'
 
 
 export function CafeCard ({ 
