@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { PlacesMap } from '../components/PlacesMap'
-import { BookstoreSelector } from '../components/BookstoreSelector'
+import { PlacesMap } from '../components/search/PlacesMap'
+import { BookstoreSelector } from '../components/search/BookstoreSelector'
 import { useNavigate } from "react-router-dom";
-import { CafeCard } from '../components/CafeCard';
+import { CafeCard } from '../components/search/CafeCard';
 import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPairs } from '../apis/places'
-import { BookstoreCard } from '../components/BookstoreCard';
-import { LoadingIcon } from '../components/LoadingIcon';
+import { BookstoreCard } from '../components/search/BookstoreCard';
+import { LoadingIcon } from '../components/common/LoadingIcon';
 import { useLoading } from '../hooks/useLoading';
 
 
