@@ -10,7 +10,7 @@ export function AuthPage(){
     return(
         <>
         <button 
-        className=""
+        className="pt-16"
         onClick={()=>setIsSignUp(prev => !prev)}>{isSignUp? "ログインする" : "新規登録する"}</button>
         {isSignUp? <SignUpForm/> : <SignInForm/>}
         </>

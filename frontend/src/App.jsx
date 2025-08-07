@@ -3,11 +3,16 @@ import { SearchResultsPage } from './pages/SearchResultPage';
 import { HomePage } from './pages/HomePage';
 import { LoadScript } from '@react-google-maps/api';
 import { AuthPage } from './pages/AuthPage';
+import { Header } from './components/layout/Header';
+import { AuthProvider } from './components/contexts/AuthContext';
 
 function App() {
   return (
+    <>
+    <AuthProvider>
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
     <BrowserRouter>
+      <Header/>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage/>}/>
@@ -15,6 +20,8 @@ function App() {
       </Routes>
     </BrowserRouter>
     </LoadScript>
+    </AuthProvider>
+    </>
   );
 }
 
