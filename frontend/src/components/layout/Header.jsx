@@ -21,7 +21,7 @@ const navigate = useNavigate();
             </div>
             <div>
             <UserIcon className="h-6 w-6"
-            onClick={()=> navigate('/auth')}/>
+            onClick={()=> navigate('/mypage')}/>
             </div>
             </div>
             </div>

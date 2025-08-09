@@ -5,6 +5,7 @@ import { LoadScript } from '@react-google-maps/api';
 import { AuthPage } from './pages/AuthPage';
 import { Header } from './components/layout/Header';
 import { AuthProvider } from './components/contexts/AuthContext';
+import { Mypage } from './pages/Mypage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage/>}/>
+        <Route path="/mypage" element={<Mypage/>}/>
         <Route path="/search" element={<SearchResultsPage />} />
       </Routes>
     </BrowserRouter>
