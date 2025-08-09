@@ -1,15 +1,19 @@
 // TODO: 
 
-import { useState } from "react"
-import { signUp } from "../../apis/auth"
+import { useState } from "react";
+import { signUp } from "../../apis/auth";
 import { saveAuthInfo } from "../../apis";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from '../contexts/AuthContext';
+
 
 export function SignUpForm(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const { isLoggedIn, setIsLoggedIn, user, setUser} = useAuthContext();
+
 
     const navigate = useNavigate();
 
@@ -20,6 +24,7 @@ export function SignUpForm(){
             const res = await signUp({email, password, passwordConfirmation})
             console.log("React側では成功", res.data)
             saveAuthInfo(res)
+            setIsLoggedIn(true)
             navigate('/')
         } catch (error) {
             console.error("React側で失敗", error)

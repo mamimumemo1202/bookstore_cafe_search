@@ -8,6 +8,7 @@ export function AuthProvider({ children }){
     const [user, setUser] = useState(null);
 
     useEffect(()=>{
+        // INFO: ログアウト後にリロードすると401がでるが、正常なエラーではあるからどう処理するかは検討
         const checkAuth = async() =>{
             try {
                 const res = await validateToken()
@@ -25,7 +26,7 @@ export function AuthProvider({ children }){
     },[])
 
     return(
-        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user }}>
+        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, setUser }}>
             {children}
         </AuthContext.Provider>
     )

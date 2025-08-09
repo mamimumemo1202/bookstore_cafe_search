@@ -9,11 +9,22 @@ export const signUp = async({email, password, passwordConfirmation}) =>{
     })
 }
 
-export const signIp = async({email, password}) =>{
+export const signIn = async({email, password}) =>{
     return axios.post("/api/v1/auth/sign_in", {
         email,
         password
     })
+}
+
+export const signOut = async()=>{
+    const authInfo = getAuthInfo();
+
+    return axios.delete("/api/v1/auth/sign_out", {
+        headers:{
+            "access-token": authInfo["access-token"],
+            "client": authInfo["client"],
+            "uid": authInfo["uid"]
+        }})
 }
 
 export const validateToken = async() =>{
