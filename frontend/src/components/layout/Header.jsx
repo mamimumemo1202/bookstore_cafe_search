@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom"
 import { BookOpenIcon, UserIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { SearchBar } from "../search/SearchByKeyword";
 
 
-export function Header({setIsSearchModalOpen}){
+export function Header({ variant, setIsSearchModalOpen}){
 const navigate = useNavigate();
 
     return(
         <>
+        {variant === "home" && 
         <div className="fixed top-0 left-0 right-0 h-16 shadow-sm bg-white z-50">
             <div className="flex justify-between w-full items-center h-full ">
             <BookOpenIcon
@@ -25,7 +27,15 @@ const navigate = useNavigate();
             </div>
             </div>
             </div>
+        </div>}
+
+        {variant === "search" &&
+        <div className="fixed top-0 left-0 right-0 h-16 shadow-sm bg-white z-50">
+            <div>
+                <SearchBar/>
+            </div>
         </div>
+        }
         </>
     )
 }

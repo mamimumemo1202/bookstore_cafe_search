@@ -7,6 +7,7 @@ import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPairs } from
 import { BookstoreCard } from '../components/search/BookstoreCard';
 import { LoadingIcon } from '../components/common/LoadingIcon';
 import { useLoading } from '../hooks/useLoading';
+import { Header } from '../components/layout/Header';
 
 
 
@@ -19,7 +20,6 @@ export function SearchResultsPage() {
     const [isOpenCafeCard, setIsOpenCafeCard] = useState(false);
     const { isLoading, startLoading, stopLoading } = useLoading();
     
-    console.log('location.state:', location.state);
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
@@ -103,6 +103,10 @@ export function SearchResultsPage() {
 
     return (
         <>
+        <Header
+        variant="search"
+        className=""/>
+
         <div className = "flex flex-col sm:flex-row h-screen ">
             <div className = "h-2/5 w-full  sm:w-1/2 sm:h-full">
                 <div className="w-full px-4 py-2 bg-gray-100 text-sm text-right">

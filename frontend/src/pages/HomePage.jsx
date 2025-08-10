@@ -12,13 +12,14 @@ export function HomePage() {
         setIsSearchModalOpen(prev => !prev)
     }
 
-    useEffect(()=>{
-        setIsSearchModalOpen(false)
-    },[location])
+    // useEffect(()=>{
+    //     setIsSearchModalOpen(false)
+    // },[])
 
     return(
      <>
      <Header
+     variant="home"
      setIsSearchModalOpen={setIsSearchModalOpen}/>
      
      <h1 className="mt-17">これは本屋とカフェを同時に検索できるアプリです</h1>

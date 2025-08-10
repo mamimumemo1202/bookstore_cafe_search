@@ -45,7 +45,7 @@ export function SearchModal({onClose}) {
                 <h1 className="text-xl mb-5">住所・駅名・店舗名からさがす</h1>
                     <div className="flex flex-col">
                         <div className="mb-4">
-                        <SearchModeSelector 
+                        <SearchModeSelector
                         setSearchMode={setSearchMode}
                         searchMode={searchMode}/>
                         </div>
