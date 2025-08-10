@@ -32,6 +32,11 @@ export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, active
             mapContainerStyle={containerStyle}
             center={center}
             zoom={16}
+            options={{
+              mapTypeControl: false,
+              streetViewControl: false,
+              fullscreenControl: false
+            }}  
             onLoad={(map) => (mapRef.current = map)} // map インスタンスを保存
           > 
             {/* 本屋のピン */}

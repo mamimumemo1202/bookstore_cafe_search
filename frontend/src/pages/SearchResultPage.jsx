@@ -101,8 +101,6 @@ export function SearchResultsPage() {
     return (
         <>
         <div className = "flex flex-col sm:flex-row h-screen ">
-            
-
             <div className = "h-2/5 w-full  sm:w-1/2 sm:h-full">
                 <div className="w-full px-4 py-2 bg-gray-100 text-sm text-right">
                 <button onClick={() => navigate('/')} className="text-blue-600 hover:underline">

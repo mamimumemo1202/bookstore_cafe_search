@@ -41,7 +41,9 @@ export function SignInForm(){
         {errorMessage && 
         <div className="bg-red-200 text-red-800 p-2 rounded mb-2">{errorMessage}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form 
+        className="flex flex-col p-3"
+        onSubmit={handleSubmit}>
             <input 
             type="email"
             value={email}
@@ -52,7 +54,9 @@ export function SignInForm(){
             value={password}
             onChange={(e)=>setPassword(e.target.value)}
             placeholder="パスワード" />
-            <button type="submit">ログイン</button>
+            <button 
+            type="submit"
+            className="">ログイン</button>
         </form>
         </>
     )
