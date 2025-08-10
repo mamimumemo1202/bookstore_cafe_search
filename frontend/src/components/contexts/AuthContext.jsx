@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { validateToken } from '../../apis/auth'
+import { getAuthInfo } from "../../apis";
 
 const AuthContext = createContext(null);
 
@@ -8,8 +9,14 @@ export function AuthProvider({ children }){
     const [user, setUser] = useState(null);
 
     useEffect(()=>{
-        // INFO: ログアウト後にリロードすると401がでるが、正常なエラーではあるからどう処理するかは検討
         const checkAuth = async() =>{
+            const authInfo = getAuthInfo();
+            if(!authInfo["access-token"] || !authInfo["client"] || !authInfo["uid"]){
+                setIsLoggedIn(false);
+                setUser(null);
+                return
+            }
+            
             try {
                 const res = await validateToken()
                 console.log(res.data)
