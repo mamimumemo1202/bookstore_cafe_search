@@ -7,7 +7,7 @@ import { Header } from './components/layout/Header';
 import { AuthProvider } from './components/contexts/AuthContext';
 import { Mypage } from './pages/Mypage';
 
-function App() {
+export function App() {
   return (
     <>
     <AuthProvider>
@@ -27,4 +27,3 @@ function App() {
   );
 }
 
-export default App;

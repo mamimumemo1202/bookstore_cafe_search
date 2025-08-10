@@ -9,13 +9,7 @@ export function useLocationSearch() {
     const handleSearch = async (searchMode) =>{
         try {
             const pos = await getLocation();
-                navigate('/search', {
-                    state: {
-                        lat: pos.lat,
-                        lng: pos.lng,
-                        searchMode: searchMode
-                    }
-                })
+                navigate(`/search?lat=${pos.lat}&lng=${pos.lng}&mode=${searchMode}`)
         } catch (error) {
             navigate('/', {state: {error: 'missing_location'}})
             

@@ -45,21 +45,14 @@ export function SearchBar({ searchMode }){
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full border border-gray-300 rounded-md px-4 py-2"
-            placeholder="例：神保町駅、スターバックス"
+            placeholder="例：神保町駅"
             />
             <button
             type="button"
             onClick={ async() => {            
                   const pos = await axios.get(`/api/v1/places/${selectedPrediction.place_id}`)
-                    navigate('/search', {
-                        state:{
-                            lat: pos.data.place.lat,
-                            lng: pos.data.place.lng,
-                            // INFO: 検索機能を拡張し今後はラジオボタンで選べるようにするかも
-                            searchMode: searchMode
-                        }
-                    })
-                
+                    navigate(`/search?lat=${pos.data.place.lat}&lng=${pos.data.place.lng}&mode=${searchMode}`)
+
             }}><MagnifyingGlassIcon className="w-5 h-5 mx-2 hover:text-gray-500 cursor-pointer"/></button>
             </div>
 

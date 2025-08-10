@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { PlacesMap } from '../components/search/PlacesMap'
 import { BookstoreSelector } from '../components/search/BookstoreSelector'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { CafeCard } from '../components/search/CafeCard';
 import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPairs } from '../apis/places'
 import { BookstoreCard } from '../components/search/BookstoreCard';
@@ -18,14 +17,18 @@ export function SearchResultsPage() {
     const [activeBookstore, setActiveBookstore] = useState(null);
     const [activeCafe, setActiveCafe] = useState(null);
     const [isOpenCafeCard, setIsOpenCafeCard] = useState(false);
-     const { isLoading, startLoading, stopLoading } = useLoading();
+    const { isLoading, startLoading, stopLoading } = useLoading();
     
-
-    // HomePageからStateを自動で引き継ぐ（URLで受け取らない代わり）
-    const location = useLocation();
-    const { lat, lng, searchMode = 'bookstore' } = location.state || {};
     console.log('location.state:', location.state);
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams();
+
+    const lat = Number(searchParams.get('lat'));
+    const lng = Number(searchParams.get('lng'));
+    const searchMode = searchParams.get('mode') ?? 'bookstore';
+
+
 
 
     useEffect(()=>{
