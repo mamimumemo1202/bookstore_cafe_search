@@ -3,12 +3,14 @@ import { BookOpenIcon, UserIcon, MagnifyingGlassIcon } from "@heroicons/react/24
 import { SearchBar } from "../search/SearchByKeyword";
 import { BackButton } from "../common/BackButton";
 import { useModal } from "../contexts/ModalContext";
+import { useAuthContext } from "../contexts/AuthContext"
 
 
 
 export function Header({ variant }){
     const navigate = useNavigate();
     const { open } = useModal();
+    const { isLoggedIn } = useAuthContext();
 
     return(
         <>
@@ -20,14 +22,15 @@ export function Header({ variant }){
             onClick={()=> navigate('/')}/>
             <div className="flex flex-row items-end gap-3 mr-6"> 
             <div className="">
-                {/* TODO: 回避的にOptionalにしているので改善する（URLベース？） */}
             <MagnifyingGlassIcon
             className="h-6 w-6"
             onClick={open}/>
             </div>
             <div>
             <UserIcon className="h-6 w-6"
-            onClick={()=> navigate('/mypage')}/>
+            onClick={()=> {
+                isLoggedIn?
+                navigate('/mypage') : navigate('/auth')}}/>
             </div>
             </div>
             </div>

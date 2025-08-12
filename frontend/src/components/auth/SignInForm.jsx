@@ -1,9 +1,13 @@
+
+// TODO: エラーをRailsでハンドリングするようにする
+
 import { useState } from "react";
 import { signIn } from "../../apis/auth";
 import { saveAuthInfo } from "../../apis/index";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from '../contexts/AuthContext';
 import { validateToken } from '../../apis/auth'
+import { EnvelopeIcon } from "@heroicons/react/24/outline";
 
 
 
@@ -26,10 +30,10 @@ export function SignInForm(){
             setIsLoggedIn(true)
             navigate('/')
         } catch (error) {
-            console.error("React側で失敗", error)
+            console.error(error)
             if(error.response){
-                const messages = error.response.data.errors.full_messages
-                setErrorMessage(messages.join(' / '))
+                const messages = error.response.data.errors
+                setErrorMessage(messages)
             } else {
                 setErrorMessage('Unexpected error occured')
             }       
@@ -41,22 +45,26 @@ export function SignInForm(){
         {errorMessage && 
         <div className="bg-red-200 text-red-800 p-2 rounded mb-2">{errorMessage}</div>}
 
+
         <form 
-        className="flex flex-col p-3"
+        className="flex flex-col"
         onSubmit={handleSubmit}>
             <input 
             type="email"
             value={email}
             onChange={(e)=>setEmail(e.target.value)}
-            placeholder="メールアドレス" />
+            placeholder="メールアドレス"
+            className="my-2 mx-5 p-2 shadow-sm rounded-full"/>
             <input 
             type="password"
             value={password}
             onChange={(e)=>setPassword(e.target.value)}
-            placeholder="パスワード" />
+            placeholder=" パスワード"
+            className="my-2 mx-5 p-2 shadow-sm rounded-full"/>
+            <div className="mx-5 p-2 text-sm text-gray-500">パスワードを忘れた方はこちら</div>
             <button 
             type="submit"
-            className="">ログイン</button>
+            className="my-10 mx-5 p-2 rounded-full bg-green-400">ログイン</button>
         </form>
         </>
     )

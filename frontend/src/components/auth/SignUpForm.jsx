@@ -27,10 +27,10 @@ export function SignUpForm(){
             setIsLoggedIn(true)
             navigate('/')
         } catch (error) {
-            console.error("React側で失敗", error)
+            console.error(error)
             if(error.response){
                 const messages = error.response.data.errors.full_messages
-                setErrorMessage(messages.join(' / '))
+                setErrorMessage(messages.join('\n'))
             } else {
                 setErrorMessage("Unexpected error occured")
             }
@@ -40,24 +40,30 @@ export function SignUpForm(){
     return(
         <>
         {errorMessage && 
-        <div className="bg-red-200 text-red-800 p-2 rounded mb-2">{errorMessage}</div>}
-        <form onSubmit={handleSubmit}>
+        <div className="bg-red-200 text-red-800 p-2 rounded mb-2 whitespace-pre-wrap">{errorMessage}</div>}
+        <form onSubmit={handleSubmit}
+        className="flex flex-col">
             <input 
             type="email"
             value={email}
             onChange={(e)=>setEmail(e.target.value)}
-            placeholder="メールアドレス" />
+            placeholder="メールアドレス"
+            className="my-2 mx-5 p-2 shadow-sm rounded-full" />
             <input 
             type="password"
             value={password}
             onChange={(e)=>setPassword(e.target.value)}
-            placeholder="パスワード" />
+            placeholder="パスワード"
+            className="my-2 mx-5 p-2 shadow-sm rounded-full" />
             <input 
             type="password"
             value={passwordConfirmation}
             onChange={(e)=>setPasswordConfirmation(e.target.value)}
-            placeholder="パスワード（確認）" />
-            <button type="submit">登録</button>
+            placeholder="パスワード（確認）"
+            className="my-2 mx-5 p-2 shadow-sm rounded-full" />
+            <button 
+            type="submit"
+            className="my-6 mx-5 p-2 rounded-full bg-green-400">登録</button>
         </form>
         </>
     )

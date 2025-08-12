@@ -46,7 +46,7 @@ export function Mypage(){
             handleSignOut={handleSignOut}/>     
         </div>
         : 
-        <div className='p-20'>
+        <div className=''>
         <AuthPage/>
         </div>
         }
