@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 import { useNavigate, useLocation } from "react-router-dom";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import { useModal } from "../contexts/ModalContext"
 
 
 export function SearchBar({ searchMode: propSearchMode }){
@@ -15,6 +16,8 @@ export function SearchBar({ searchMode: propSearchMode }){
     // INFO: URLからsearchModeを取得するー＞モーダルからのpropと評価し、props優先
     const searchModeParams = new URLSearchParams(location.search).get("mode") || "bookstore"
     const searchMode = propSearchMode ?? searchModeParams;
+
+    const { close }= useModal();
 
     useEffect(()=>{
         if(!query.trim() || query.trim().length < 2) {
@@ -45,7 +48,9 @@ export function SearchBar({ searchMode: propSearchMode }){
     const handleSearch = async() =>{
         if (!selectedPrediction) return;          
         const pos = await axios.get(`/api/v1/places/${selectedPrediction.place_id}`)
+        close()
         navigate(`/search?lat=${pos.data.place.lat}&lng=${pos.data.place.lng}&mode=${searchMode}`)
+        
     };
     
     return(

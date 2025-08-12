@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { BookOpenIcon, UserIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { BookOpenIcon, UserIcon, MagnifyingGlassIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { SearchBar } from "../search/SearchByKeyword";
 import { BackButton } from "../common/BackButton";
 import { useModal } from "../contexts/ModalContext";
@@ -11,6 +11,7 @@ export function Header({ variant }){
     const navigate = useNavigate();
     const { open } = useModal();
     const { isLoggedIn } = useAuthContext();
+    
 
     return(
         <>
@@ -26,11 +27,17 @@ export function Header({ variant }){
             className="h-6 w-6"
             onClick={open}/>
             </div>
+
             <div>
-            <UserIcon className="h-6 w-6"
-            onClick={()=> {
-                isLoggedIn?
-                navigate('/mypage') : navigate('/auth')}}/>
+            {isLoggedIn?
+            <UserIcon 
+            className="h-6 w-6"
+            onClick={()=>navigate('/mypage')}/>
+            : 
+            <div
+            className="hover:font-bold hover:underline"
+            onClick={()=>navigate('/auth') }>新規登録・ログイン</div>}
+
             </div>
             </div>
             </div>
@@ -38,13 +45,18 @@ export function Header({ variant }){
 
         {variant === "search" &&
         <div className="fixed top-0 left-0 right-0 h-16 shadow-sm bg-white z-50">
-            <div className="flex items-center gap-3">
-            <div className="">
-                <BackButton/>
-            </div>
-            <div className="">
-                <SearchBar/>
-            </div>
+            <div className="mx-auto max-w-screen-md h-full flex items-center px-2">
+                <div className=" w-6 h-6">
+                    <BackButton />
+                </div>
+                <div className="">
+                    <SearchBar/>
+                </div>
+                <button
+                onClick={() => { console.log('clicked'); open(); }}
+                className=" flex text-sm">検索モード<ChevronDownIcon className="w-5 h-5"/>
+                </button>
+                
             </div>
         </div>
         }

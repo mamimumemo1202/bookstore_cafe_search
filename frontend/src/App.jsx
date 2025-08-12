@@ -11,10 +11,10 @@ import { ModalProvider } from './components/contexts/ModalContext'
 export function App() {
   return (
     <>
-    <AuthProvider>
-    <ModalProvider>
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
     <BrowserRouter>
+    <AuthProvider>
+    <ModalProvider>
       <Header/>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -22,10 +22,11 @@ export function App() {
         <Route path="/mypage" element={<Mypage/>}/>
         <Route path="/search" element={<SearchResultsPage />} />
       </Routes>
-    </BrowserRouter>
-    </LoadScript>
     </ModalProvider>
     </AuthProvider>
+    </BrowserRouter>
+    </LoadScript>
+
     </>
   );
 }

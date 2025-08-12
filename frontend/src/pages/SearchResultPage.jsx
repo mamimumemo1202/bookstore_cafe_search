@@ -8,6 +8,8 @@ import { BookstoreCard } from '../components/search/BookstoreCard';
 import { LoadingIcon } from '../components/common/LoadingIcon';
 import { useLoading } from '../hooks/useLoading';
 import { Header } from '../components/layout/Header';
+import { SearchModal } from '../components/search/SearchModal';
+import { useModal } from '../components/contexts/ModalContext';
 
 
 
@@ -19,6 +21,7 @@ export function SearchResultsPage() {
     const [activeCafe, setActiveCafe] = useState(null);
     const [isOpenCafeCard, setIsOpenCafeCard] = useState(false);
     const { isLoading, startLoading, stopLoading } = useLoading();
+    const { isOpen, close } = useModal();
     
     const navigate = useNavigate();
 
@@ -106,6 +109,8 @@ export function SearchResultsPage() {
         <Header
         variant="search"
         className=""/>
+
+        {isOpen && <SearchModal onClose={close}/>}
 
         <div className = "flex flex-col sm:flex-row h-screen ">
             <div className = "h-2/5 w-full  sm:w-1/2 sm:h-full">
