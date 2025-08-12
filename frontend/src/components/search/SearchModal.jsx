@@ -7,7 +7,7 @@ import { SearchModeSelector } from '../search/SearchModeSelector';
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
-export function SearchModal({onClose}) {
+export function SearchModal({ onClose }) {
     const location = useLocation()
     const error = location.state?.error
     const [searchMode, setSearchMode] = useState('bookstore')

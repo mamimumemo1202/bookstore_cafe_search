@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { SignOutButton } from '../components/auth/SignOutButton';
 import { useAuthContext } from '../components/contexts/AuthContext';
+import { Header } from '../components/layout/Header';
 import { AuthPage } from './AuthPage';
 import { signOut } from '../apis/auth';
 import { clearAuthInfo } from '../apis';
 import { useNavigate } from "react-router-dom";
+import { BackButton } from '../components/common/BackButton'
 
 
 export function Mypage(){
@@ -30,6 +32,10 @@ export function Mypage(){
 
     return(
         <>
+        <div className="flex m-4 p-1 w-8 h-8 rounded-full shadow-xl">
+        <BackButton/>
+        </div>
+
         {isLoggedIn? 
         <div className='flex flex-col pt-20 text-3xl'>
             {errorMessage && 

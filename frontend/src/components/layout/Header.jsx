@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom"
 import { BookOpenIcon, UserIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { SearchBar } from "../search/SearchByKeyword";
+import { BackButton } from "../common/BackButton";
+import { useModal } from "../contexts/ModalContext";
 
 
-export function Header({ variant, setIsSearchModalOpen}){
-const navigate = useNavigate();
+
+export function Header({ variant }){
+    const navigate = useNavigate();
+    const { open } = useModal();
 
     return(
         <>
@@ -19,7 +23,7 @@ const navigate = useNavigate();
                 {/* TODO: 回避的にOptionalにしているので改善する（URLベース？） */}
             <MagnifyingGlassIcon
             className="h-6 w-6"
-            onClick={()=>{setIsSearchModalOpen?.(true)}}/>
+            onClick={open}/>
             </div>
             <div>
             <UserIcon className="h-6 w-6"
@@ -31,8 +35,13 @@ const navigate = useNavigate();
 
         {variant === "search" &&
         <div className="fixed top-0 left-0 right-0 h-16 shadow-sm bg-white z-50">
-            <div>
+            <div className="flex items-center gap-3">
+            <div className="">
+                <BackButton/>
+            </div>
+            <div className="">
                 <SearchBar/>
+            </div>
             </div>
         </div>
         }

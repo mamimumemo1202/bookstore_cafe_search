@@ -6,11 +6,13 @@ import { AuthPage } from './pages/AuthPage';
 import { Header } from './components/layout/Header';
 import { AuthProvider } from './components/contexts/AuthContext';
 import { Mypage } from './pages/Mypage';
+import { ModalProvider } from './components/contexts/ModalContext'
 
 export function App() {
   return (
     <>
     <AuthProvider>
+    <ModalProvider>
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
     <BrowserRouter>
       <Header/>
@@ -22,6 +24,7 @@ export function App() {
       </Routes>
     </BrowserRouter>
     </LoadScript>
+    </ModalProvider>
     </AuthProvider>
     </>
   );
