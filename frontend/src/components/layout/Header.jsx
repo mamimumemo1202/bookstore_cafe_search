@@ -34,9 +34,9 @@ export function Header({ variant }){
             className="h-6 w-6"
             onClick={()=>navigate('/mypage')}/>
             : 
-            <div
+            <button
             className="hover:font-bold hover:underline"
-            onClick={()=>navigate('/auth') }>新規登録・ログイン</div>}
+            onClick={()=>navigate('/auth') }>新規登録・ログイン</button>}
 
             </div>
             </div>

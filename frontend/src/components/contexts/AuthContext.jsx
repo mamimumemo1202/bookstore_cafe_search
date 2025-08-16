@@ -19,10 +19,10 @@ export function AuthProvider({ children }){
             
             try {
                 const res = await validateToken()
-                console.log(res.data)
                 setIsLoggedIn(true)
                 setUser(res.data.data)
             } catch (error) {
+            //   if(error.response.status !== 401)
                 setIsLoggedIn(false)
                 setUser(null)
                 

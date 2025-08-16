@@ -30,7 +30,6 @@ export function SignInForm(){
             setIsLoggedIn(true)
             navigate('/')
         } catch (error) {
-            console.error(error)
             if(error.response){
                 const messages = error.response.data.errors
                 setErrorMessage(messages)
@@ -61,7 +60,9 @@ export function SignInForm(){
             onChange={(e)=>setPassword(e.target.value)}
             placeholder=" パスワード"
             className="my-2 mx-5 p-2 shadow-sm rounded-full"/>
-            <div className="mx-5 p-2 text-sm text-gray-500">パスワードを忘れた方はこちら</div>
+            <button 
+            className="mx-5 p-2 text-sm text-blue-500 hover:underline"
+            onClick={ () => navigate('/password-reset')}>パスワードを忘れた方はこちら</button>
             <button 
             type="submit"
             className="my-10 mx-5 p-2 rounded-full bg-green-400">ログイン</button>

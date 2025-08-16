@@ -30,6 +30,9 @@ export const signOut = async()=>{
 export const validateToken = async() =>{
     const authInfo = getAuthInfo();
 
+    if(!authInfo["access-token"] || !authInfo["client"] || !authInfo["uid"])
+        return null;
+
     const res = await axios.get("/api/v1/auth/validate_token",{
         headers:{
         "access-token": authInfo["access-token"],
