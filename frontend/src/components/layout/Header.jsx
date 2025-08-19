@@ -25,7 +25,7 @@ export function Header({ variant }){
             <div className="">
             <MagnifyingGlassIcon
             className="h-6 w-6"
-            onClick={open}/>
+            onClick={openModal}/>
             </div>
 
             <div>

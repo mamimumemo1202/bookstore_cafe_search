@@ -16,7 +16,7 @@ export function HomePage() {
      
      <h1 className="mt-17">これは本屋とカフェを同時に検索できるアプリです</h1>
 
-     {isOpen && (
+     {isOpenModal && (
         <div className="">
             <SearchModal onClose={closeModal}  />
         </div>)}
