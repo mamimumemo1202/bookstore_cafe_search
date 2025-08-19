@@ -50,10 +50,10 @@ export function Mypage(){
             </div>
             <div className="grid grid-cols-1 gap-x-4 gap-y-2 text-base pb-4">
             <div className="text-gray-500">ユーザー名</div>
-            <div className="text-gray-900">{user?.name || '吾輩は猫である'}</div>
+            <div className="text-gray-900">{user.name}</div>
 
             <div className="text-gray-500">メールアドレス</div>
-            <div className="text-gray-900 truncate">{user?.email}</div>
+            <div className="text-gray-900 truncate">{user.email}</div>
             
 
             <div className="text-gray-500">プロフィール</div>
