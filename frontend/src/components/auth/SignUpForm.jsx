@@ -25,7 +25,7 @@ export function SignUpForm(){
             console.log("React側では成功", res.data)
             saveAuthInfo(res)
             setIsLoggedIn(true)
-            navigate('/')
+            console.log('認証してください（トーストなどで表示）')
         } catch (error) {
             console.error(error)
             if(error.response){
