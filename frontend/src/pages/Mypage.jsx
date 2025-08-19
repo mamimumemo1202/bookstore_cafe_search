@@ -6,7 +6,7 @@ import { signOut } from '../apis/auth';
 import { clearAuthInfo } from '../apis';
 import { useNavigate } from "react-router-dom";
 import { BackButton } from '../components/common/BackButton'
-import { Avator } from '../components/common/Avator';
+import { Avatar } from '../components/common/Avatar';
 
 
 export function Mypage(){
@@ -45,7 +45,7 @@ export function Mypage(){
 
             <div className='flex justify-center pb-4'>
                 <div className='w-16 h-16'>
-                    <Avator user={ user }/>
+                    <Avatar user={ user }/>
                 </div>
             </div>
             <div className="grid grid-cols-1 gap-x-4 gap-y-2 text-base pb-4">
