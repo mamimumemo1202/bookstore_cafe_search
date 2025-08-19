@@ -7,7 +7,7 @@ export function ConfirmedPage(){
     useEffect(() => {
         const timer = setTimeout(() => {
         navigate("/")  
-        }, 5000) 
+        }, 2000) 
 
         return () => clearTimeout(timer)
     }, [navigate])
@@ -15,7 +15,7 @@ export function ConfirmedPage(){
     return (
         <>
         <div>認証が完了しました。</div>
-        <div>もし自動で遷移しない場合は<a href="/" className="underline text-blue-300">こちら</a>をクリックしてください。</div>
+        <div><a href="/auth" className="underline text-blue-300">こちら</a>からログインしてください。</div>
         </>
     )
 }

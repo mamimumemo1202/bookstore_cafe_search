@@ -16,7 +16,7 @@ export function SignInForm(){
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
-    const { isLoggedIn, setIsLoggedIn, user, setUser} = useAuthContext();
+    const { setIsLoggedIn, setUser} = useAuthContext();
 
 
     const handleSubmit = async(e) => {
@@ -32,7 +32,12 @@ export function SignInForm(){
         } catch (error) {
             if(error.response){
                 const messages = error.response.data.errors
-                setErrorMessage(messages)
+
+                if(messages.some(e => e.toLowerCase().includes("confirm"))){
+                setErrorMessage("認証を完了してください ＜再送する＞")
+                } else if(messages.some(e => e.toLowerCase().includes("invalid"))){
+                    setErrorMessage("メールアドレスかパスワードが間違っています")
+                }
             } else {
                 setErrorMessage('Unexpected error occured')
             }       

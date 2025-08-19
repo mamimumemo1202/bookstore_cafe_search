@@ -17,15 +17,12 @@ export function SignUpForm(){
 
     const navigate = useNavigate();
 
-
+// TODO: 6桁コード認証の実装
     const handleSubmit = async(e) => {
          e.preventDefault() 
         try {
-            const res = await signUp({email, password, passwordConfirmation})
-            console.log("React側では成功", res.data)
-            saveAuthInfo(res)
-            setIsLoggedIn(true)
-            console.log('認証してください（トーストなどで表示）')
+            await signUp({email, password, passwordConfirmation})
+            navigate('/')
         } catch (error) {
             console.error(error)
             if(error.response){
