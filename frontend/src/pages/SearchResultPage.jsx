@@ -21,7 +21,7 @@ export function SearchResultsPage() {
     const [activeCafe, setActiveCafe] = useState(null);
     const [isOpenCafeCard, setIsOpenCafeCard] = useState(false);
     const { isLoading, startLoading, stopLoading } = useLoading();
-    const { isOpen, close } = useModal();
+    const { isOpenModal, closeModal } = useModal();
     
     const navigate = useNavigate();
 
@@ -110,7 +110,7 @@ export function SearchResultsPage() {
         variant="search"
         className=""/>
 
-        {isOpen && <SearchModal onClose={close}/>}
+        {isOpenModal && <SearchModal onClose={closeModal}/>}
 
         <div className = "flex flex-col sm:flex-row h-screen ">
             <div className = "h-2/5 w-full  sm:w-1/2 sm:h-full">

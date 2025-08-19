@@ -7,7 +7,7 @@ import { useModal } from "../components/contexts/ModalContext";
 
 export function HomePage() {
     const location = useLocation();
-    const { isOpen, close } = useModal();
+    const { isOpenModal, closeModal } = useModal();
 
     return(
      <>
@@ -18,7 +18,7 @@ export function HomePage() {
 
      {isOpen && (
         <div className="">
-            <SearchModal onClose={close}  />
+            <SearchModal onClose={closeModal}  />
         </div>)}
      
      </>

@@ -9,7 +9,7 @@ import { useAuthContext } from "../contexts/AuthContext"
 
 export function Header({ variant }){
     const navigate = useNavigate();
-    const { open } = useModal();
+    const { openModal } = useModal();
     const { isLoggedIn } = useAuthContext();
     
 
@@ -53,7 +53,7 @@ export function Header({ variant }){
                     <SearchBar/>
                 </div>
                 <button
-                onClick={() => { console.log('clicked'); open(); }}
+                onClick={() => openModal()}
                 className=" flex text-sm">検索モード<ChevronDownIcon className="w-5 h-5"/>
                 </button>
                 

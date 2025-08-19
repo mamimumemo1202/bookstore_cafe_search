@@ -6,16 +6,16 @@ export function useLocationSearch() {
 
     const{ getLocation } = useGeolocation();
     const navigate = useNavigate();
-    const{ close } = useModal()
+    const{ closeModal } = useModal()
 
     const handleSearch = async (searchMode) =>{
         try {
             const pos = await getLocation();
                 navigate(`/search?lat=${pos.lat}&lng=${pos.lng}&mode=${searchMode}`)
-                close()
+                closeModal()
         } catch (error) {
             navigate('/', {state: {error: 'missing_location'}})
-            close()
+            closeModal()
             
         }
 

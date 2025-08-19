@@ -17,7 +17,7 @@ export function SearchBar({ searchMode: propSearchMode }){
     const searchModeParams = new URLSearchParams(location.search).get("mode") || "bookstore"
     const searchMode = propSearchMode ?? searchModeParams;
 
-    const { close }= useModal();
+    const { closeModal }= useModal();
 
     useEffect(()=>{
         if(!query.trim() || query.trim().length < 2) {
@@ -48,7 +48,7 @@ export function SearchBar({ searchMode: propSearchMode }){
     const handleSearch = async() =>{
         if (!selectedPrediction) return;          
         const pos = await axios.get(`/api/v1/places/${selectedPrediction.place_id}`)
-        close()
+        closeModal()
         navigate(`/search?lat=${pos.data.place.lat}&lng=${pos.data.place.lng}&mode=${searchMode}`)
         
     };
