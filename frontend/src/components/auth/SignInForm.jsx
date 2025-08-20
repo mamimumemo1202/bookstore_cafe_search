@@ -67,7 +67,7 @@ export function SignInForm(){
             className="my-2 mx-5 p-2 shadow-sm rounded-full"/>
             <button 
             className="mx-5 p-2 text-sm text-blue-500 hover:underline"
-            onClick={ () => navigate('/password-reset')}>パスワードを忘れた方はこちら</button>
+            onClick={ () => navigate('/forgot-password')}>パスワードを忘れた方はこちら</button>
             <button 
             type="submit"
             className="my-10 mx-5 p-2 rounded-full bg-green-400">ログイン</button>
