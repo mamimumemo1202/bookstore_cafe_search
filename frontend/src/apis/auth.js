@@ -44,7 +44,7 @@ export const validateToken = async() =>{
     
 }
 
-export const requestPasswordResetForForget = async({ email }) => {
+export const requestPasswordReset = async({ email }) => {
     await axios.post('/api/v1/auth/password', {
         email,
         redirect_url: "http://localhost:5173/reset-password"
@@ -52,7 +52,7 @@ export const requestPasswordResetForForget = async({ email }) => {
 }
 
     
-export const resetPasswordForForget = async({password, passwordConfirmation, accessToken, client, uid}) => {
+export const resetPassword = async({password, passwordConfirmation, accessToken, client, uid}) => {
     await axios.put('/api/v1/auth/password', {
         password,
         password_confirmation: passwordConfirmation},
@@ -61,9 +61,10 @@ export const resetPasswordForForget = async({password, passwordConfirmation, acc
     )
 }
 
-export const requestPasswordResetForChange = async({ email }) => {
-    await axios.post('/api/v1/auth/password', {
-        email,
-        redirect_url: "http://localhost5173:/mypage/password"
-    })
+export const requestPasswordChange = async({ currentPassword, newPassword, passwordConfirmation, uid }) => {
+    await axios.put('/api/v1/auth', {
+        current_password: currentPassword,
+        password: newPassword,
+        password_confirmation: passwordConfirmation},
+        { headers: { uid } })
 }

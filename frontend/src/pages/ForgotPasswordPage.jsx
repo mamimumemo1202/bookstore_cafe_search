@@ -1,4 +1,4 @@
-import { requestPasswordResetForForget } from "../apis/auth"
+import { requestPasswordReset } from "../apis/auth"
 import { useState } from "react";
 
 export function ForgotPasswordPage(){
@@ -12,7 +12,7 @@ export function ForgotPasswordPage(){
         
         setSubmitting(true)
         try {
-            await requestPasswordResetForForget({ email })
+            await requestPasswordReset({ email })
             setNotice("送信しました。届かない場合はメールアドレスをご確認ください。")
         } catch (error) {
             setNotice("送信しました。届かない場合はメールアドレスをご確認ください。")

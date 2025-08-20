@@ -9,6 +9,7 @@ import { ModalProvider } from './components/contexts/ModalContext'
 import { ResetPasswordPage } from './pages/ResetPasswordPage'
 import { ConfirmedPage } from './pages/ConfimedPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage'
+import { ChangePasswordPage } from './pages/ChangePasswordPage';
 
 // TODO: 未ログイン時のアクセスを制限する認可の設定
 export function App() {
@@ -22,7 +23,7 @@ export function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/confirmed" element={<ConfirmedPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        {/* <Route path="/mypage/password" element={<ResetPasswordPage/>} /> */}
+        <Route path="/mypage/password" element={<ChangePasswordPage/>} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />        
         <Route path="/auth" element={<AuthPage/>}/>
         <Route path="/mypage" element={<Mypage/>}/>

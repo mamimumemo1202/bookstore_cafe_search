@@ -1,38 +1,29 @@
 import { BackButton } from "../components/common/BackButton";
 import { useEffect, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import { resetPassword } from "../apis/auth";
+import { useNavigate } from "react-router-dom";
+import { requestPasswordChange } from "../apis/auth";
+import { getAuthInfo } from "../apis";
 
 
-export function ResetPasswordPage(){
-    const[searchParams] = useSearchParams();
+export function ChangePasswordPage(){
     const navigate = useNavigate();
 
-    const [password, setPassword] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [submitting, setSubmitting] = useState(false);
     const [notice, setNotice] = useState("");
     const [errorMessage, setErrorMessage] = useState("")
 
-    const accessToken = searchParams.get("access-token")
-    const client = searchParams.get("client")
-    const uid = searchParams.get("uid")
 
-    useEffect(() => {
-      if(accessToken || client || uid){
-        navigate("/reset-password", { replace: true });
-      }
-    },[accessToken, client, uid])
+
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
+        setErrorMessage(""); setNotice("");
 
-        if(!accessToken || !client || !uid){
-          setErrorMessage("トークンが無効です。もう一度メールを送信してください。")
-          return
-        }
 
-        if(password !== passwordConfirmation){
+        if(newPassword !== passwordConfirmation){
           setErrorMessage("パスワードが一致しません。")
           return
         }
@@ -40,13 +31,15 @@ export function ResetPasswordPage(){
         setSubmitting(true)
 
         try {
-          await resetPassword({ password, passwordConfirmation, accessToken, client, uid })
+            const authInfo = getAuthInfo()
+            const uid = authInfo.uid
+            await requestPasswordChange({ currentPassword, newPassword, passwordConfirmation, uid })
           
-          setNotice("パスワードを更新しました。ログインしてください。")
-          navigate("/auth")
+          setNotice("パスワードを更新しました。")
+          navigate("/")
 
         } catch (error) {
-          setErrorMessage("リンクが無効です。もう一度送信してください。")
+          setErrorMessage("やり直してください。")
           
         } finally {
           setSubmitting(false)
@@ -69,15 +62,23 @@ export function ResetPasswordPage(){
 
       <input
       type="password"
-      name="password"
-      value={password}
+      name="current_password"
+      value={currentPassword}
       className="my-2 mx-5 p-2 shadow-sm rounded-full"
-      placeholder="新しいパスワード"
-      onChange={(e) => setPassword(e.target.value)}/>
+      placeholder="現在のパスワード"
+      onChange={(e) => setCurrentPassword(e.target.value)}/>
 
       <input
       type="password"
-      name="passwordConfirmation"
+      name="new_password"
+      value={newPassword}
+      className="my-2 mx-5 p-2 shadow-sm rounded-full"
+      placeholder="新しいパスワード"
+      onChange={(e) => setNewPassword(e.target.value)}/>
+
+      <input
+      type="password"
+      name="new_password_confirmation"
       value={passwordConfirmation}
       className="my-2 mx-5 p-2 shadow-sm rounded-full"
       placeholder="新しいパスワード（確認）"
