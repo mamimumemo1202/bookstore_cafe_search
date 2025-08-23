@@ -17,7 +17,6 @@ export function ChangePasswordPage(){
 
 
 
-
     const handleSubmit = async(e) =>{
         e.preventDefault();
         setErrorMessage(""); setNotice("");
@@ -39,7 +38,7 @@ export function ChangePasswordPage(){
           navigate("/")
 
         } catch (error) {
-          setErrorMessage("やり直してください。")
+          setErrorMessage("やり直してください。（何度してもできない場合は、リセットをお試しください）")
           
         } finally {
           setSubmitting(false)
@@ -87,7 +86,7 @@ export function ChangePasswordPage(){
       <button 
       type="submit"
         disabled={submitting}
-      className="my-6 mx-5 p-2 rounded-full bg-green-400">パスワードを更新</button>
+      className="my-6 mx-5 p-2 rounded-full bg-primary-600 text-primary-50">パスワードを更新</button>
     </form> 
     </>
     )

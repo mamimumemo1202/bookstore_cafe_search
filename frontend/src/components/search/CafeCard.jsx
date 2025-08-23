@@ -25,7 +25,7 @@ export function CafeCard ({
     return(
       <>
       {/* TODO: クリック時のカードのスタイルおよびカード自体のデザインの改変 */}
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-1">
           {cafes.map(cafe => (  
             <div key={cafe.id} className={`rounded-xl shadow-md p-4 mb-4 ${activeCafe?.id === cafe.id? "bg-gray-700 text-white" : "bg-white"} `}>
               <h2 className="text-lg font-semibold cursor-pointer"

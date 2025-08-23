@@ -26,7 +26,7 @@ export function BookstoreCard({
   return (
     <>
     {/* TODO: クリック時のカードのスタイルおよびカード自体のデザインの改変 */}
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-1">
       {bookstores.map(bookstore => (  
         <div key={bookstore.id} 
         className={`rounded-xl shadow-md p-4 mb-4 ${activeBookstore?.id === bookstore.id? "bg-gray-700 text-white" : "bg-white"} `}>

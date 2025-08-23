@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, use, useContext, useEffect, useState } from "react";
 import { validateToken } from '../../apis/auth'
 import { getAuthInfo } from "../../apis";
 
@@ -7,6 +7,7 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }){
     const [isLoggedIn, setIsLoggedIn] = useState(null)
     const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(()=>{
         const checkAuth = async() =>{
@@ -14,7 +15,9 @@ export function AuthProvider({ children }){
             if(!authInfo["access-token"] || !authInfo["client"] || !authInfo["uid"]){
                 setIsLoggedIn(false);
                 setUser(null);
+                setIsLoading(false)                
                 return
+
             }
             
             try {
@@ -26,6 +29,8 @@ export function AuthProvider({ children }){
                 setIsLoggedIn(false)
                 setUser(null)
                 
+            } finally {
+                setIsLoading(false)
             }
         };
 
@@ -33,7 +38,7 @@ export function AuthProvider({ children }){
     },[])
 
     return(
-        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, setUser }}>
+        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, setUser, isLoading }}>
             {children}
         </AuthContext.Provider>
     )

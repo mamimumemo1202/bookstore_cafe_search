@@ -7,7 +7,6 @@ import { saveAuthInfo } from "../../apis/index";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from '../contexts/AuthContext';
 import { validateToken } from '../../apis/auth'
-import { EnvelopeIcon } from "@heroicons/react/24/outline";
 
 
 
@@ -47,7 +46,7 @@ export function SignInForm(){
     return(
         <>
         {errorMessage && 
-        <div className="bg-red-200 text-red-800 p-2 rounded mb-2">{errorMessage}</div>}
+        <div className="bg-red-200 text-error-500 p-2 rounded mb-2">{errorMessage}</div>}
 
 
         <form 
@@ -70,7 +69,7 @@ export function SignInForm(){
             onClick={ () => navigate('/forgot-password')}>パスワードを忘れた方はこちら</button>
             <button 
             type="submit"
-            className="my-10 mx-5 p-2 rounded-full bg-green-400">ログイン</button>
+            className="my-10 mx-5 p-2 rounded-full bg-primary-600 text-primary-50">ログイン</button>
         </form>
         </>
     )

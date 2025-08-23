@@ -38,6 +38,7 @@ export function SignUpForm(){
         <>
         {errorMessage && 
         <div className="bg-red-200 text-red-800 p-2 rounded mb-2 whitespace-pre-wrap">{errorMessage}</div>}
+        
         <form onSubmit={handleSubmit}
         className="flex flex-col">
             <input 
@@ -60,7 +61,7 @@ export function SignUpForm(){
             className="my-2 mx-5 p-2 shadow-sm rounded-full" />
             <button 
             type="submit"
-            className="my-6 mx-5 p-2 rounded-full bg-green-400">登録</button>
+            className="my-6 mx-5 p-2 rounded-full bg-primary-600 text-white">登録</button>
         </form>
         </>
     )

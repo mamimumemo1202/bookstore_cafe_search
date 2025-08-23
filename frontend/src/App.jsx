@@ -5,6 +5,7 @@ import { LoadScript } from '@react-google-maps/api';
 import { AuthPage } from './pages/AuthPage';
 import { AuthProvider } from './components/contexts/AuthContext';
 import { Mypage } from './pages/Mypage';
+import { MyList } from './pages/MyList'
 import { ModalProvider } from './components/contexts/ModalContext'
 import { ResetPasswordPage } from './pages/ResetPasswordPage'
 import { ConfirmedPage } from './pages/ConfimedPage';
@@ -27,13 +28,13 @@ export function App() {
         <Route path="/reset-password" element={<ResetPasswordPage />} />        
         <Route path="/auth" element={<AuthPage/>}/>
         <Route path="/mypage" element={<Mypage/>}/>
+        <Route path="/mylist" element={<MyList/>}/>        
         <Route path="/search" element={<SearchResultsPage />} />
       </Routes>
     </ModalProvider>
     </AuthProvider>
     </BrowserRouter>
     </LoadScript>
-
     </>
   );
 }

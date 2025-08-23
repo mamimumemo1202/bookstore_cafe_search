@@ -11,7 +11,7 @@ import { Avatar } from '../components/common/Avatar';
 
 export function Mypage(){
 
-    const { isLoggedIn, setIsLoggedIn, user, setUser} = useAuthContext();
+    const { isLoggedIn, setIsLoggedIn, user, setUser, isLoading} = useAuthContext();
 
     const [ errorMessage, setErrorMessage] = useState(null);
     const navigate = useNavigate();
@@ -29,6 +29,8 @@ export function Mypage(){
             navigate('/')
         }
     }
+
+    if(isLoading) return null;
 
     // アイコン、名前、メアド、パスワード変更リンク、いいねリスト、ブックマークリスト
     // TODO: 編集できるようにする
@@ -50,10 +52,10 @@ export function Mypage(){
             </div>
             <div className="grid grid-cols-1 gap-x-4 gap-y-2 text-base pb-4">
             <div className="text-gray-500">ユーザー名</div>
-            <div className="text-gray-900">{user.name}</div>
+            <div className="text-gray-900">{user?.name}</div>
 
             <div className="text-gray-500">メールアドレス</div>
-            <div className="text-gray-900 truncate">{user.email}</div>
+            <div className="text-gray-900 truncate">{user?.email}</div>
             
 
             <div className="text-gray-500">プロフィール</div>
@@ -67,7 +69,6 @@ export function Mypage(){
             <SignOutButton 
             handleSignOut={handleSignOut}/>
         </div>
-
         </>
     )
 }

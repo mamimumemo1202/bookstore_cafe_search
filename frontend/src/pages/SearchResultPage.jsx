@@ -10,6 +10,7 @@ import { useLoading } from '../hooks/useLoading';
 import { Header } from '../components/layout/Header';
 import { SearchModal } from '../components/search/SearchModal';
 import { useModal } from '../components/contexts/ModalContext';
+import { FooterNavigation } from '../components/layout/FooterNavigation';
 
 
 
@@ -175,6 +176,7 @@ export function SearchResultsPage() {
                 </div>)}
         </div>
         </div>
+        <FooterNavigation/>
         </>
     )
 }
