@@ -10,7 +10,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_19_152126) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_24_031500) do
+  create_table "bookstores", force: :cascade do |t|
+    t.string "place_id"
+    t.string "name"
+    t.string "formatted_address"
+    t.decimal "lat"
+    t.decimal "lng"
+    t.integer "likes_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_bookstores_on_place_id", unique: true
+  end
+
+  create_table "cafes", force: :cascade do |t|
+    t.string "place_id"
+    t.string "name"
+    t.string "formatted_address"
+    t.decimal "lat"
+    t.decimal "lng"
+    t.integer "likes_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_cafes_on_place_id", unique: true
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "likeable_type", null: false
+    t.integer "likeable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable"
+    t.index ["user_id", "likeable_type", "likeable_id"], name: "index_likes_on_user_id_and_likeable_type_and_likeable_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "pairs", force: :cascade do |t|
+    t.integer "bookstore_id", null: false
+    t.integer "cafe_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bookstore_id", "cafe_id"], name: "index_pairs_on_bookstore_id_and_cafe_id", unique: true
+    t.index ["bookstore_id"], name: "index_pairs_on_bookstore_id"
+    t.index ["cafe_id"], name: "index_pairs_on_cafe_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -37,4 +82,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_19_152126) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
+
+  add_foreign_key "likes", "users"
+  add_foreign_key "pairs", "bookstores"
+  add_foreign_key "pairs", "cafes"
 end
