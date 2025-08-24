@@ -10,7 +10,7 @@ export function FooterNavigation(){
     const { openModal } = useModal();
 
     return(
-        <div className="fixed bottom-0 w-full h-16 flex justify-around items-center bg-primary-500 text-primary-100">
+        <div className="fixed bottom-0 w-full h-16 flex justify-around items-center bg-primary-500 text-primary-100 border border-primary-200 border-t-2">
             <button className="flex flex-col items-center">
                 <HomeIcon className="w-6 h-6" onClick={ () => navigate('/') }/>
                 <p>ホーム</p>

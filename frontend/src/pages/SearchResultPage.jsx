@@ -136,7 +136,7 @@ export function SearchResultsPage() {
                 <div className='sticky top-0 p-2 bg-white'>
                 <button
                 type='button'
-                className= "justify-end text-sm text-blue-600 hover:underline"
+                className= "justify-end text-sm text-primary-600 hover:underline"
                 onClick={()=>setIsOpenCafeCard(prev => !prev)}>
                     { isOpenCafeCard? "本屋を選びなおす" : "カフェも選ぶ" }
                 </button>

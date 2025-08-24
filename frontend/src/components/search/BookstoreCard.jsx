@@ -29,14 +29,14 @@ export function BookstoreCard({
     <div className="grid grid-cols-1">
       {bookstores.map(bookstore => (  
         <div key={bookstore.id} 
-        className={`rounded-xl shadow-md p-4 mb-4 ${activeBookstore?.id === bookstore.id? "bg-gray-700 text-white" : "bg-white"} `}>
+        className={` rounded-r-xl shadow-sm p-4 ml-1 mb-1 ${activeBookstore?.id === bookstore.id? "border-l-5 border-primary-500 bg-primary-800 text-primary-50" : "text-primary-800 bg-primary-50 border-l-5 border-primary-300 "} `}>
           <h2 className="text-lg font-semibold  cursor-pointer"
             onClick = { () =>handleBookstoreSelect(bookstore)}>
                 {bookstore.name}
           </h2>
           {openIds[bookstore.id] && (
             <div 
-            className={`${bookstore.id === activeBookstore?.id? "text-white border-white": "text-gray-800 border-gray-800"} h-6 w-6 rounded-full border p-1`}>
+            className={`${bookstore.id === activeBookstore?.id? "text-primary-50": "text-primary-800 "} h-6 w-6 rounded-full border p-1`}>
               <OpenMapAppButton 
               place={bookstore}/>
             </div>
