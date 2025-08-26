@@ -52,7 +52,7 @@ export function SearchResultsPage() {
                 } 
             } catch(err) {
                 console.error( 'SearchResultsPageでのエラー', err)
-            } finally{ stopLoading() 
+            } finally { stopLoading() 
 
             }}
                 fetchPlaces()

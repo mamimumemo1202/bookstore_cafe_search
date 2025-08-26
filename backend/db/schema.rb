@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_24_031500) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_25_053917) do
   create_table "bookstores", force: :cascade do |t|
     t.string "place_id"
     t.string "name"
@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_24_031500) do
     t.integer "cafe_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "likes_count", default: 0, null: false
     t.index ["bookstore_id", "cafe_id"], name: "index_pairs_on_bookstore_id_and_cafe_id", unique: true
     t.index ["bookstore_id"], name: "index_pairs_on_bookstore_id"
     t.index ["cafe_id"], name: "index_pairs_on_cafe_id"

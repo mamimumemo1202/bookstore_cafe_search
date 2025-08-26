@@ -18,7 +18,7 @@ export function CafeCard ({
   };
 
   const handleCafeSelect = (cafe) => {
-    detailedToggle(cafe.id)
+    detailedToggle(cafe.place_id)
     onSelectCafe(cafe)
   };
 
@@ -27,7 +27,7 @@ export function CafeCard ({
       {/* TODO: クリック時のカードのスタイルおよびカード自体のデザインの改変 */}
         <div className="grid grid-cols-1">
           {cafes.map(cafe => (  
-            <div key={cafe.id} className={`rounded-r-xl shadow-md p-4 mb-1 mr-1 ${activeCafe?.id === cafe.id? "border-l-5 border-primary-500 bg-primary-800 text-primary-50" : "text-primary-800 bg-primary-50 border-l-5 border-primary-300 "} `}>
+            <div key={cafe.place_id} className={`rounded-r-xl shadow-md p-4 mb-1 mr-1 ${activeCafe?.place_id === cafe.place_id? "border-l-5 border-primary-500 bg-primary-800 text-primary-50" : "text-primary-800 bg-primary-50 border-l-5 border-primary-300 "} `}>
               <h2 className="text-lg font-semibold cursor-pointer"
                 onClick = { () =>handleCafeSelect(cafe)}>
                     {cafe.name}
@@ -35,7 +35,7 @@ export function CafeCard ({
 
               {openIds[cafe.id] && (
               <div 
-              className={`${cafe.id === activeCafe?.id? "text-primary-50": "text-primary-800 "} h-6 w-6 rounded-full border p-1`}>
+              className={`${cafe.place_id === activeCafe?.place_id? "text-primary-50": "text-primary-800 "} h-6 w-6 rounded-full border p-1`}>
               <OpenMapAppButton 
               place={cafe}/>
               </div>                

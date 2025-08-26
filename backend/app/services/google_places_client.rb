@@ -4,17 +4,23 @@ class GooglePlacesClient
   include HTTParty
   base_uri 'https://maps.googleapis.com/maps/api/place'
 
+  TYPE_MAP = {
+    "Bookstore" => "book_store",
+    "Cafe" => "cafe"
+  }
 #   可用性を高めるためAPIキーをinitializeメソッドに組み込む
   def initialize(api_key = ENV['GOOGLE_API_KEY'])
     @api_key = api_key
   end
 
   def search_nearby(lat:, lng:, type:, radius: 1000)
+    gtype = TYPE_MAP[type]
+
     options = {
       query: {
         location: "#{lat},#{lng}",
         radius: radius,
-        type: type,
+        type: gtype,
         key: @api_key,
         language: 'ja'
       }
@@ -48,6 +54,7 @@ class GooglePlacesClient
     end 
 
    format_place(place_id, response.parsed_response["result"])
+   
         
   end
 
@@ -56,7 +63,7 @@ class GooglePlacesClient
   def format_places(places)
     places.map do |place| 
       {
-        id: place["place_id"],
+        place_id: place["place_id"],
         name: place["name"],
         lat: place.dig("geometry", "location", "lat"),
         lng: place.dig("geometry", "location", "lng"),
@@ -67,7 +74,7 @@ class GooglePlacesClient
 
   def format_place(place_id, place)
     {
-      id: place_id,
+      place_id: place_id,
       name: place["name"],
       lat: place.dig("geometry", "location", "lat"),
       lng: place.dig("geometry", "location", "lng")

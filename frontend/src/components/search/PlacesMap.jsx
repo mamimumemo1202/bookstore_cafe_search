@@ -13,7 +13,7 @@ const containerStyle = {
 export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, activeCafe} ) => {
   const mapRef = useRef(null); // mapインスタンス保持用
 
-  const defaultCenter = {lat, lng}; 
+  const defaultCenter = {lat, lng }; 
 
   const activePlace = activeBookstore || activeCafe;
   const center = activePlace ? {lat: activePlace.lat, lng: activePlace.lng} : defaultCenter; 
@@ -42,7 +42,7 @@ export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, active
             {/* 本屋のピン */}
             {bookstores.map((bookstore) => (
               <Marker
-                key={bookstore.id}
+                key={bookstore.place_id}
                 position={{ lat: bookstore.lat, lng: bookstore.lng }}
                 title={bookstore.name}
                 icon={{
@@ -53,7 +53,7 @@ export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, active
             {/* カフェのピン */}
             {cafes.map((cafe) => (
               <Marker
-                key={cafe.id}
+                key={cafe.place_id}
                 position={{ lat: cafe.lat, lng: cafe.lng }}
                 title={cafe.name}
                 icon={{
