@@ -2,14 +2,21 @@ import axios from "axios";
 import { getAuthInfo } from ".";
 
 export const fetchBookstores = async (lat, lng, type = 'Bookstore') => {
+    const authInfo = getAuthInfo()
+
     const response = await axios.get('/api/v1/places', {
                     params: {  
                     lat,
                     lng,
                     type,
                     // keyword: 'book'
-                    }
-                })
+                    },
+                    headers: {
+                        "access-token": authInfo["access-token"],
+                        "client": authInfo["client"],
+                        "uid": authInfo["uid"]
+        }
+                },  )
                 return response.data.places};
             
 
@@ -49,6 +56,18 @@ export const likePlace = async(placeId, type) => {
         place_id: placeId,
         type }, 
         
+        { headers: {
+            "access-token": authInfo["access-token"],
+            "client": authInfo["client"],
+            "uid": authInfo["uid"]
+        }})
+    return res.data.like
+}
+
+export const unlikePlace = async(likeId) => {
+    const authInfo = getAuthInfo()
+
+    const res = await axios.delete(`/api/v1/likes/${likeId}`,        
         { headers: {
             "access-token": authInfo["access-token"],
             "client": authInfo["client"],

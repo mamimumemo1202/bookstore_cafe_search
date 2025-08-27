@@ -35,7 +35,12 @@ export function BookstoreCard({
             onClick = { () =>handleBookstoreSelect(bookstore)}>
                 {bookstore.name}
           </h2>
-          <p><LikeButton/></p>
+          <p><LikeButton 
+              placeId={bookstore.place_id}
+              type="Bookstore"
+              // liked={bookstore.liked}
+              likeId={bookstore.like_id}/></p>
+
           {openIds[bookstore.place_id] && (
             <div 
             className={`${bookstore.place_id === activeBookstore?.place_id? "text-primary-50": "text-primary-800 "} h-6 w-6 rounded-full border p-1`}>

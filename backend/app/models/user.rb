@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ActiveRecord::Base
+  has_many :likes, dependent: :destroy
+  
   before_validation :grant_name, on: :create
 
   validates :name, presence: true
