@@ -38,7 +38,6 @@ export function BookstoreCard({
           <p><LikeButton 
               placeId={bookstore.place_id}
               type="Bookstore"
-              // liked={bookstore.liked}
               likeId={bookstore.like_id}/></p>
 
           {openIds[bookstore.place_id] && (

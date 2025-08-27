@@ -21,27 +21,39 @@ export const fetchBookstores = async (lat, lng, type = 'Bookstore') => {
             
 
 export const fetchCafes = async (lat, lng, type = 'Cafe') => {
+    const authInfo = getAuthInfo()    
     const response = await axios.get('/api/v1/places', {
                     params: {  
                     lat,
                     lng,
                     type,
                     // TODO: keywordを反映させるにはRails側の処理が必要
-                    // keyword: 'coffee'
-                    }
+                    },
+                    headers: {
+                        "access-token": authInfo["access-token"],
+                        "client": authInfo["client"],
+                        "uid": authInfo["uid"]
+        }
                 })
             return response.data.places};
 
 
 
 export const fetchCafesNearBookstore = async (lat, lng, type ='Cafe', keyword ='coffee') =>{
+   const authInfo = getAuthInfo()    
    const response = await axios.get('/api/v1/places', {
                     params: {
                     lat,
                     lng,            
                     type,
                     keyword,
-                    }})
+                    },
+                    headers: {
+                        "access-token": authInfo["access-token"],
+                        "client": authInfo["client"],
+                        "uid": authInfo["uid"]
+        }
+                })
                 return response.data.places}
 
 export const fetchPairs = async(lat, lng) =>{

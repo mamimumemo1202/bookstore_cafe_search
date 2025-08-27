@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { OpenMapAppButton } from '../search/OpenMapAppButton'
+import { LikeButton } from './LikeButton';
 
 
 export function CafeCard ({ 
@@ -32,6 +33,10 @@ export function CafeCard ({
                 onClick = { () =>handleCafeSelect(cafe)}>
                     {cafe.name}
               </h2>
+              <p><LikeButton
+                  placeId={cafe.place_id}
+                  type="Cafe"
+                  likeId={cafe.like_id}/></p>
 
               {openIds[cafe.id] && (
               <div 

@@ -1,4 +1,4 @@
-// TODO: 解除1->いいね->解除2をすると解除1のlike_idを送ってエラーがでる
+// TODO: 解除1->いいね->解除2をすると解除1のlike_idを送ってエラーがでる（本屋、カフェ共通）
 
 import { HeartIcon } from "@heroicons/react/24/solid"
 import { likePlace, unlikePlace } from "../../apis/places"
