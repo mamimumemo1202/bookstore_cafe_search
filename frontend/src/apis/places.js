@@ -61,6 +61,19 @@ export const fetchPairs = async(lat, lng) =>{
                 return null
 }
 
+export const fetchLikes = async () => {
+    const authInfo = getAuthInfo()
+
+    const res = await axios.get('/api/v1/likes', 
+        { headers: {
+            "access-token": authInfo["access-token"],
+            "client": authInfo["client"],
+            "uid": authInfo["uid"]
+        }})
+        console.log(res.data)
+    return res.data
+}
+
 export const likePlace = async(placeId, type) => {
     const authInfo = getAuthInfo()
 

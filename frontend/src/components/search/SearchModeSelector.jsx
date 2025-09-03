@@ -6,15 +6,6 @@ export function SearchModeSelector({setSearchMode, searchMode}){
             <input
             type="radio"
             name="searchMode"
-            value="pair"
-            checked={searchMode === "pair"}
-            onChange={(e)=>setSearchMode(e.target.value)}
-            />本屋とカフェ</label>
-
-            <label>
-            <input
-            type="radio"
-            name="searchMode"
             value="bookstore"
             checked={searchMode === "bookstore"}
             onChange={(e)=>setSearchMode(e.target.value)}

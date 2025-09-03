@@ -4,7 +4,12 @@ class Api::V1::LikesController < ApplicationController
 
 
     def index
+        liked_cafes = Like.where(user_id: current_api_v1_user.id, likeable_type: "Cafe").includes(:likeable).order(created_at: :desc)
+        liked_bookstores = Like.where(user_id: current_api_v1_user.id, likeable_type: "Bookstore").includes(:likeable).order(created_at: :desc)
 
+        render json: {
+            liked_cafes: liked_cafes.as_json(include: { likeable:{ only: [ :id, :place_id, :name ]}}),  
+            liked_bookstores: liked_bookstores.as_json(include: { likeable:{ only: [ :id, :place_id, :name ]}})}
     end
 
     def create
