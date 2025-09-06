@@ -7,7 +7,7 @@ export function CafeCard ({
     cafes,
     onSelectCafe,
     activeCafe,
-    onCafeClick
+    onClick
    }){
 
     const [openIds, setOpenIds] = useState({});
@@ -22,7 +22,7 @@ export function CafeCard ({
   const handleCafeSelect = (cafe) => {
     detailedToggle(cafe.place_id)
     onSelectCafe(cafe)
-    onCafeClick(cafe)
+    onClick(cafe)
   };
 
     return(
