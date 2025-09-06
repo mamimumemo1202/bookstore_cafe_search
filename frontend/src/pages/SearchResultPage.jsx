@@ -26,13 +26,29 @@ export function SearchResultsPage() {
     
     const navigate = useNavigate();
 
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const lat = Number(searchParams.get('lat'));
     const lng = Number(searchParams.get('lng'));
     const searchMode = searchParams.get('mode') ?? 'bookstore';
 
+    const onCafeClick = (activeCafe) => {
+        const p = new URLSearchParams(searchParams);
+        p.set("b_lat",activeBookstore.lat);
+        p.set("b_lng",activeBookstore.lng);
+        p.set("c_lat", activeCafe.lat);
+        p.set("c_lng", activeCafe.lng);
+        p.set("mode", "pair");
+        setSearchParams(p)
+    }
 
+    const onBookstoreClick = (activeBookstore) => {
+        const p = new URLSearchParams(searchParams);
+        p.set("b_lat",activeBookstore.lat);
+        p.set("b_lng",activeBookstore.lng);
+        p.set("mode", "bookstore");
+        setSearchParams(p)
+    }
 
 
     useEffect(()=>{
@@ -153,13 +169,14 @@ export function SearchResultsPage() {
                     setIsOpenCafeCard={setIsOpenCafeCard}
                     lat={lat}
                     lng={lng}
+                    onBookstoreClick={onBookstoreClick}
                     />
                 </div>
                 ) : (
                 
                 <div className = "">
                     {/* 書店セレクター */}            
-                    {searchMode === 'bookstore' && (            
+                    {searchMode === 'bookstore' || searchMode === "pair" && (            
                         <BookstoreSelector 
                         bookstores={bookstores}
                         onSelectBookstore={setActiveBookstore}
@@ -171,7 +188,8 @@ export function SearchResultsPage() {
                         <CafeCard
                         cafes={cafes}
                         onSelectCafe={setActiveCafe}
-                        activeCafe={activeCafe}/>
+                        activeCafe={activeCafe}
+                        onCafeClick= {onCafeClick}/>
                     </div>                    
                 </div>)}
         </div>

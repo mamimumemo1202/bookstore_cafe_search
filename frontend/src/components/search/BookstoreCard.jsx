@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import { OpenMapAppButton } from '../search/OpenMapAppButton'
 import { LikeButton } from './LikeButton';
 
@@ -7,7 +6,8 @@ import { LikeButton } from './LikeButton';
 export function BookstoreCard({ 
     bookstores,
     onSelectBookstore,
-    activeBookstore, }) {
+    activeBookstore,
+    onBookstoreClick }) {
 
   const [openIds, setOpenIds] = useState({});
 
@@ -21,6 +21,7 @@ export function BookstoreCard({
   const handleBookstoreSelect = (bookstore) => {
     detailedToggle(bookstore.place_id)
     onSelectBookstore(bookstore)
+    onBookstoreClick(bookstore)
     };
 
 
@@ -32,7 +33,7 @@ export function BookstoreCard({
         <div key={bookstore.place_id} 
         className={` rounded-r-xl shadow-sm p-4 ml-1 mb-1 ${activeBookstore?.place_id === bookstore.place_id? "border-l-5 border-primary-500 bg-primary-800 text-primary-50" : "text-primary-800 bg-primary-50 border-l-5 border-primary-300 "} `}>
           <h2 className="text-lg font-semibold  cursor-pointer"
-            onClick = { () =>handleBookstoreSelect(bookstore)}>
+            onClick = {() => handleBookstoreSelect(bookstore)}>
                 {bookstore.name}
           </h2>
           <p><LikeButton 

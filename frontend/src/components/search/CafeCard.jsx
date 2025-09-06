@@ -6,7 +6,8 @@ import { LikeButton } from './LikeButton';
 export function CafeCard ({ 
     cafes,
     onSelectCafe,
-    activeCafe
+    activeCafe,
+    onCafeClick
    }){
 
     const [openIds, setOpenIds] = useState({});
@@ -21,6 +22,7 @@ export function CafeCard ({
   const handleCafeSelect = (cafe) => {
     detailedToggle(cafe.place_id)
     onSelectCafe(cafe)
+    onCafeClick(cafe)
   };
 
     return(
@@ -30,7 +32,7 @@ export function CafeCard ({
           {cafes.map(cafe => (  
             <div key={cafe.place_id} className={`rounded-r-xl shadow-md p-4 mb-1 mr-1 ${activeCafe?.place_id === cafe.place_id? "border-l-5 border-primary-500 bg-primary-800 text-primary-50" : "text-primary-800 bg-primary-50 border-l-5 border-primary-300 "} `}>
               <h2 className="text-lg font-semibold cursor-pointer"
-                onClick = { () =>handleCafeSelect(cafe)}>
+                onClick = { () => handleCafeSelect(cafe)}>
                     {cafe.name}
               </h2>
               <p><LikeButton
