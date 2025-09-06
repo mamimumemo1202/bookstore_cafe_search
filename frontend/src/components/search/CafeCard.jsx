@@ -7,7 +7,7 @@ export function CafeCard ({
     cafes,
     onSelectCafe,
     activeCafe,
-    onClick
+    onClick,
    }){
 
     const [openIds, setOpenIds] = useState({});

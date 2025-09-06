@@ -32,12 +32,15 @@ export function SearchResultsPage() {
     const lng = Number(searchParams.get('lng'));
     const searchMode = searchParams.get('mode') ?? 'bookstore';
 
-    const onPairClick = (activeBookstore, activeCafe) => {
+    const onPairClick = (activeBookstore, cafe ) => {
+
+        setActiveCafe(cafe)
+        
         const p = new URLSearchParams(searchParams);
         p.set("b_lat", activeBookstore.lat);
         p.set("b_lng", activeBookstore.lng);
-        p.set("c_lat", activeCafe.lat);
-        p.set("c_lng", activeCafe.lng);
+        p.set("c_lat", cafe.lat);
+        p.set("c_lng", cafe.lng);
         p.set("mode", "pair");
         setSearchParams(p)
     }
@@ -58,6 +61,15 @@ export function SearchResultsPage() {
         setSearchParams(p)
     }
 
+
+    useEffect(() => {
+
+        if(!activeCafe && cafes.length > 0){
+        const first = cafes[0]
+        console.log(first)
+        setActiveCafe(first)}
+
+    },[cafes])
 
     useEffect(()=>{
         if(!lat || !lng) return;
@@ -197,7 +209,11 @@ export function SearchResultsPage() {
                         cafes={cafes}
                         onSelectCafe={setActiveCafe}
                         activeCafe={activeCafe}
-                        onClick={activeBookstore ? onPairClick : onCafeClick}/>
+                        onClick={(cafe) => {
+                            if(activeBookstore){
+                                onPairClick(activeBookstore, cafe)
+                            } else { 
+                                onCafeClick(cafe) }}}/>
                     </div>                    
                 </div>)}
         </div>
