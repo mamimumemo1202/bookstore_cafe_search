@@ -40,7 +40,7 @@ export function ForgotPasswordPage(){
 
             <button
             type="submit"
-            className="my-10 mx-5 p-2 rounded-full bg-green-400"
+            className="my-10 mx-5 p-2 rounded-full bg-primary-600 text-primary-50"
             disabled={submitting}>送信</button>
         </form>
         </>
