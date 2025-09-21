@@ -42,11 +42,12 @@ export function CafeCard ({
                   type="Cafe"
                   likeId={cafe.like_id}/></button>
 
+              {activeBookstore && 
               <button><LikePairButton
                   bookstorePlaceId={activeBookstore.place_id}
                   activeCafePlaceId={cafe.place_id}
-                  pairLikeId={cafe.pair_like_id}/></button>
-
+                  pairLikeId={cafe.pair_like_id}/></button>}
+              
               {openIds[cafe.id] && (
               <div 
               className={`${cafe.place_id === activeCafe?.place_id? "text-primary-50": "text-primary-800 "} h-6 w-6 rounded-full border p-1`}>
