@@ -63,7 +63,6 @@ export function LikeList({ likedPlaces }) {
             <ul key={like.id} className="rounded-r-xl shadow-md p-4 mb-1 mr-1 border-l-5 text-primary-800 bg-primary-50 border-l-5 border-primary-300 ">
                 <li className="flex justify-between">
                 <div className="text-lg font-semibold cursor-pointer">{like.likeable.id}</div>
-                {console.log(like.id, ":", like.likeable.cafe.place_id, like.likeable.bookstore.place_id)}
                 <button>
                     <LikePairButton
                     bookstorePlaceId={like.likeable.bookstore.place_id}
