@@ -1,4 +1,5 @@
 import { LikeButton } from "../search/LikeButton";
+import { LikePairButton } from "../search/LikePairButton"
 import { useModal } from "../contexts/ModalContext";
 import { SearchModal } from "../search/SearchModal";
 
@@ -53,6 +54,30 @@ export function LikeList({ likedPlaces }) {
         <div>いいねした本屋がありません</div>}
         </div>
         </div>
+
+        <div>
+        <div className="py-2">ペア</div>
+        <div className="grid grid-cols-1" >
+        {likedPlaces?.liked_pairs?.length > 0 ? 
+        likedPlaces?.liked_pairs?.map(like => (
+            <ul key={like.id} className="rounded-r-xl shadow-md p-4 mb-1 mr-1 border-l-5 text-primary-800 bg-primary-50 border-l-5 border-primary-300 ">
+                <li className="flex justify-between">
+                <div className="text-lg font-semibold cursor-pointer">{like.likeable.id}</div>
+                {console.log(like.id, ":", like.likeable.cafe.place_id, like.likeable.bookstore.place_id)}
+                <button>
+                    <LikePairButton
+                    bookstorePlaceId={like.likeable.bookstore.place_id}
+                    cafePlaceId={like.likeable.cafe.place_id}
+                    pairLikeId={like.id}/>
+                </button>
+                </li>
+            </ul>
+        ))
+        :
+        <div>いいねしたペアがありません</div>}
+        </div>
+        </div>
+
         </>
     )
 
