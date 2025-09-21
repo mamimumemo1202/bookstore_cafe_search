@@ -39,14 +39,14 @@ export const fetchCafes = async (lat, lng, type = 'Cafe') => {
 
 
 
-export const fetchCafesNearBookstore = async (lat, lng, type ='Cafe', keyword ='coffee') =>{
+export const fetchCafesNearBookstore = async (lat, lng, type, bookstore_place_id) =>{
    const authInfo = getAuthInfo()    
    const response = await axios.get('/api/v1/places', {
                     params: {
                     lat,
                     lng,            
                     type,
-                    keyword,
+                    bookstore_place_id
                     },
                     headers: {
                         "access-token": authInfo["access-token"],
@@ -99,4 +99,20 @@ export const unlikePlace = async(likeId) => {
             "uid": authInfo["uid"]
         }})
     return res.data.like
+}
+
+export const likePair = async(bookstorePlaceId, activeCafePlaceId) => {
+    const authInfo = getAuthInfo()
+
+    const res = await axios.post('/api/v1/likes', {
+        bookstore_place_id: bookstorePlaceId,
+        cafe_place_id: activeCafePlaceId,
+        type: "Pair" }, 
+        
+        { headers: {
+            "access-token": authInfo["access-token"],
+            "client": authInfo["client"],
+            "uid": authInfo["uid"]
+        }})
+    return res.data
 }

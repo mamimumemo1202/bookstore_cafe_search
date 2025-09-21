@@ -11,6 +11,7 @@ import { Header } from '../components/layout/Header';
 import { SearchModal } from '../components/search/SearchModal';
 import { useModal } from '../components/contexts/ModalContext';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
+import { likePair } from '../apis/places';
 
 
 
@@ -97,7 +98,7 @@ export function SearchResultsPage() {
     useEffect(()=>{
         if(searchMode === 'bookstore' && activeBookstore){
             const fetchPlaces = async()=>{
-                 const res = await fetchCafesNearBookstore(activeBookstore.lat, activeBookstore.lng)
+                 const res = await fetchCafesNearBookstore(activeBookstore.lat, activeBookstore.lng, "Cafe", activeBookstore.place_id)
                  setCafes(res)
             }
             fetchPlaces()
@@ -209,6 +210,7 @@ export function SearchResultsPage() {
                         cafes={cafes}
                         onSelectCafe={setActiveCafe}
                         activeCafe={activeCafe}
+                        activeBookstore={activeBookstore}
                         onClick={(cafe) => {
                             if(activeBookstore){
                                 onPairClick(activeBookstore, cafe)

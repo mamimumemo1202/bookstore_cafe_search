@@ -4,6 +4,8 @@ class Api::V1::PlacesController < ApplicationController
       lat = params[:lat]
       lng = params[:lng]
       type = params[:type]
+      bookstore_pid = params[:bookstore_place_id]
+
   
       # PlaceAPIから周辺の施設の情報を取得する
       client = GooglePlacesClient.new
@@ -16,6 +18,9 @@ class Api::V1::PlacesController < ApplicationController
       # PlaceAPIから取得した情報に自身のいいねの情報を加える
       place_ids = places.map { |p| p[:place_id] }
       like_map = current_api_v1_user ? get_like_ids(type, place_ids, current_api_v1_user) : {} 
+      pair_like_map =
+      if current_api_v1_user && bookstore_pid.present? && type.to_s.downcase == "cafe"
+        get_pair_ids(bookstore_pid, place_ids, current_api_v1_user) else {} end
       
 
       payload = places.map do |p|
@@ -27,8 +32,8 @@ class Api::V1::PlacesController < ApplicationController
         name:         p[:name],
         address:      p[:formatted_address],
         likes_count:  0,
-        liked:        lid.present?,
         like_id:      lid,
+        pair_like_id: pair_like_map[pid],
         lat:          p[:lat],
         lng:          p[:lng]
       }
@@ -79,6 +84,29 @@ class Api::V1::PlacesController < ApplicationController
         result = ids.transform_values { |bookstore_id| likes[bookstore_id] }
 
       else {}
+      end
     end
-  end
+
+    # cafeのplace_id -> cafe_id -> pair_id(bookstore_id, cafe_id) -> like_id
+    def get_pair_ids(bookstore_pid, cafe_pids, user)
+      return {} if cafe_pids.blank?
+
+      bookstore = Bookstore.find_by(place_id: bookstore_pid)
+
+      cafe_pid_to_id = Cafe.where(place_id: cafe_pids).pluck(:place_id, :id).to_h
+      cafe_ids = cafe_pid_to_id.values
+
+      cafe_id_to_pair_id = Pair.where(bookstore_id: bookstore.id, cafe_id: cafe_ids)
+                          .pluck(:cafe_id, :id).to_h
+      pair_ids = cafe_id_to_pair_id.values
+
+      pair_id_to_like_id = Like.where(user_id: user.id, likeable_type: "Pair", likeable_id: pair_ids)
+                          .pluck(:likeable_id, :id).to_h
+      
+      cafe_pids.index_with do |pid|
+        cafe_id = cafe_pid_to_id[pid]
+        pair_id = cafe_id_to_pair_id[cafe_id]
+        pair_id_to_like_id[pair_id]
+      end
+    end
 end
