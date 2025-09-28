@@ -42,7 +42,7 @@ class GooglePlacesClient
         query: {
             place_id: place_id,
             key: @api_key,
-            fields: 'name,geometry',
+            fields: 'name,geometry,photo',
             language: 'ja'
         }
     }
@@ -67,7 +67,8 @@ class GooglePlacesClient
         name: place["name"],
         lat: place.dig("geometry", "location", "lat"),
         lng: place.dig("geometry", "location", "lng"),
-        vicinity: place["vicinity"] # これは詳細の住所ではない
+        vicinity: place["vicinity"], # これは詳細の住所ではない
+        photo_ref: place.dig("photos", 0, "photo_reference")
       }
     end
   end
@@ -77,7 +78,9 @@ class GooglePlacesClient
       place_id: place_id,
       name: place["name"],
       lat: place.dig("geometry", "location", "lat"),
-      lng: place.dig("geometry", "location", "lng")
+      lng: place.dig("geometry", "location", "lng"),
+      # TODO: テスト用に一枚目を取得
+      photo_ref: place.dig("photos", 0, "photo_reference")
     }
   end
 end

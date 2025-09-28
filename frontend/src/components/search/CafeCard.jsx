@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { OpenMapAppButton } from '../search/OpenMapAppButton'
 import { LikeButton } from './LikeButton';
 import { LikePairButton } from './LikePairButton';
+import { getPlacePhotoUrl } from '../../lib/placePhoto';
 
 
 export function CafeCard ({ 
     cafes,
     onSelectCafe,
-    activeCafe,
+    activeBookstore,
     onClick,
-    activeBookstore
+    activecafe
    }){
 
     const [openIds, setOpenIds] = useState({});
@@ -27,41 +28,66 @@ export function CafeCard ({
     onClick(cafe)
   };
 
-    return(
-      <>
-      {/* TODO: クリック時のカードのスタイルおよびカード自体のデザインの改変 */}
+    return (
+        <>
+        {/* TODO: クリック時のカードのスタイルおよびカード自体のデザインの改変 */}
         <div className="grid grid-cols-1">
           {cafes.map(cafe => (  
-            <div key={cafe.place_id} className={`rounded-r-xl shadow-md p-4 mb-1 mr-1 ${activeCafe?.place_id === cafe.place_id? "border-l-5 border-primary-500 bg-primary-800 text-primary-50" : "text-primary-800 bg-primary-50 border-l-5 border-primary-300 "} `}>
-              <h2 className="text-lg font-semibold cursor-pointer"
-                onClick = { () => handleCafeSelect(cafe)}>
+            <div key={cafe.place_id} 
+              className={` rounded-r-xl shadow-sm ml-1 mb-1 ${activecafe?.place_id === cafe.place_id? "border-l-5 border-primary-500 bg-primary-800 text-primary-50" : "text-primary-800 bg-primary-50 border-l-5 border-primary-300 "} `}
+              onClick = {() => handleCafeSelect(cafe)}>
+              
+              {/* 左サムネ + 右テキスト */}          
+              <div className="flex items-start gap-3">
+                {/* サムネ（正方形） */}
+                <div className="shrink-0 overflow-hidden rounded-r-md ">
+                <img
+                src={getPlacePhotoUrl(cafe.photo_ref)}
+                alt="No image"
+                loading="eager"
+                className="w-17 h-17 object-cover"
+                />
+                </div>
+                {/* 本文といいね */}
+                <div className="flex items-center justify-between gap-3 p-1">
+                <h2 className="text-lg font-semibold cursor-pointer "
+                >
                     {cafe.name}
-              </h2>
-              <button><LikeButton
+                </h2>
+    
+              <LikeButton 
                   placeId={cafe.place_id}
                   type="Cafe"
-                  likeId={cafe.like_id}/></button>
-
+                  likeId={cafe.like_id}
+              />
               {activeBookstore && 
               <button><LikePairButton
                   bookstorePlaceId={activeBookstore.place_id}
                   activeCafePlaceId={cafe.place_id}
                   pairLikeId={cafe.pair_like_id}/></button>}
+
+              </div>
+              </div>
+    
+              {/* {openIds[cafe.place_id] && (
+                <div 
+                className={`${cafe.place_id === activecafe?.place_id? "text-primary-50": "text-primary-800 "} h-6 w-6 rounded-full border p-1`}>
+                  <OpenMapAppButton 
+                  place={cafe}/>
+                </div>
+              )} */}
               
-              {openIds[cafe.id] && (
-              <div 
-              className={`${cafe.place_id === activeCafe?.place_id? "text-primary-50": "text-primary-800 "} h-6 w-6 rounded-full border p-1`}>
-              <OpenMapAppButton 
-              place={cafe}/>
-              </div>                
-              // <div className="text-sm text-gray-600 mt-2">
-              //     {cafe.vicinity}
-              // </div>
-                
-              )}
+    
+              {/* {openIds[cafe.id] && (
+                <div className="text-sm mt-2">
+                    {cafe.vicinity}
+                </div>
+              )} */}
             </div>
           ))}
+    
         </div>
-      </>
-    )
-} 
+        </>
+      );
+    }
+    

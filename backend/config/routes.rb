@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
       resources :likes, only: [ :index, :create, :destroy]
 
+      get '/photos', to: 'photos#show'
+
     end
   end
 end

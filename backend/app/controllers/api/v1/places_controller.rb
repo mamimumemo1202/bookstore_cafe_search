@@ -35,7 +35,8 @@ class Api::V1::PlacesController < ApplicationController
         like_id:      lid,
         pair_like_id: pair_like_map[pid],
         lat:          p[:lat],
-        lng:          p[:lng]
+        lng:          p[:lng],
+        photo_ref:    p[:photo_ref]
       }
       end
       
