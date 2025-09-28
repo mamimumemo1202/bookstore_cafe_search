@@ -42,9 +42,9 @@ class GooglePlacesClient
         query: {
             place_id: place_id,
             key: @api_key,
-            fields: 'name,geometry,photo',
+            fields: ['name', 'geometry', 'photo', 'business_status', 'website', 'rating', 'reviews', "formatted_address"],
             language: 'ja'
-        }
+          }
     }
     response = self.class.get('/details/json', options)
     
@@ -80,7 +80,12 @@ class GooglePlacesClient
       lat: place.dig("geometry", "location", "lat"),
       lng: place.dig("geometry", "location", "lng"),
       # TODO: テスト用に一枚目を取得
-      photo_ref: place.dig("photos", 0, "photo_reference")
+      photo_ref: place.dig("photos", 0, "photo_reference"),
+      business_status: place["business_status"],
+      website:place["website"],
+      rating:place["rating"],
+      reviews:place.dig("reviews", 0,),
+      formatted_address:place["formatted_address"]
     }
   end
 end

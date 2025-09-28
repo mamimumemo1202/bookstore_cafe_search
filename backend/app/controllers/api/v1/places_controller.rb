@@ -30,7 +30,7 @@ class Api::V1::PlacesController < ApplicationController
       {
         place_id:     p[:place_id],
         name:         p[:name],
-        address:      p[:formatted_address],
+        address:      p[:vicinity],
         likes_count:  0,
         like_id:      lid,
         pair_like_id: pair_like_map[pid],

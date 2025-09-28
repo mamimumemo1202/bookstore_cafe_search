@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { OpenMapAppButton } from '../search/OpenMapAppButton'
 import { LikeButton } from './LikeButton';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
+import { PlaceDetailCard } from './PlaceDetailCard';
 
 
 
@@ -60,8 +61,16 @@ export function BookstoreCard({
               type="Bookstore"
               likeId={bookstore.like_id}
           />
+          
           </div>
           </div>
+
+          {openIds[bookstore.place_id] && (
+          <div className="px-1 pb-2">
+            <PlaceDetailCard
+            variant="bookstore"
+            placeId={bookstore.place_id}/>
+            </div>)}
 
           {/* {openIds[bookstore.place_id] && (
             <div 

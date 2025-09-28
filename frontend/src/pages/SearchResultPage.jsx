@@ -67,7 +67,6 @@ export function SearchResultsPage() {
 
         if(!activeCafe && cafes.length > 0){
         const first = cafes[0]
-        console.log(first)
         setActiveCafe(first)}
 
     },[cafes])
