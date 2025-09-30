@@ -34,7 +34,7 @@ export function FooterNavigation(){
                 onClick={ () => {
                     isLoggedIn? navigate('/mypage') : navigate('/auth')
                 }}/>
-                <p>プロフィール</p>
+                <p>マイページ</p>
             </button>
         </div>
     )
