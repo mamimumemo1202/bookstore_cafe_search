@@ -42,7 +42,7 @@ class GooglePlacesClient
         query: {
             place_id: place_id,
             key: @api_key,
-            fields: ['name', 'geometry', 'photo', 'business_status', 'website', 'rating', 'reviews', "formatted_address"],
+            fields: ['name', 'geometry', 'photo', 'business_status', 'website', 'rating', 'reviews', "formatted_address", "address_components", "opening_hours"],
             language: 'ja'
           }
     }
@@ -85,7 +85,17 @@ class GooglePlacesClient
       website:place["website"],
       rating:place["rating"],
       reviews:place.dig("reviews", 0,),
-      formatted_address:place["formatted_address"]
+      address:format_address(place["formatted_address"]),
+      open_now:place.dig("opening_hours", "open_now"),
+      opening_hours:place.dig("opening_hours","weekday_text"),
     }
+  end
+
+  def format_address(addr)
+    addr = addr.sub(/\s*〒?\d{3}-?\d{4}\s*/, '')
+    p addr
+    addr = addr.sub(/\A\s*日本[、,\s]*/, '')
+    p addr
+    addr = addr.squish
   end
 end

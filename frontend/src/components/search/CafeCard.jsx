@@ -3,6 +3,7 @@ import { OpenMapAppButton } from '../search/OpenMapAppButton'
 import { LikeButton } from './LikeButton';
 import { LikePairButton } from './LikePairButton';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
+import { PlaceDetailCard } from './PlaceDetailCard';
 
 
 export function CafeCard ({ 
@@ -38,56 +39,47 @@ export function CafeCard ({
               onClick = {() => handleCafeSelect(cafe)}>
               
               {/* 左サムネ + 右テキスト */}          
-              <div className="flex items-start gap-3">
-                {/* サムネ（正方形） */}
-                <div className="shrink-0 overflow-hidden rounded-r-md ">
-                <img
-                src={getPlacePhotoUrl(cafe.photo_ref)}
-                alt="No image"
-                loading="eager"
-                className="w-17 h-17 object-cover"
-                />
-                </div>
-                {/* 本文といいね */}
-                <div className="flex items-center justify-between gap-3 p-1">
-                <h2 className="text-lg font-semibold cursor-pointer "
-                >
-                    {cafe.name}
-                </h2>
-    
-              <LikeButton 
-                  placeId={cafe.place_id}
-                  type="Cafe"
-                  likeId={cafe.like_id}
-              />
-              {activeBookstore && 
+          <div className="flex items-start gap-3">
+            {/* サムネ（正方形） */}
+            <div className="shrink-0 overflow-hidden rounded-r-md ">
+            <img
+            src={getPlacePhotoUrl(cafe.photo_ref)}
+            alt="No image"
+            loading="eager"
+            className="w-17 h-17 object-cover"
+            />
+            </div>
+            {/* 本文といいね */}
+            <div className="flex items-center justify-between gap-3 p-1">
+            <h2 className="text-lg font-semibold cursor-pointer "
+            >
+                {cafe.name}
+            </h2>
+
+          <LikeButton 
+              placeId={cafe.place_id}
+              type="cafe"
+              likeId={cafe.like_id}
+          />
+
+          {activeBookstore && 
               <button><LikePairButton
                   bookstorePlaceId={activeBookstore.place_id}
                   activeCafePlaceId={cafe.place_id}
-                  pairLikeId={cafe.pair_like_id}/></button>}
+                  pairLikeId={cafe.pair_like_id}/>
+              </button>}
+          </div>
+          </div>
 
-              </div>
-              </div>
-    
-              {/* {openIds[cafe.place_id] && (
-                <div 
-                className={`${cafe.place_id === activecafe?.place_id? "text-primary-50": "text-primary-800 "} h-6 w-6 rounded-full border p-1`}>
-                  <OpenMapAppButton 
-                  place={cafe}/>
-                </div>
-              )} */}
-              
-    
-              {/* {openIds[cafe.id] && (
-                <div className="text-sm mt-2">
-                    {cafe.vicinity}
-                </div>
-              )} */}
-            </div>
-          ))}
-    
+          {openIds[cafe.place_id] && (
+          <div className="px-1 pb-2">
+            <PlaceDetailCard
+            placeId={cafe.place_id}/>
+            </div>)}
         </div>
-        </>
-      );
-    }
-    
+      ))}
+
+    </div>
+    </>
+  );
+}

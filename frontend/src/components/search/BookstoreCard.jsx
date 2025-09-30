@@ -68,24 +68,8 @@ export function BookstoreCard({
           {openIds[bookstore.place_id] && (
           <div className="px-1 pb-2">
             <PlaceDetailCard
-            variant="bookstore"
             placeId={bookstore.place_id}/>
             </div>)}
-
-          {/* {openIds[bookstore.place_id] && (
-            <div 
-            className={`${bookstore.place_id === activeBookstore?.place_id? "text-primary-50": "text-primary-800 "} h-6 w-6 rounded-full border p-1`}>
-              <OpenMapAppButton 
-              place={bookstore}/>
-            </div>
-          )} */}
-          
-
-          {/* {openIds[bookstore.id] && (
-            <div className="text-sm mt-2">
-                {bookstore.vicinity}
-            </div>
-          )} */}
         </div>
       ))}
 
