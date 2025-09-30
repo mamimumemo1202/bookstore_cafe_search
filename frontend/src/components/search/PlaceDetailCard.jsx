@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchPlaceDetails } from "../../apis/places"
 import { MapPinIcon, GlobeAsiaAustraliaIcon, ClockIcon, ChevronDownIcon, ChevronUpIcon, StarIcon } from "@heroicons/react/24/outline"
+import noImage from "../../assets/no-image.png"
 
 export function PlaceDetailCard({ placeId }) {
     const[place, setPlace] = useState(false)
@@ -18,6 +19,12 @@ export function PlaceDetailCard({ placeId }) {
     return (
       <>
         <div className="flex flex-col p-2">
+            <div className="flex gap-3 py-5">
+            <img src={noImage} alt="No image" className="w-32 h-auto" />
+            <img src={noImage} alt="No image" className="w-32 h-auto" />
+            <img src={noImage} alt="No image" className="w-32 h-auto" />
+            </div>
+
             <div className="flex gap-1">
                 <MapPinIcon className="h-6 w-6"/>{place.address}
             </div>
