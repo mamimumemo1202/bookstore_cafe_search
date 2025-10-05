@@ -25,7 +25,7 @@ class GooglePlacesClient
         language: 'ja'
       }
     }
-# self = インスタンス自身 .class = そのクラス（=GooglePlacesClient） クラスが持っているGETメソッドを使うために明記
+
     response = self.class.get('/nearbysearch/json', options)
 
     unless response.success?
