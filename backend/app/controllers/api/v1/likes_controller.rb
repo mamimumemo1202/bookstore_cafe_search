@@ -22,15 +22,15 @@ class Api::V1::LikesController < ApplicationController
     end
 
     def create
-        case params[:type] # = likeable_type
+        case params[:type].to_s.downcase # = likeable_type
 
-        when "Cafe"
+        when "cafe"
             target = Cafe.find_or_create_by!(place_id: params[:place_id])
 
-        when "Bookstore"
+        when "bookstore"
             target = Bookstore.find_or_create_by!(place_id: params[:place_id])
 
-        when "Pair"
+        when "pair"
             b = Bookstore.find_or_create_by!(place_id: params[:bookstore_place_id])
             c = Cafe.find_or_create_by!(place_id: params[:cafe_place_id])
             target = Pair.find_or_create_by!(bookstore: b, cafe: c)

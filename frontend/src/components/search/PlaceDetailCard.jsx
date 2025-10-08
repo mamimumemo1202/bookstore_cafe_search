@@ -60,7 +60,7 @@ export function PlaceDetailCard({ placeId }) {
             {openToggle && (
                 <div className="mt-2 text-sm">
                     {place?.opening_hours? 
-                    place?.opening_hours.map((h, i) =>(
+                    place?.opening_hours["weekday_text"].map((h, i) =>(
                         <div key={i}>　　{h}</div>))
                     :
                     <div className="text-primary-400">営業時間情報がありません</div>}
