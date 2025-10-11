@@ -8,6 +8,8 @@ class Api::V1::LikesController < ApplicationController
         liked_bookstores = Like.where(user_id: current_api_v1_user.id, likeable_type: "Bookstore").includes(:likeable).order(created_at: :desc)
         liked_pairs = Like.where(user_id: current_api_v1_user.id, likeable_type: "Pair").includes(:likeable).order(created_at: :desc)
 
+# TODO: LikeにあるPlaceidを引っ張ってきて、そのIDでAPIに問い合わせ
+# placesC -> placeClient, likeC -> placeClientでそれぞれ呼び出す
 
         render json: {
             liked_cafes: liked_cafes.as_json(include: { likeable:{ only: [ :id, :place_id, :name ]}}),  

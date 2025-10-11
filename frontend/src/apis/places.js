@@ -27,7 +27,6 @@ export const fetchCafes = async (lat, lng, type = 'Cafe') => {
                     lat,
                     lng,
                     type,
-                    // TODO: keywordを反映させるにはRails側の処理が必要
                     },
                     headers: {
                         "access-token": authInfo["access-token"],
@@ -81,7 +80,6 @@ export const fetchLikes = async () => {
             "client": authInfo["client"],
             "uid": authInfo["uid"]
         }})
-        console.log(res.data)
     return res.data
 }
 
