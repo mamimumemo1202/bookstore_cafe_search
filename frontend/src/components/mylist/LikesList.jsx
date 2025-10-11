@@ -5,7 +5,7 @@ import { SearchModal } from "../search/SearchModal";
 import { useState } from "react";
 import { PlaceDetailCard } from "../search/PlaceDetailCard";
 
-export function LikeList({ likedPlaces }) {
+export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }) {
     const { isOpenModal, closeModal } = useModal();
     const [openId, setOpenId] = useState(null);
 
@@ -21,13 +21,13 @@ export function LikeList({ likedPlaces }) {
         <div>
         <div className="py-2">カフェ</div>
         <div className="grid grid-cols-1" >
-        {likedPlaces?.liked_cafes?.length > 0 ? 
-        likedPlaces?.liked_cafes?.map(like => (
+        {cafes?.length > 0 ? 
+        cafes?.map(like => (
             <ul key={like.id} 
             className="rounded-r-xl shadow-md p-4 mb-1 mr-1 border-l-5 text-primary-800 bg-primary-50 border-l-5 border-primary-300 "
             onClick={()=>{handleDetailToggle(like.id)}}>
                 <li className="flex justify-between">
-                <div className="text-lg font-semibold cursor-pointer">{like.likeable.name}</div>
+                <div className="text-lg font-semibold cursor-pointer">{placeDetails[like.likeable?.place_id].name}</div>
                 <button>
                     <LikeButton
                     placeId={like.likeable.place_id}
@@ -37,7 +37,7 @@ export function LikeList({ likedPlaces }) {
 
                 {openId === like.id && 
                 <PlaceDetailCard
-                placeId={like.likeable.place_id}/>}
+                placeId={like.place_id}/>}
                 </li>
             </ul>
         ))
@@ -49,23 +49,23 @@ export function LikeList({ likedPlaces }) {
         <div>
         <div className="py-2" >本屋</div>
         <div className="grid grid-cols-1" >
-        {likedPlaces?.liked_bookstores?.length > 0 ? 
-        likedPlaces?.liked_bookstores?.map(like => (
+        {bookstores?.length > 0 ? 
+        bookstores?.map(like => (
             <ul key={like.id} 
             className="rounded-r-xl shadow-md p-4 mb-1 mr-1 border-l-5 text-primary-800 bg-primary-50 border-l-5 border-primary-300 "
             onClick={()=>{handleDetailToggle(like.id)}}>
                 <li className="flex justify-between">
-                <div className="text-lg font-semibold cursor-pointer">{like.likeable.name}</div>
+                <div className="text-lg font-semibold cursor-pointer">{placeDetails[like.likeable?.place_id].name}</div>
                 <button>
                     <LikeButton
-                    placeId={like.likeable.place_id}
+                    placeId={like.likeable?.place_id}
                     type= "Bookstore"
                     likeId={like.id}/>
                 </button>
 
                 {openId === like.id && 
                 <PlaceDetailCard
-                placeId={like.likeable.place_id}/>}
+                placeId={like.place_id}/>}
                 </li>
             </ul>
         ))
@@ -77,12 +77,12 @@ export function LikeList({ likedPlaces }) {
         <div>
         <div className="py-2">ペア</div>
         <div className="grid grid-cols-1" >
-        {likedPlaces?.liked_pairs?.length > 0 ? 
-        likedPlaces?.liked_pairs?.map(like => (
+        {pairs.length > 0 ? 
+        pairs.map(like => (
             <ul key={like.id} className="rounded-r-xl shadow-md p-4 mb-1 mr-1 border-l-5 text-primary-800 bg-primary-50 border-l-5 border-primary-300 "
             onClick={()=>{handleDetailToggle(like.id)}}>
                 <li className="flex justify-between">
-                <div className="text-lg font-semibold cursor-pointer">{like.likeable.id}</div>
+                <div className="text-lg font-semibold cursor-pointer">{like.id}</div>
                 <button>
                     <LikePairButton
                     bookstorePlaceId={like.likeable.bookstore.place_id}
