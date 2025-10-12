@@ -59,6 +59,7 @@ class GooglePlacesClient
 
   # カードのサムネに名前と住所を表示する情報を返す
       def fetch_place_details_bulk(place_ids)
+        
       return [] if place_ids.empty?
 
       fields = %w[place_id name formatted_address geometry/location photos].join(',')
