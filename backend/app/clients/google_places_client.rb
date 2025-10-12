@@ -39,7 +39,7 @@ class GooglePlacesClient
   # 検索窓で検索したときにURLのlat, lngを返す
   def fetch_place_geometry(place_id)
 
-    fields = %w[ geometry/location].join(",")
+    fields = %w[ geometry/location ].join(",")
 
     options = {
         query: {
@@ -56,7 +56,6 @@ class GooglePlacesClient
         raise "Google Places API request failed"
     end
     
-    p response
     response.parsed_response["result"]
   end
 
@@ -67,7 +66,7 @@ class GooglePlacesClient
         query: {
             place_id: place_id,
             key: @api_key,
-            fields: [ "name", "geometry", "business_status", "website", "rating", "reviews", "formatted_address", "address_components", "opening_hours" ],
+            fields: [ "name", "geometry", "photos", "business_status", "website", "rating", "reviews", "formatted_address", "address_components", "opening_hours" ],
             language: "ja"
           }
     }
@@ -79,6 +78,10 @@ class GooglePlacesClient
     end
 
     res = response.parsed_response["result"]
+    if res.is_a?(Hash) && res.key?("photos")
+      res["photos"] = Array(res["photos"]).first(3)
+    end
+    res
   end
 
       # カードのサムネに名前と住所を表示する情報を返す
