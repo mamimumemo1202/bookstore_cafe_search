@@ -4,6 +4,7 @@ import { useModal } from "../contexts/ModalContext";
 import { SearchModal } from "../search/SearchModal";
 import { useState } from "react";
 import { PlaceDetailCard } from "../search/PlaceDetailCard";
+import { getPlacePhotoUrl } from "../../lib/placePhoto";
 
 export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }) {
     const { isOpenModal, closeModal } = useModal();
@@ -27,6 +28,14 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
             className="rounded-r-xl shadow-md p-4 mb-1 mr-1 border-l-5 text-primary-800 bg-primary-50 border-l-5 border-primary-300 "
             onClick={()=>{handleDetailToggle(like.id)}}>
                 <li className="flex justify-between">
+                <div className="shrink-0 overflow-hidden rounded-r-md ">
+                    <img
+                    src={getPlacePhotoUrl(placeDetails[like.likeable?.place_id].photo_ref)}
+                    alt="No image"
+                    loading="eager"
+                    className="w-17 h-17 object-cover"
+                    />
+                </div>
                 <div className="text-lg font-semibold cursor-pointer">{placeDetails[like.likeable?.place_id].name}</div>
                 <button>
                     <LikeButton
@@ -34,11 +43,12 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
                     type= "Cafe"
                     likeId={like.id}/>
                 </button>
+                </li>
 
                 {openId === like.id && 
                 <PlaceDetailCard
-                placeId={like.place_id}/>}
-                </li>
+                placeId={like.likeable?.place_id}/>}
+                
             </ul>
         ))
         :
@@ -55,6 +65,14 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
             className="rounded-r-xl shadow-md p-4 mb-1 mr-1 border-l-5 text-primary-800 bg-primary-50 border-l-5 border-primary-300 "
             onClick={()=>{handleDetailToggle(like.id)}}>
                 <li className="flex justify-between">
+                <div className="shrink-0 overflow-hidden rounded-r-md ">
+                    <img
+                    src={getPlacePhotoUrl(placeDetails[like.likeable?.place_id].photo_ref)}
+                    alt="No image"
+                    loading="eager"
+                    className="w-17 h-17 object-cover"
+                    />
+                </div>
                 <div className="text-lg font-semibold cursor-pointer">{placeDetails[like.likeable?.place_id].name}</div>
                 <button>
                     <LikeButton
@@ -62,11 +80,12 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
                     type= "Bookstore"
                     likeId={like.id}/>
                 </button>
+                </li>
 
                 {openId === like.id && 
                 <PlaceDetailCard
-                placeId={like.place_id}/>}
-                </li>
+                placeId={like.likeable?.place_id}/>}
+                
             </ul>
         ))
         :
@@ -87,7 +106,7 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
                     <LikePairButton
                     bookstorePlaceId={like.likeable.bookstore.place_id}
                     cafePlaceId={like.likeable.cafe.place_id}
-                    pairLikeId={like.id}/>
+                    pairLikeId={like.likeable.id}/>
                 </button>
 
                 {/*TODO: ペアは独自の詳細を表示 */}
