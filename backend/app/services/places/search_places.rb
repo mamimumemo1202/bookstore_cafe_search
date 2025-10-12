@@ -4,15 +4,14 @@ module Places
             client = ::GooglePlacesClient.new
             raw = client.search_nearby(lat: lat, lng: lng, type: type)
             places = Places::Normalize.normalize_nearby_results(raw["results"])
-            
+
 
             Places::BuildPayload.call(
-                places: places, 
+                places: places,
                 bookstore_pid: bookstore_pid,
-                user: user, 
+                user: user,
                 type: type
             )
         end
     end
 end
-    

@@ -2,13 +2,13 @@
 
 class User < ActiveRecord::Base
   has_many :likes, dependent: :destroy
-  
+
   before_validation :grant_name, on: :create
 
   validates :name, presence: true
 
   # Include default devise modules. Others available are:
-  #:lockable, :timeoutable, :trackable and :omniauthable
+  # :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User

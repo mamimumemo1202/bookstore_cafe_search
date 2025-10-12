@@ -8,12 +8,11 @@ class Api::V1::PlacesController < ApplicationController
       user: current_api_v1_user
     )
 
-    render json: {places: payload}
+    render json: { places: payload }
 
     rescue => e
     Rails.logger.error(e.message)
     render json: { error: "Nearby search failed" }, status: :internal_server_error
-    
   end
 
   def show
@@ -29,19 +28,18 @@ class Api::V1::PlacesController < ApplicationController
       render json: { error: "Place details fetch failed" }, status: :internal_server_error
     end
 
-    def get_details_bulk  
-
+    def get_details_bulk
       place_ids = Array(params[:place_ids])
-      return render json:{ error: "place_ids required"}, status: :bad_request if place_ids.empty?
+      return render json: { error: "place_ids required" }, status: :bad_request if place_ids.empty?
 
 
       client = ::GooglePlacesClient.new
       details_bulk = client.fetch_place_details_bulk(place_ids)
 
-      render json:{details_bulk: details_bulk}
+      render json: { details_bulk: details_bulk }
 
       rescue => e
         Rails.logger.error("[places#details] #{e.class}: #{e.message}")
         render json: { error: "details_bulk failed" }, status: :internal_server_error
     end
-end     
+end

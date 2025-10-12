@@ -1,23 +1,21 @@
 # Places::Normalizeで整形したデータにいいねの情報を加える({place_id => like_id})
 module Likes
     class Lookup
-        
         def self.call(user:, type:, place_ids:)
             return {} if user.blank? || place_ids.blank?
 
-            model = 
+            model =
             case type.to_s.downcase
-                when "cafe" then Cafe
-                when "bookstore" then Bookstore
-            else return place_ids.index_with{nil}
+            when "cafe" then Cafe
+            when "bookstore" then Bookstore
+            else return place_ids.index_with { nil }
             end
 
             ids = model.where(place_id: place_ids).pluck(:place_id, :id).to_h
-            likes = Like.where(user: user, likeable_type: "#{type.to_s}", likeable_id: ids.values).pluck(:likeable_id, :id).to_h
+            likes = Like.where(user: user, likeable_type: "#{type}", likeable_id: ids.values).pluck(:likeable_id, :id).to_h
 
-            place_ids.index_with{|pid| likes[ ids[pid] ]}
+            place_ids.index_with { |pid| likes[ids[pid]] }
         end
-
     end
 end
 

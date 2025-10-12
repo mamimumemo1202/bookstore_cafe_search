@@ -15,7 +15,7 @@ module Pairs
 
             pair_id_to_like_id = Like.where(user_id: user.id, likeable_type: "Pair", likeable_id: pair_ids)
                                 .pluck(:likeable_id, :id).to_h
-            
+
             cafe_pids.index_with do |pid|
                 cafe_id = cafe_pid_to_id[pid]
                 pair_id = cafe_id_to_pair_id[cafe_id]
@@ -24,5 +24,3 @@ module Pairs
         end
     end
 end
-
-

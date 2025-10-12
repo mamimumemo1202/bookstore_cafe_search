@@ -1,6 +1,6 @@
 class Api::V1::LikesController < ApplicationController
     before_action :authenticate_api_v1_user!
-        
+
 
 
     def index
@@ -9,22 +9,21 @@ class Api::V1::LikesController < ApplicationController
         liked_pairs = Like.where(user_id: current_api_v1_user.id, likeable_type: "Pair").includes(:likeable).order(created_at: :desc)
 
 
-        
-            cafes = liked_cafes.as_json(include: { likeable:{ only: [ :id, :place_id]}})
 
-            bookstores = liked_bookstores.as_json(include: { likeable:{ only: [ :id, :place_id ]}})
+            cafes = liked_cafes.as_json(include: { likeable: { only: [ :id, :place_id ] } })
+
+            bookstores = liked_bookstores.as_json(include: { likeable: { only: [ :id, :place_id ] } })
 
             pairs = liked_pairs.as_json(include: {
-                                            likeable:{
-                                                only: [:id], 
+                                            likeable: {
+                                                only: [ :id ],
                                                 include: {
-                                                    bookstore: {only:[:id, :place_id]},
-                                                    cafe: {only:[:id, :place_id]}}}})
+                                                    bookstore: { only: [ :id, :place_id ] },
+                                                    cafe: { only: [ :id, :place_id ] } } } })
 
             likes = (cafes + bookstores + pairs).sort_by { |l| l["created_at"] }.reverse
 
-            render json: {liked_places: likes} 
-                    
+            render json: { liked_places: likes }
     end
 
     def create
@@ -41,13 +40,13 @@ class Api::V1::LikesController < ApplicationController
             c = Cafe.find_or_create_by!(place_id: params[:cafe_place_id])
             target = Pair.find_or_create_by!(bookstore: b, cafe: c)
 
-        else return render json: {error: "invalid type" }, status: :bad_request
+        else return render json: { error: "invalid type" }, status: :bad_request
         end
 
 
-    # (likeable: target)はlikeable_type, likeable_idを期待する
+        # (likeable: target)はlikeable_type, likeable_idを期待する
         like = Like.find_or_create_by!(user: current_api_v1_user, likeable: target)
-        render json: {likes_count: target.reload.likes_count, like_id: like.id}
+        render json: { likes_count: target.reload.likes_count, like_id: like.id }
 
         rescue => e
             Rails.logger.error(e.message)
@@ -62,7 +61,6 @@ class Api::V1::LikesController < ApplicationController
         target = like.likeable
         like.destroy
         render json: { likes_count: target.reload.likes_count }
-
     end
 
     rescue => e
@@ -70,5 +68,4 @@ class Api::V1::LikesController < ApplicationController
       render json: { error: "Unauthrized" }, status: :unauthrized
 
     private
-
 end

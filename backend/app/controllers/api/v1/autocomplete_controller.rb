@@ -7,7 +7,6 @@ class Api::V1::AutocompleteController < ApplicationController
         client = GooglePlacesAutocompleteClient.new
         predictions = client.autocomplete(input)
 
-        return render json: predictions
+        render json: predictions
     end
-        
 end
