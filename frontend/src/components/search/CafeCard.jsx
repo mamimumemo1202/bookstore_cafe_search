@@ -55,12 +55,13 @@ export function CafeCard ({
             >
                 {cafe.name}
             </h2>
-
-          <LikeButton onClick={(e) => e.stopPropagation()}
+         <button onClick={(e) => e.stopPropagation()}>
+          <LikeButton
               placeId={cafe.place_id}
               type="cafe"
               likeId={cafe.like_id}
           />
+          </button>
 
           {activeBookstore && 
               <button><LikePairButton onClick={(e) => e.stopPropagation()}
