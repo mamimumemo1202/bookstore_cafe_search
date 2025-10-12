@@ -1,6 +1,6 @@
 // TODO: 解除1->いいね->解除2をすると解除1のlike_idを送ってエラーがでる（本屋、カフェ共通）
 
-import { HeartIcon } from "@heroicons/react/24/solid"
+import { HeartIcon, PuzzlePieceIcon } from "@heroicons/react/24/solid"
 import { likePair, unlikePlace } from "../../apis/places"
 import { useEffect, useState } from "react"
 
@@ -30,7 +30,7 @@ export function LikePairButton({ bookstorePlaceId, activeCafePlaceId, pairLikeId
 
     return(
         <>
-        <HeartIcon 
+        <PuzzlePieceIcon 
         className={`w-6 h-6 ${liked ? "text-accent-500" : "text-accent-100"}`}
         onClick={() => handleLike()}/>
         </>

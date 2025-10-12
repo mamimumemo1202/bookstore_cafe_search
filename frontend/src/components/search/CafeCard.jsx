@@ -64,7 +64,8 @@ export function CafeCard ({
           </button>
 
           {activeBookstore && 
-              <button><LikePairButton onClick={(e) => e.stopPropagation()}
+              <button onClick={(e) => e.stopPropagation()}>
+                <LikePairButton 
                   bookstorePlaceId={activeBookstore.place_id}
                   activeCafePlaceId={cafe.place_id}
                   pairLikeId={cafe.pair_like_id}/>
