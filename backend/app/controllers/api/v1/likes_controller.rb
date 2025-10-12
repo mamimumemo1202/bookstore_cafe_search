@@ -9,16 +9,22 @@ class Api::V1::LikesController < ApplicationController
         liked_pairs = Like.where(user_id: current_api_v1_user.id, likeable_type: "Pair").includes(:likeable).order(created_at: :desc)
 
 
-        render json: {
-            liked_cafes: liked_cafes.as_json(include: { likeable:{ only: [ :id, :place_id, :name ]}}),  
-            liked_bookstores: liked_bookstores.as_json(include: { likeable:{ only: [ :id, :place_id, :name ]}}),
-            liked_pairs: liked_pairs.as_json(include: {
-                 likeable:{
-                     only: [:id], 
-                       include: {
-                        bookstore: {only:[:id, :place_id]},
-                        cafe: {only:[:id, :place_id]}}}})}
-            
+        
+            cafes = liked_cafes.as_json(include: { likeable:{ only: [ :id, :place_id]}})
+
+            bookstores = liked_bookstores.as_json(include: { likeable:{ only: [ :id, :place_id ]}})
+
+            pairs = liked_pairs.as_json(include: {
+                                            likeable:{
+                                                only: [:id], 
+                                                include: {
+                                                    bookstore: {only:[:id, :place_id]},
+                                                    cafe: {only:[:id, :place_id]}}}})
+
+            likes = (cafes + bookstores + pairs).sort_by { |l| l["created_at"] }.reverse
+
+            render json: {liked_places: likes} 
+                    
     end
 
     def create

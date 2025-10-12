@@ -37,7 +37,7 @@ class GooglePlacesClient
     
   end
 
-
+# カードをクリックしたときのリッチ情報を返す。カードクリック時に発火。
   def fetch_place_details(place_id)
     options = {
         query: {
@@ -57,5 +57,37 @@ class GooglePlacesClient
     res = response.parsed_response["result"]
   end
 
-  
+  # カードのサムネに名前と住所を表示する情報を返す
+      def fetch_place_details_bulk(place_ids)
+        
+      return [] if place_ids.empty?
+
+      fields = %w[place_id name formatted_address geometry/location photos].join(',')
+
+      place_ids.filter_map do |pid|
+        resp = self.class.get('/details/json', {
+          query: {
+            place_id: pid,
+            key:      @api_key,
+            fields:   fields,   # ← 文字列で渡す
+            language: 'ja'
+          }
+        })
+
+        unless resp.success?
+          Rails.logger.warn("[PlacesBulk] skip pid=#{pid} code=#{resp.code}")
+          next nil
+        end
+
+        r = resp.parsed_response["result"] || {}
+        {
+          place_id:  r["place_id"] || pid,
+          name:      r["name"],
+          address:   r["formatted_address"] || r["vicinity"],
+          lat:       r.dig("geometry", "location", "lat"),
+          lng:       r.dig("geometry", "location", "lng"),
+          photo_ref: r.dig("photos", 0, "photo_reference")
+        }
+      end
+    end
 end

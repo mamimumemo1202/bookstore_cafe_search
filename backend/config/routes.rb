@@ -4,7 +4,11 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for 'User', at: 'auth',
       controllers: { registrations: 'api/v1/overrides/registrations' }
 
-      resources :places, only: [:index, :create, :show]
+      resources :places, only: [:index, :create, :show] do
+        collection do
+          get :get_details_bulk
+        end
+      end
 
       post 'autocomplete', to: 'autocomplete#create' 
 

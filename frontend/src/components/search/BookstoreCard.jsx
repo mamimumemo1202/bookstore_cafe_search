@@ -56,7 +56,7 @@ export function BookstoreCard({
                 {bookstore.name}
             </h2>
 
-          <LikeButton 
+          <LikeButton onClick={(e) => e.stopPropagation()}
               placeId={bookstore.place_id}
               type="Bookstore"
               likeId={bookstore.like_id}
