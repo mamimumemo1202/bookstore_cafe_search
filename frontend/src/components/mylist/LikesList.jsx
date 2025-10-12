@@ -101,7 +101,9 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
             <ul key={like.id} className="rounded-r-xl shadow-md p-4 mb-1 mr-1 border-l-5 text-primary-800 bg-primary-50 border-l-5 border-primary-300 "
             onClick={()=>{handleDetailToggle(like.id)}}>
                 <li className="flex justify-between">
-                <div className="text-lg font-semibold cursor-pointer">{like.id}</div>
+                <div className="text-lg font-semibold cursor-pointer">
+                    {placeDetails[like.likeable.bookstore.place_id]?.name} × {placeDetails[like.likeable.cafe.place_id]?.name}
+                </div>
                 <button>
                     <LikePairButton
                     bookstorePlaceId={like.likeable.bookstore.place_id}
@@ -109,9 +111,14 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
                     pairLikeId={like.likeable.id}/>
                 </button>
 
-                {/*TODO: ペアは独自の詳細を表示 */}
-                {openId === like.id && 
-                "ペアは独自の詳細を表示予定"}
+                {openId === like.id && (
+                <div className="px-1 pb-2">
+                    <div className="font-semibold">本屋</div>
+                    <PlaceDetailCard placeId={like.likeable.bookstore.place_id} />
+                    <div className="font-semibold mt-4">カフェ</div>
+                    <PlaceDetailCard placeId={like.likeable.cafe.place_id} />
+                </div>
+                )}
                 </li>
             </ul>
         ))
