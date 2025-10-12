@@ -16,7 +16,6 @@ export function MyList(){
             try {
                 const likes =  await fetchLikes()
                 setLikedPlaces(likes)
-                console.log(likes)
 
             const arr = likes.flatMap((item) => {
                 if(item.likeable_type === "Pair"){ 
@@ -24,11 +23,8 @@ export function MyList(){
                     else {
                         return item.likeable?.place_id}})
 
-                console.log("arr: ", arr)
-
 
                 const details = await fetchPlaceDetailsBulk(arr)
-                console.log("details: ", details)
                
                 const detailsMap = {}
                 details.forEach((d)=> detailsMap[d.place_id] = d)
