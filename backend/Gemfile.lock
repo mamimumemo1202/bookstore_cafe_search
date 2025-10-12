@@ -281,6 +281,9 @@ DEPENDENCIES
   puma (>= 5.0)
   rack-cors
   rails (~> 7.2.2, >= 7.2.2.1)
+  rubocop (~> 1.79)
+  rubocop-performance (~> 1.25)
+  rubocop-rails (~> 2.32)
   rubocop-rails-omakase
   sqlite3 (>= 1.4)
   tzinfo-data
