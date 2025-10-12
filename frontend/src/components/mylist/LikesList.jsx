@@ -37,7 +37,7 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
                     />
                 </div>
                 <div className="text-lg font-semibold cursor-pointer">{placeDetails[like.likeable?.place_id].name}</div>
-                <button>
+                <button onClick={(e) => e.stopPropagation()}>
                     <LikeButton
                     placeId={like.likeable.place_id}
                     type= "Cafe"
@@ -74,7 +74,7 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
                     />
                 </div>
                 <div className="text-lg font-semibold cursor-pointer">{placeDetails[like.likeable?.place_id].name}</div>
-                <button>
+                <button onClick={(e) => e.stopPropagation()}>
                     <LikeButton
                     placeId={like.likeable?.place_id}
                     type= "Bookstore"
@@ -104,11 +104,11 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
                 <div className="text-lg font-semibold cursor-pointer">
                     {placeDetails[like.likeable.bookstore.place_id]?.name} × {placeDetails[like.likeable.cafe.place_id]?.name}
                 </div>
-                <button>
+                <button onClick={(e) => e.stopPropagation()}>
                     <LikePairButton
                     bookstorePlaceId={like.likeable.bookstore.place_id}
-                    cafePlaceId={like.likeable.cafe.place_id}
-                    pairLikeId={like.likeable.id}/>
+                    activeCafePlaceId={like.likeable.cafe.place_id}
+                    pairLikeId={like.id}/>
                 </button>
 
                 {openId === like.id && (
