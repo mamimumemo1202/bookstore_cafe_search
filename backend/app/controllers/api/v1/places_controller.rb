@@ -32,8 +32,8 @@ class Api::V1::PlacesController < ApplicationController
     def get_details_bulk  
 
       place_ids = Array(params[:place_ids])
-      return render json:{ error: "place_ids required"} status: :bad_request
-      
+      return render json:{ error: "place_ids required"}, status: :bad_request
+
 
       client = ::GooglePlacesClient.new
       details_bulk = client.fetch_place_details_bulk(place_ids)
