@@ -2,3 +2,7 @@ node_modules
 dist
 coverage
 build
+enlist.config.js
+package.json
+package-lock.json
+vite.config.js

@@ -1,8 +1,8 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* Primary */
-  --color-primary-50: oklch(0.992 0.002 247.858); 
+  --color-primary-50: oklch(0.992 0.002 247.858);
   --color-primary-100: oklch(0.976 0.004 247.896);
   --color-primary-200: oklch(0.946 0.009 249.74);
   --color-primary-300: oklch(0.885 0.022 252.894);
@@ -27,8 +27,12 @@
   --color-error-500: oklch(0.627 0.213 29.233);
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
-  background: #FFF;
+  background: #fff;
 }
-body { margin: 0; } 
+body {
+  margin: 0;
+}

@@ -1,94 +1,92 @@
-import { BackButton } from "../components/common/BackButton";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { requestPasswordChange } from "../apis/auth";
-import { getAuthInfo } from "../apis";
+import { BackButton } from '../components/common/BackButton';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { requestPasswordChange } from '../apis/auth';
+import { getAuthInfo } from '../apis';
 
+export function ChangePasswordPage() {
+  const navigate = useNavigate();
 
-export function ChangePasswordPage(){
-    const navigate = useNavigate();
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [notice, setNotice] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-    const [currentPassword, setCurrentPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [submitting, setSubmitting] = useState(false);
-    const [notice, setNotice] = useState("");
-    const [errorMessage, setErrorMessage] = useState("")
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+    setNotice('');
 
+    if (newPassword !== passwordConfirmation) {
+      setErrorMessage('パスワードが一致しません。');
+      return;
+    }
 
+    setSubmitting(true);
 
-    const handleSubmit = async(e) =>{
-        e.preventDefault();
-        setErrorMessage(""); setNotice("");
+    try {
+      const authInfo = getAuthInfo();
+      const uid = authInfo.uid;
+      await requestPasswordChange({ currentPassword, newPassword, passwordConfirmation, uid });
 
+      setNotice('パスワードを更新しました。');
+      navigate('/');
+    } catch (error) {
+      setErrorMessage('やり直してください。（何度してもできない場合は、リセットをお試しください）');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
-        if(newPassword !== passwordConfirmation){
-          setErrorMessage("パスワードが一致しません。")
-          return
-        }
-
-        setSubmitting(true)
-
-        try {
-            const authInfo = getAuthInfo()
-            const uid = authInfo.uid
-            await requestPasswordChange({ currentPassword, newPassword, passwordConfirmation, uid })
-          
-          setNotice("パスワードを更新しました。")
-          navigate("/")
-
-        } catch (error) {
-          setErrorMessage("やり直してください。（何度してもできない場合は、リセットをお試しください）")
-          
-        } finally {
-          setSubmitting(false)
-        }}
-
-    return(
+  return (
     <>
-    <div className="flex m-4 p-1 w-8 h-8 rounded-full shadow-xl">
-    <BackButton/>
-    </div>
+      <div className="flex m-4 p-1 w-8 h-8 rounded-full shadow-xl">
+        <BackButton />
+      </div>
 
-    {notice && 
-    <div className="bg-green-200 text-green-800 p-2 rounded mb-2">{notice}</div>}
-    {errorMessage && 
-    <div className="bg-red-200 text-red-800 p-2 rounded mb-2">{errorMessage}</div>}
+      {notice && <div className="bg-green-200 text-green-800 p-2 rounded mb-2">{notice}</div>}
+      {errorMessage && (
+        <div className="bg-red-200 text-red-800 p-2 rounded mb-2">{errorMessage}</div>
+      )}
 
-    <form 
-    onSubmit={handleSubmit}
-    className="flex flex-col pt-10">
+      <form onSubmit={handleSubmit} className="flex flex-col pt-10">
+        <input
+          type="password"
+          name="current_password"
+          value={currentPassword}
+          className="my-2 mx-5 p-2 shadow-sm rounded-full"
+          placeholder="現在のパスワード"
+          onChange={(e) => setCurrentPassword(e.target.value)}
+        />
 
-      <input
-      type="password"
-      name="current_password"
-      value={currentPassword}
-      className="my-2 mx-5 p-2 shadow-sm rounded-full"
-      placeholder="現在のパスワード"
-      onChange={(e) => setCurrentPassword(e.target.value)}/>
+        <input
+          type="password"
+          name="new_password"
+          value={newPassword}
+          className="my-2 mx-5 p-2 shadow-sm rounded-full"
+          placeholder="新しいパスワード"
+          onChange={(e) => setNewPassword(e.target.value)}
+        />
 
-      <input
-      type="password"
-      name="new_password"
-      value={newPassword}
-      className="my-2 mx-5 p-2 shadow-sm rounded-full"
-      placeholder="新しいパスワード"
-      onChange={(e) => setNewPassword(e.target.value)}/>
+        <input
+          type="password"
+          name="new_password_confirmation"
+          value={passwordConfirmation}
+          className="my-2 mx-5 p-2 shadow-sm rounded-full"
+          placeholder="新しいパスワード（確認）"
+          onChange={(e) => setPasswordConfirmation(e.target.value)}
+        />
 
-      <input
-      type="password"
-      name="new_password_confirmation"
-      value={passwordConfirmation}
-      className="my-2 mx-5 p-2 shadow-sm rounded-full"
-      placeholder="新しいパスワード（確認）"
-      onChange={(e) => setPasswordConfirmation(e.target.value)}/>
-
-      <button 
-      type="submit"
-        disabled={submitting}
-      className="my-6 mx-5 p-2 rounded-full bg-primary-600 text-primary-50">パスワードを更新</button>
-    </form> 
+        <button
+          type="submit"
+          disabled={submitting}
+          className="my-6 mx-5 p-2 rounded-full bg-primary-600 text-primary-50"
+        >
+          パスワードを更新
+        </button>
+      </form>
     </>
-    )
-
+  );
 }
