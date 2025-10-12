@@ -51,6 +51,7 @@ export function MyList(){
     
     return(
         <>
+        <div className="pb-16">
         <div className="flex m-4 p-1 w-8 h-8 rounded-full shadow-xl">
         <BackButton/>
         </div>
@@ -62,6 +63,7 @@ export function MyList(){
         bookstores={bookstores}
         pairs={pairs}/>
         <FooterNavigation/>
+        </div>
         </>
     )
 }
