@@ -27,7 +27,6 @@ export const fetchCafes = async (lat, lng, type = 'Cafe') => {
                     lat,
                     lng,
                     type,
-                    // TODO: keywordを反映させるにはRails側の処理が必要
                     },
                     headers: {
                         "access-token": authInfo["access-token"],
@@ -72,6 +71,19 @@ export const fetchPlaceDetails = async(place_id) => {
                 })
                 return response.data.place}
 
+
+export const fetchPlaceDetailsBulk = async(place_ids) => {
+    const authInfo = getAuthInfo()
+
+    const response = await axios.get('/api/v1/places/get_details_bulk/', {
+                    params:{place_ids: place_ids},
+                    headers: {
+                        "access-token": authInfo["access-token"],
+                        "client": authInfo["client"],
+                        "uid": authInfo["uid"]}
+                })
+                return response.data.details_bulk}
+
 export const fetchLikes = async () => {
     const authInfo = getAuthInfo()
 
@@ -81,8 +93,7 @@ export const fetchLikes = async () => {
             "client": authInfo["client"],
             "uid": authInfo["uid"]
         }})
-        console.log(res.data)
-    return res.data
+    return res.data.liked_places
 }
 
 export const likePlace = async(placeId, type) => {

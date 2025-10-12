@@ -166,7 +166,7 @@ export function SearchResultsPage() {
                 activeCafe={activeCafe}/>
             </div>
 
-        <div className="h-3/5 w-full pt-9  sm:w-1/2 sm:h-full sm:pt-0 overflow-y-auto">
+        <div className="h-3/5 w-full pt-9  sm:w-1/2 sm:h-full sm:pt-0 overflow-y-auto pb-16">
 
             {searchMode === 'bookstore' && (
                 <div className='sticky top-0 p-2 bg-white'>
