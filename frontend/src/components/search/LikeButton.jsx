@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 
 export function LikeButton({ placeId, type, likeId }){
     const [liked, setLiked] = useState(false)
+    const [currentLikeId, setCurrentLikeId] = useState(likeId)
 
     useEffect(() => {
         setLiked(!!likeId)
@@ -19,8 +20,15 @@ export function LikeButton({ placeId, type, likeId }){
         setLiked(!liked);
 
         try {
-            prev ? 
-            await unlikePlace(likeId) : await likePlace(placeId, type)
+            if(prev){
+                await unlikePlace(currentLikeId)
+                setCurrentLikeId(null)
+                setLiked(false)
+            } else {
+                const res = await likePlace(placeId, type)
+                setCurrentLikeId(res)
+                setLiked(true)
+            }
 
         } catch (error) {
             console.error(error)

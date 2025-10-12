@@ -108,7 +108,7 @@ export const likePlace = async(placeId, type) => {
             "client": authInfo["client"],
             "uid": authInfo["uid"]
         }})
-    return res.data.like
+    return res.data.like_id
 }
 
 export const unlikePlace = async(likeId) => {
