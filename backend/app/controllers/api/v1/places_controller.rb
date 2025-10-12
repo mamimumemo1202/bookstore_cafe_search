@@ -15,6 +15,8 @@ class Api::V1::PlacesController < ApplicationController
     render json: { error: "Nearby search failed" }, status: :internal_server_error
   end
 
+
+  # カードをクリックしたときのリッチ情報を返す。カードクリック時に発火。
   def show
       place_id = params[:id]
 
@@ -26,6 +28,17 @@ class Api::V1::PlacesController < ApplicationController
     rescue => e
       Rails.logger.error(e.message)
       render json: { error: "Place details fetch failed" }, status: :internal_server_error
+    end
+
+    # 検索窓で検索したときにURLのlat, lngを返す
+    def geometry
+      place_id = params[:id]
+
+      client = ::GooglePlacesClient.new
+      geometry = client.fetch_place_geometry(place_id)
+
+      return render json: {geometry: geometry}
+
     end
 
     def get_details_bulk

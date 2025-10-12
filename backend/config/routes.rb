@@ -8,6 +8,10 @@ Rails.application.routes.draw do
         collection do
           get :get_details_bulk
         end
+
+        member do
+          get :geometry
+        end
       end
 
       post "autocomplete", to: "autocomplete#create"

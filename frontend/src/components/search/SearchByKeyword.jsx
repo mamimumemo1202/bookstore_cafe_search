@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useNavigate, useLocation } from "react-router-dom";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { useModal } from "../contexts/ModalContext"
+import { fetchGeometry } from "../../apis/places";
 
 
 export function SearchBar({ searchMode: propSearchMode }){
@@ -46,10 +47,18 @@ export function SearchBar({ searchMode: propSearchMode }){
     },[query])
 
     const handleSearch = async() =>{
-        if (!selectedPrediction) return;          
-        const pos = await axios.get(`/api/v1/places/${selectedPrediction.place_id}`)
-        closeModal()
-        navigate(`/search?lat=${pos.data.place.lat}&lng=${pos.data.place.lng}&mode=${searchMode}`)
+        if (!selectedPrediction) return;    
+
+        try {
+            const res = await fetchGeometry(selectedPrediction?.place_id)
+            closeModal()
+            navigate(`/search?lat=${res.lat}&lng=${res.lng}&mode=${searchMode}`)
+            
+        } catch (error) {
+            console.error(error)
+            closeModal()            
+        }
+        
         
     };
     

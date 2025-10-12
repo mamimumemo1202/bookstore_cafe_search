@@ -36,13 +36,38 @@ class GooglePlacesClient
     response.parsed_response
   end
 
+  # 検索窓で検索したときにURLのlat, lngを返す
+  def fetch_place_geometry(place_id)
+
+    fields = %w[ geometry/location].join(",")
+
+    options = {
+        query: {
+            place_id: place_id,
+            key: @api_key,
+            fields: fields,
+            language: "ja"
+          }
+    }
+    response = self.class.get("/details/json", options)
+
+    unless response.success?
+        Rails.logger.error("Google Places API error: #{response.code} #{response.body}")
+        raise "Google Places API request failed"
+    end
+    
+    p response
+    response.parsed_response["result"]
+  end
+
+
   # カードをクリックしたときのリッチ情報を返す。カードクリック時に発火。
   def fetch_place_details(place_id)
     options = {
         query: {
             place_id: place_id,
             key: @api_key,
-            fields: [ "name", "geometry", "photo", "business_status", "website", "rating", "reviews", "formatted_address", "address_components", "opening_hours" ],
+            fields: [ "name", "geometry", "business_status", "website", "rating", "reviews", "formatted_address", "address_components", "opening_hours" ],
             language: "ja"
           }
     }
@@ -67,7 +92,7 @@ class GooglePlacesClient
           query: {
             place_id: pid,
             key:      @api_key,
-            fields:   fields,   # ← 文字列で渡す
+            fields:   fields,
             language: "ja"
           }
         })

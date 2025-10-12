@@ -60,6 +60,17 @@ export const fetchPairs = async(lat, lng) =>{
                 return null
 }
 
+export const fetchGeometry = async(place_id) => {
+    const authInfo = getAuthInfo()
+
+    const response = await axios.get(`/api/v1/places/${place_id}/geometry`, {
+                    headers: {
+                        "access-token": authInfo["access-token"],
+                        "client": authInfo["client"],
+                        "uid": authInfo["uid"]}
+                })
+                return response.data.geometry.geometry.location}
+
 export const fetchPlaceDetails = async(place_id) => {
     const authInfo = getAuthInfo()
 
