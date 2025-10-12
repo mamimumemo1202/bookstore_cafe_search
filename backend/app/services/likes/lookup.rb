@@ -6,10 +6,10 @@ module Likes
             return {} if user.blank? || place_ids.blank?
 
             model = 
-            case type.to_s
-                when "Cafe" then Cafe
-                when "Bookstore" then Bookstore
-            else place_ids.index_with{nil}
+            case type.to_s.downcase
+                when "cafe" then Cafe
+                when "bookstore" then Bookstore
+            else return place_ids.index_with{nil}
             end
 
             ids = model.where(place_id: place_ids).pluck(:place_id, :id).to_h

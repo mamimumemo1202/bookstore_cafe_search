@@ -10,7 +10,6 @@ module Places
             else
                 place_ids.index_with{nil}
             end
-            p like_map
 
             pair_map =
             if bookstore_pid.present? || user.present? || type.to_s.downcase === "cafe"
@@ -19,13 +18,16 @@ module Places
                 place_ids.index_with{nil}
             end
 
+            counts_map =
+            Likes::CountsLookup.call(type:, place_ids:)
+
             places.map do |p| {
                 place_id:     p[:place_id],
                 name:         p[:name],
                 address:      p[:vicinity],
-                likes_count:  0,
-                like_id:      like_map[p['pid']],
-                pair_like_id: pair_map[p['pid']],
+                likes_count:  counts_map[p[:place_id]] || 0,
+                like_id:      like_map[p[:place_id]],
+                pair_like_id: pair_map[p[:place_id]],
                 lat:          p[:lat],
                 lng:          p[:lng],
                 photo_ref:    p[:photo_ref],
