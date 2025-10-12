@@ -41,7 +41,14 @@ export function BookstoreCard({
           {/* 左サムネ + 右テキスト */}          
           <div className="flex items-start gap-3">
             {/* サムネ（正方形） */}
-            ccc
+            <div className="shrink-0 overflow-hidden rounded-r-md ">
+            <img
+            src={getPlacePhotoUrl(bookstore.photo_ref)}
+            alt="No image"
+            loading="eager"
+            className="w-17 h-17 object-cover"
+            />
+            </div>
             {/* 本文といいね */}
             <div className="flex items-center justify-between gap-3 p-1">
             <h2 className="text-lg font-semibold cursor-pointer "
@@ -49,7 +56,7 @@ export function BookstoreCard({
                 {bookstore.name}
             </h2>
 
-          <LikeButton 
+          <LikeButton onClick={(e) => e.stopPropagation()}
               placeId={bookstore.place_id}
               type="Bookstore"
               likeId={bookstore.like_id}

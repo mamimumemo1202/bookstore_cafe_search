@@ -10,13 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_25_053917) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_12_055712) do
   create_table "bookstores", force: :cascade do |t|
     t.string "place_id"
-    t.string "name"
-    t.string "formatted_address"
-    t.decimal "lat"
-    t.decimal "lng"
     t.integer "likes_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -25,10 +21,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_25_053917) do
 
   create_table "cafes", force: :cascade do |t|
     t.string "place_id"
-    t.string "name"
-    t.string "formatted_address"
-    t.decimal "lat"
-    t.decimal "lng"
     t.integer "likes_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
