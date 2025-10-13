@@ -35,6 +35,14 @@ RSpec.describe 'Places API', type: :request do
       expect(body['places'].size).to eq(2)
       expect(body['places'].first.keys).to include('place_id', 'name', 'address', 'lat', 'lng', 'photo_ref', 'likes_count', 'like_id', 'pair_like_id')
     end
+
+    it 'indexで例外時に500とエラーメッセージを返す' do
+        allow(Places::SearchPlaces).to receive(:call).and_raise(StandardError.new('boom'))
+        get '/api/v1/places', params: { lat: 35.0, lng: 139.0, type: 'Bookstore' }, headers: json_headers
+        expect(response).to have_http_status(:internal_server_error)
+        body = JSON.parse(response.body)
+        expect(body['error']).to eq('Nearby search failed')
+    end
   end
 
   describe 'GET /api/v1/places/:id' do
