@@ -1,4 +1,4 @@
-# This file is copied to spec/ when you run 'rails generate rspec:install'
+﻿# This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
@@ -37,6 +37,9 @@ require 'shoulda-matchers'
       with.library :rails
   end
 end
+
+require 'factory_bot_rails'
+RSpec.configure { |config| config.include FactoryBot::Syntax::Methods }
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -78,4 +81,15 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # Use a consistent host in request specs to avoid HostAuthorization blocks
+  config.before(:each, type: :request) do
+    host! 'localhost'
+  end
 end
+
+
+
+
+
+

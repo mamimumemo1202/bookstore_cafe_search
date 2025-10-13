@@ -1,4 +1,4 @@
-require "active_support/core_ext/integer/time"
+﻿require "active_support/core_ext/integer/time"
 
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
@@ -42,10 +42,16 @@ Rails.application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
+  config.action_mailer.perform_deliveries = true
+  config.active_job.queue_adapter = :test
 
   # Unlike controllers, the mailer instance doesn't have any context about the
   # incoming request so you'll need to provide the :host parameter yourself.
   config.action_mailer.default_url_options = { host: "www.example.com" }
+
+  # Allow hosts in test. Simplest is to clear restrictions.
+  # This prevents HostAuthorization from blocking request specs.
+  config.hosts.clear
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
@@ -65,3 +71,6 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
 end
+
+
+
