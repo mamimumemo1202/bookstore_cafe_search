@@ -13,6 +13,7 @@
 - it 'いいね解除でlikes_countがデクリメントされる'
 - it '認証なしのアクセスは401を返す'
 - it 'typeが不正なら400を返す（invalid type）'
+- it '他ユーザーのlikeは削除できない'
 
 ## Places API（api/v1/places）
 - it 'indexがplace_id/name/address/likes_count/like_id/pair_like_id/lat/lng/photo_refを返す'
