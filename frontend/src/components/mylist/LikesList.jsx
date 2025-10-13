@@ -122,6 +122,7 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
                       pairLikeId={like.id}
                     />
                   </button>
+                </li>
 
                   {openId === like.id && (
                     <div className="px-1 pb-2">
@@ -131,7 +132,7 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
                       <PlaceDetailCard placeId={like.likeable.cafe.place_id} />
                     </div>
                   )}
-                </li>
+                
               </ul>
             ))
           ) : (
