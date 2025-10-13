@@ -33,6 +33,7 @@ class GooglePlacesClient
         raise "Google Places API request failed"
     end
 
+    puts response.parsed_response
     response.parsed_response
   end
 
