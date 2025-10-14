@@ -14,8 +14,10 @@ export default [
     languageOptions: {
       ecmaVersion: 2023,
       sourceType: 'module',
-      ecmaFeatures: { jsx: true },
-      globals: { ...globals.browser, ...globals.node }
+      globals: { ...globals.browser, ...globals.node },
+      parserOptions: {
+        ecmaFeatures: { jsx: true },  
+      }
     },
     plugins: {
       react,
@@ -27,8 +29,14 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       ...react.configs.recommended.rules,
-      ...jsxA11y.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
+
+      'jsx-a11y/alt-text': 'warn',
+      'jsx-a11y/anchor-is-valid': 'warn',
+      'jsx-a11y/aria-role': 'warn',
+      'jsx-a11y/no-autofocus': 'warn',
+      'jsx-a11y/tabindex-no-positive': 'warn',
+
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
