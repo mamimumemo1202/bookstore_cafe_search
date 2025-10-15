@@ -3,7 +3,7 @@ import { PlacesMap } from '../components/search/PlacesMap';
 import { BookstoreSelector } from '../components/search/BookstoreSelector';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CafeCard } from '../components/search/CafeCard';
-import { fetchBookstores, fetchCafes, fetchCafesNearBookstore } from '../apis/places';
+import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPlaceDetails } from '../apis/places';
 import { BookstoreCard } from '../components/search/BookstoreCard';
 import { LoadingIcon } from '../components/common/LoadingIcon';
 import { useLoading } from '../hooks/useLoading';
@@ -26,6 +26,7 @@ export function SearchResultsPage() {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // 現在地とモード
   const lat = Number(searchParams.get('lat'));
   const lng = Number(searchParams.get('lng'));
   const searchMode = searchParams.get('mode') ?? 'bookstore';
@@ -34,26 +35,22 @@ export function SearchResultsPage() {
     setActiveCafe(cafe);
 
     const p = new URLSearchParams(searchParams);
-    p.set('b_lat', activeBookstore.lat);
-    p.set('b_lng', activeBookstore.lng);
-    p.set('c_lat', cafe.lat);
-    p.set('c_lng', cafe.lng);
+    p.set('bpid',activeBookstore.place_id),
+    p.set('cpid', cafe.place_id)
     p.set('mode', 'pair');
     setSearchParams(p);
   };
 
   const onBookstoreClick = (activeBookstore) => {
     const p = new URLSearchParams(searchParams);
-    p.set('b_lat', activeBookstore.lat);
-    p.set('b_lng', activeBookstore.lng);
+    p.set('bpid', activeBookstore.place_id);
     p.set('mode', 'bookstore');
     setSearchParams(p);
   };
 
   const onCafeClick = (activeCafe) => {
     const p = new URLSearchParams(searchParams);
-    p.set('c_lat', activeCafe.lat);
-    p.set('c_lng', activeCafe.lng);
+    p.set('cpid', activeCafe.place_id);
     p.set('mode', 'cafe');
     setSearchParams(p);
   };
@@ -78,7 +75,15 @@ export function SearchResultsPage() {
           const res = await fetchCafes(lat, lng);
           setCafes(res);
         } else if (searchMode === 'pair') {
-          // TODO: pairの処理
+          const bpid = searchParams.get('bpid');
+          if (bpid) {
+            const res = await fetchCafesNearBookstore(bpid, 'Pair');
+            setCafes(res);
+
+            const bs = await fetchBookstores(lat, lng);
+            const b = bs.find((b) => b.place_id === bpid);
+            setActiveBookstore(b)
+          }
         }
       } catch (err) {
         console.error('SearchResultsPageでのエラー', err);
@@ -89,15 +94,13 @@ export function SearchResultsPage() {
     fetchPlaces();
   }, [lat, lng, searchMode]);
 
+  // ピンを表示するために必要です
+  // カフェも選ぶボタンを押すと新しく取得せず、そのまま渡してる
+  // リロードしたらこれらのデータは消える＝また新しく取得しなければならない
   useEffect(() => {
     if (searchMode === 'bookstore' && activeBookstore) {
       const fetchPlaces = async () => {
-        const res = await fetchCafesNearBookstore(
-          activeBookstore.lat,
-          activeBookstore.lng,
-          'Cafe',
-          activeBookstore.place_id
-        );
+        const res = await fetchCafesNearBookstore(activeBookstore.place_id, 'Cafe');
         setCafes(res);
       };
       fetchPlaces();

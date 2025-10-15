@@ -8,7 +8,6 @@ export const fetchBookstores = async (lat, lng, type = 'Bookstore') => {
       lat,
       lng,
       type,
-      // keyword: 'book'
     },
   });
   return response.data.places;
@@ -25,13 +24,15 @@ export const fetchCafes = async (lat, lng, type = 'Cafe') => {
   return response.data.places;
 };
 
-export const fetchCafesNearBookstore = async (lat, lng, type, bookstore_place_id) => {
+export const fetchCafesNearBookstore = async (bpid, type = 'Pair') => {
+  const geo = await fetchGeometry(bpid)
+  
   const response = await axios.get('/api/v1/places', {
     params: {
-      lat,
-      lng,
+      lat: geo.lat,
+      lng: geo.lng,
       type,
-      bookstore_place_id,
+      bpid
     },
   });
   return response.data.places;

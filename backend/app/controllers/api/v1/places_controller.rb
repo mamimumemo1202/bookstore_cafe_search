@@ -4,7 +4,7 @@ class Api::V1::PlacesController < ApplicationController
       lat: params[:lat],
       lng: params[:lng],
       type: params[:type],
-      bookstore_pid: params[:bookstore_place_id],
+      bookstore_pid: params[:bpid],
       user: current_api_v1_user
     )
 

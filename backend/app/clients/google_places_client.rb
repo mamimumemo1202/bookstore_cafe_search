@@ -6,7 +6,8 @@ class GooglePlacesClient
 
   TYPE_MAP = {
     "Bookstore" => "book_store",
-    "Cafe" => "cafe"
+    "Cafe" => "cafe",
+    "Pair" => "cafe"
   }
   #   可用性を高めるためAPIキーをinitializeメソッドに組み込む
   def initialize(api_key = ENV["GOOGLE_API_KEY"])
