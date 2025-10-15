@@ -37,11 +37,6 @@ export const fetchCafesNearBookstore = async (lat, lng, type, bookstore_place_id
   return response.data.places;
 };
 
-export const fetchPairs = async (lat, lng) => {
-  // TODO: ペア機構が完成したら
-  return null;
-};
-
 export const fetchGeometry = async (place_id) => {
 
   const response = await axios.get(`/api/v1/places/${place_id}/geometry`);

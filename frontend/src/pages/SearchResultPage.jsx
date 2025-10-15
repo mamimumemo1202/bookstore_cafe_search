@@ -3,7 +3,7 @@ import { PlacesMap } from '../components/search/PlacesMap';
 import { BookstoreSelector } from '../components/search/BookstoreSelector';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CafeCard } from '../components/search/CafeCard';
-import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPairs } from '../apis/places';
+import { fetchBookstores, fetchCafes, fetchCafesNearBookstore } from '../apis/places';
 import { BookstoreCard } from '../components/search/BookstoreCard';
 import { LoadingIcon } from '../components/common/LoadingIcon';
 import { useLoading } from '../hooks/useLoading';
