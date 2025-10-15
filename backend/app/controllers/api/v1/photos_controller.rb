@@ -1,4 +1,4 @@
-class Api::V1::PhotosController < Api::BaseController
+class Api::V1::PhotosController < Api::V1::BaseController
     GOOGLE_PHOTO_ENDPOINT = "https://maps.googleapis.com/maps/api/place/photo"
 
     def show
