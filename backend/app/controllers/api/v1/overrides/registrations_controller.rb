@@ -1,4 +1,5 @@
 class Api::V1::Overrides::RegistrationsController < DeviseTokenAuth::RegistrationsController
+  # TODO: エラーハンドリングの修正(継承面も考慮)
   wrap_parameters false
 
   def update

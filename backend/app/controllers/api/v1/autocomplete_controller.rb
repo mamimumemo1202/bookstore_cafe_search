@@ -1,8 +1,6 @@
-class Api::V1::AutocompleteController < ApplicationController
+class Api::V1::AutocompleteController < Api::BaseController
     def create
-        input = params[:input]
-
-        return render json: { error: "input is required" }, status: :bad_request if input.blank?
+        input = params.require(:input)
 
         client = GooglePlacesAutocompleteClient.new
         predictions = client.autocomplete(input)

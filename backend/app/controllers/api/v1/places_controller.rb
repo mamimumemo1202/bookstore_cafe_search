@@ -1,4 +1,4 @@
-class Api::V1::PlacesController < ApplicationController
+class Api::V1::PlacesController < Api::BaseController
   def index
     payload = Places::SearchPlaces.call(
       lat: params[:lat],
@@ -9,10 +9,6 @@ class Api::V1::PlacesController < ApplicationController
     )
 
     render json: { places: payload }
-
-    rescue => e
-    Rails.logger.error(e.message)
-    render json: { error: "Nearby search failed" }, status: :internal_server_error
   end
 
 
@@ -24,10 +20,6 @@ class Api::V1::PlacesController < ApplicationController
       place_details = client.fetch_place_details(place_id)
 
       render json: { place: place_details }
-
-    rescue => e
-      Rails.logger.error(e.message)
-      render json: { error: "Place details fetch failed" }, status: :internal_server_error
     end
 
     # 検索窓で検索したときにURLのlat, lngを返す
@@ -43,16 +35,9 @@ class Api::V1::PlacesController < ApplicationController
 
     def get_details_bulk
       place_ids = Array(params[:place_ids])
-      return render json: { error: "place_ids required" }, status: :bad_request if place_ids.empty?
-
-
       client = ::GooglePlacesClient.new
       details_bulk = client.fetch_place_details_bulk(place_ids)
 
       render json: { details_bulk: details_bulk }
-
-      rescue => e
-        Rails.logger.error("[places#details] #{e.class}: #{e.message}")
-        render json: { error: "details_bulk failed" }, status: :internal_server_error
     end
 end

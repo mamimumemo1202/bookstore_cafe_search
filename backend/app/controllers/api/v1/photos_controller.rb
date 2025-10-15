@@ -1,9 +1,8 @@
-class Api::V1::PhotosController < ApplicationController
+class Api::V1::PhotosController < Api::BaseController
     GOOGLE_PHOTO_ENDPOINT = "https://maps.googleapis.com/maps/api/place/photo"
 
     def show
-        photo_ref = params[:photo_ref]
-        return render json: { error: "photo_ref is required" }, status: :bad_request if photo_ref.blank?
+        photo_ref = params.require(:photo_ref)
 
         width = 400
         height = 400
