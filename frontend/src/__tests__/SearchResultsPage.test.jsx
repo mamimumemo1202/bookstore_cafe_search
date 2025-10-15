@@ -1,4 +1,4 @@
-import { render, screen, cleanup, waitFor } from '@testing-library/react'
+﻿import { render, screen, cleanup, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { MemoryRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { AuthProvider } from '../components/contexts/AuthContext'
@@ -108,15 +108,15 @@ describe('/search', () => {
     expect(await screen.findByText('カフェA')).toBeTruthy()
   })
 
-  it('/search?lat=..&lng=..&mode=bookstore&b_lat=..&b_lng=..で詳細が表示される', async () => {
-    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore&b_lat=51.0..&b_lng=140.0')
+  it ('/search?lat=..&lng=..&mode=bookstore&bpid=...', async () => {
+    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore&bpid=bp1')
     const card = await screen.findByText('本屋A')
     await userEvent.click(card)
     expect(await screen.findByText(/営業/)).toBeTruthy()
     expect(fetchPlaceDetails).toHaveBeenCalled()
   })
 
-  it('本屋クリックでURLSearchParamsにb_lat/b_lngを設定しmode=bookstoreに更新する', async () => {
+  it('本屋クリックでURLSearchParamsにbpidを設定しmode=bookstoreに更新する', async () => {
   let latestLocation;
   renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore', (location) => {
     latestLocation = location;
@@ -128,14 +128,13 @@ describe('/search', () => {
   await waitFor(() => {
     const params = new URLSearchParams(latestLocation.search);
     expect(params.get('mode')).toBe('bookstore');
-    expect(params.get('b_lat')).toBe('50');
-    expect(params.get('b_lng')).toBe('139');
+    expect(params.get('bpid')).toBe('bp1');
   });
 });
 
 
 
-  it('カフェクリックでURLSearchParamsにc_lat/c_lngを設定しmode=cafeに更新する', async () => {
+  it('カフェクリックでURLSearchParamsにcpidを設定しmode=cafeに更新する', async () => {
   let latestLocation;
   renderSearch('/search?lat=35.0&lng=139.0&mode=cafe', (location) => {
     latestLocation = location;
@@ -147,8 +146,7 @@ describe('/search', () => {
   await waitFor(() => {
     const params = new URLSearchParams(latestLocation.search);
     expect(params.get('mode')).toBe('cafe');
-    expect(params.get('c_lat')).toBe('35');
-    expect(params.get('c_lng')).toBe('139');
+    expect(params.get('cpid')).toBe('cp1');
   });
 });
 
@@ -163,7 +161,7 @@ describe('/search', () => {
   })
 
 
-  it('本屋からの遷移でカフェクリックでURLSearchParamsにc_lat/c_lngを設定しmode=pairへ更新する', async () => {
+  it('本屋からの遷移でカフェクリックでURLSearchParamsにcpidを設定しmode=pairへ更新する', async () => {
   let latestLocation;
   renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore', (location) => {
     latestLocation = location;
@@ -180,13 +178,9 @@ describe('/search', () => {
 
   await waitFor(() => {
     const params = new URLSearchParams(latestLocation.search);
-    expect(params.get('mode')).toBe('pair');
-    expect(params.get('b_lat')).toBe('50');
-    expect(params.get('b_lng')).toBe('139');
-    expect(params.get('c_lat')).toBe('35');
-    expect(params.get('c_lng')).toBe('139');
+    expect(params.get('bpid')).toBe('bp1');
+    expect(params.get('cpid')).toBe('cp1');
+
   });
 });
-
-
 })
