@@ -9,7 +9,7 @@ export function FooterNavigation() {
   const { openModal } = useModal();
 
   return (
-    <div className="fixed bottom-0 w-full h-16 flex justify-around items-center bg-primary-500 text-primary-100 border border-primary-200 border-t-2">
+    <nav aria-label="footer navigation" className="fixed bottom-0 w-full h-16 flex justify-around items-center bg-primary-500 text-primary-100 border border-primary-200 border-t-2">
       <button className="flex flex-col items-center">
         <HomeIcon className="w-6 h-6" onClick={() => navigate('/')} />
         <p>ホーム</p>
@@ -25,8 +25,8 @@ export function FooterNavigation() {
         <p>マイリスト</p>
       </button>
 
-      <button className="flex flex-col items-center">
-        <MagnifyingGlassIcon className="w-6 h-6" onClick={openModal} />
+      <button className="flex flex-col items-center" onClick={openModal}>
+        <MagnifyingGlassIcon className="w-6 h-6"  />
         <p>検索</p>
       </button>
       {/* TODO: ログイン時にアイコンの写真を挿入 */}
@@ -39,6 +39,6 @@ export function FooterNavigation() {
         />
         <p>マイページ</p>
       </button>
-    </div>
+    </nav>
   );
 }
