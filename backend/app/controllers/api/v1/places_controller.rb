@@ -1,4 +1,4 @@
-class Api::V1::PlacesController < Api::BaseController
+class Api::V1::PlacesController < Api::V1::BaseController
   def index
     payload = Places::SearchPlaces.call(
       lat: params[:lat],

@@ -1,20 +1,33 @@
-class Api::BaseController < ApplicationController
+﻿class Api::V1::BaseController < ApplicationController
   private 
   
   def render_error(code, message, status, details: nil)
-      payload =  { error: { code:, message: } }
-      payload[:error][:details] = details if details?
-
-      render json: payload, status:
+    payload = { error: { code: code, message: message } }
+    payload[:error][:details] = details if details
+    render json: payload, status: status
   end
 
-  rescue_from ExternalAPI::BadRequest    { |e| render_error('bad_request',    e.message, :bad_request) }
-  rescue_from ExternalAPI::AuthError     { |e| render_error('auth_error',     e.message, :forbidden) }
-  rescue_from ExternalAPI::NotFound      { |e| render_error('not_found',      e.message, :not_found) }
-  rescue_from ExternalAPI::RateLimited   { |e| render_error('rate_limited',   e.message, :too_many_requests) }
-  rescue_from ExternalAPI::Timeout       { |e| render_error('timeout',        e.message.presence || 'upstream timeout', :service_unavailable) }
-  rescue_from ExternalAPI::ServerError   { |e| render_error('upstream_error', e.message.presence || 'upstream server error', :bad_gateway) }
-  rescue_from ExternalAPI::UpstreamError { |e| render_error('upstream_error', e.message.presence || 'upstream error', :bad_gateway) }
+  rescue_from ExternalAPI::BadRequest do |e|
+    render_error('bad_request', e.message, :bad_request)
+  end
+  rescue_from ExternalAPI::AuthError do |e|
+    render_error('auth_error', e.message, :forbidden)
+  end
+  rescue_from ExternalAPI::NotFound do |e|
+    render_error('not_found', e.message, :not_found)
+  end
+  rescue_from ExternalAPI::RateLimited do |e|
+    render_error('rate_limited', e.message, :too_many_requests)
+  end
+  rescue_from ExternalAPI::Timeout do |e|
+    render_error('timeout', e.message.presence || 'upstream timeout', :service_unavailable)
+  end
+  rescue_from ExternalAPI::ServerError do |e|
+    render_error('upstream_error', e.message.presence || 'upstream server error', :bad_gateway)
+  end
+  rescue_from ExternalAPI::UpstreamError do |e|
+    render_error('upstream_error', e.message.presence || 'upstream error', :bad_gateway)
+  end
 
   rescue_from ActionController::ParameterMissing do |e|
     render_error('bad_request', e.message, :bad_request)
@@ -49,5 +62,4 @@ class Api::BaseController < ApplicationController
   rescue_from AppErrors::Unauthorized do |e|
     render_error('unauthorized', e.message, :unauthorized)
   end
-  
 end
