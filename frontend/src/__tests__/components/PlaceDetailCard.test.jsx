@@ -1,15 +1,15 @@
 import { render, screen, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { PlaceDetailCard } from '../components/search/PlaceDetailCard';
-import { fetchPlaceDetails } from '../apis/places';
-import { getPlacePhotoUrl } from '../lib/placePhoto';
+import { PlaceDetailCard } from '../../components/search/PlaceDetailCard';
+import { fetchPlaceDetails } from '../../apis/places';
+import { getPlacePhotoUrl } from '../../lib/placePhoto';
 
-vi.mock('../apis/places', () => ({
+vi.mock('../../apis/places', () => ({
   fetchPlaceDetails: vi.fn(),
 }));
 
-vi.mock('../lib/placePhoto', () => ({
+vi.mock('../../lib/placePhoto', () => ({
   getPlacePhotoUrl: vi.fn(),
 }));
 
@@ -73,4 +73,3 @@ describe('PlaceDetailCard', () => {
     expect(fetchPlaceDetails).toHaveBeenCalledWith('place-2');
   });
 });
-
