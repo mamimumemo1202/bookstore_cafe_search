@@ -36,7 +36,7 @@ export function PlaceDetailCard({ placeId }) {
                 <img
                   key={i}
                   src={getPlacePhotoUrl(p.photo_reference)}
-                  alt="No image"
+                  alt="place photo"
                   loading="eager"
                   className="w-32 h-32 object-cover"
                 />
