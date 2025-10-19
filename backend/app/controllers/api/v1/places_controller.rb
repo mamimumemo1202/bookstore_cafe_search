@@ -34,7 +34,10 @@ class Api::V1::PlacesController < Api::V1::BaseController
     end
 
     def get_details_bulk
-      place_ids = Array(params[:place_ids])
+      place_ids_param = params[:place_ids]
+      raise AppErrors::BadRequest, 'place_ids is required' if place_ids_param.blank?
+
+      place_ids = Array(place_ids_param)
       client = ::GooglePlacesClient.new
       details_bulk = client.fetch_place_details_bulk(place_ids)
 

@@ -42,7 +42,6 @@ RSpec.describe 'Likes API', type: :request do
   describe 'POST /api/v1/likes' do
     it 'カフェにいいねできる（likes_countがインクリメント）' do
       headers = auth_headers_for(user)
-      # 例: Google Place ID 風のダミー
       place_id = "cafe_#{SecureRandom.hex(6)}"
 
       post '/api/v1/likes',

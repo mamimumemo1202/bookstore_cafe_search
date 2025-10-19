@@ -59,6 +59,7 @@ class GooglePlacesClient
 
   def fetch_place_details_bulk(place_ids)
     return [] if place_ids.empty?
+    
     fields = %w[place_id name formatted_address geometry/location photos].join(",")
     place_ids.filter_map do |pid|
       begin

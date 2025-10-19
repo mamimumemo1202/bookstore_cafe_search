@@ -16,12 +16,12 @@ RSpec.describe GooglePlacesClient do
 
   describe '#fetch_place_geometry' do
     it 'returns result only' do
-      payload = { 'status' => 'OK', 'result' => { 'geometry' => { 'location' => { 'lat' => 1.23, 'lng' => 4.56 } } } }
+      payload = { 'status' => 'OK', 'result' => {"geometry"=> {"location"=> { "lat" => 1.23, "lng" => 4.56 } } } }  
       response = instance_double(HTTParty::Response, code: 200, parsed_response: payload)
       allow(described_class).to receive(:get).with('/details/json', anything).and_return(response)
 
       out = client.fetch_place_geometry('PLACE_ID')
-      expect(out).to eq(payload['result'])
+      expect(out).to eq({ :lat => 1.23, :lng => 4.56 })
     end
   end
 

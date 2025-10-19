@@ -7,6 +7,10 @@
     render json: payload, status: status
   end
 
+  rescue_from StandardError do |e|
+    Rails.logger.error("[500] #{e.class}: #{e.message}")
+    render_error('internal_error', 'internal server error', :internal_server_error)
+  end
   rescue_from ExternalAPI::BadRequest do |e|
     render_error('bad_request', e.message, :bad_request)
   end
@@ -33,33 +37,35 @@
     render_error('bad_request', e.message, :bad_request)
   end
 
-  rescue_from ActiveRecord::RecordNotFound do |e|
-    render_error('not_found', e.message, :not_found)
-  end
-
   rescue_from ActiveRecord::RecordInvalid do |e|
     render_error('unprocessable', 'validation failed', :unprocessable_entity,
                  details: e.record.errors.full_messages)
   end
 
   rescue_from AppErrors::DomainError do |e|
-    render_error('domain_error', e.message, :unprocessable_entity)
+    render_error('bad_request', e.message, :bad_request)
+  end
+
+
+  rescue_from AppErrors::BadRequest do |e|
+    render_error('bad_request', e.message, :bad_request)
   end
 
   rescue_from AppErrors::Forbidden do |e|
     render_error('forbidden', e.message, :forbidden)
   end
 
+  rescue_from AppErrors::Unauthorized do |e|
+    render_error('unauthorized', e.message, :unauthorized)
+  end  
+
+  rescue_from ActiveRecord::RecordNotSaved do |_e|
+    render_error('unprocessable', 'resource not saved', :unprocessable_entity)
+  end  
+
   rescue_from JSON::ParserError do |e|
     render_error('bad_request', e.message, :bad_request)
   end
 
-  rescue_from StandardError do |e|
-    Rails.logger.error("[500] #{e.class}: #{e.message}")
-    render_error('internal_error', 'internal server error', :internal_server_error)
-  end
-
-  rescue_from AppErrors::Unauthorized do |e|
-    render_error('unauthorized', e.message, :unauthorized)
-  end
 end
+
