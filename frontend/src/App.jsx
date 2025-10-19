@@ -16,7 +16,6 @@ import { ChangePasswordPage } from './pages/ChangePasswordPage';
 export function App() {
   return (
     <>
-    <div>test</div>
       <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
         <BrowserRouter>
           <AuthProvider>
