@@ -41,7 +41,7 @@ export const fetchCafesNearBookstore = async (bpid, type = 'Pair') => {
 export const fetchGeometry = async (place_id) => {
 
   const response = await axios.get(`/api/v1/places/${place_id}/geometry`);
-  return response.data.geometry.geometry.location;
+  return response.data.geometry
 };
 
 export const fetchPlaceDetails = async (place_id) => {

@@ -34,7 +34,13 @@ class GooglePlacesClient
       language: "ja"
     )
     ensure_google_ok!(json)
-    json["result"]
+    geo = json["result"]
+
+    {
+     lat: geo.dig("geometry","location","lat") ,
+     lng: geo.dig("geometry","location","lng")
+    }
+
   end
 
   def fetch_place_details(place_id)
