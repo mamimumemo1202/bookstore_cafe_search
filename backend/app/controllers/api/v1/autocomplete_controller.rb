@@ -1,4 +1,4 @@
-class Api::V1::AutocompleteController < Api::BaseController
+class Api::V1::AutocompleteController < Api::V1::BaseController
     def create
         input = params.require(:input)
 
