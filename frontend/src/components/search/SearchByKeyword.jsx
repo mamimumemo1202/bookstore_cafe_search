@@ -13,6 +13,8 @@ export function SearchBar({ searchMode: propSearchMode }) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
   // INFO: URLからsearchModeを取得するー＞モーダルからのpropと評価し、props優先
   const searchModeParams = new URLSearchParams(location.search).get('mode') || 'bookstore';
   const searchMode = propSearchMode ?? searchModeParams;
@@ -28,7 +30,7 @@ export function SearchBar({ searchMode: propSearchMode }) {
     const autocompleteTimer = setTimeout(() => {
       const fetchSearchPredictions = async () => {
         try {
-          const res = await axios.post('/api/v1/autocomplete', {
+          const res = await axios.post(`${BASE_URL}/autocomplete`, {
             input: query,
           });
 

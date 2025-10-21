@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { getAuthInfo } from './index';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 export const signUp = async ({ email, password, passwordConfirmation }) => {
-  return axios.post('/api/v1/auth', {
+  return axios.post(`${BASE_URL}/auth`, {
     email,
     password,
     password_confirmation: passwordConfirmation,
@@ -10,7 +12,7 @@ export const signUp = async ({ email, password, passwordConfirmation }) => {
 };
 
 export const signIn = async ({ email, password }) => {
-  return axios.post('/api/v1/auth/sign_in', {
+  return axios.post(`${BASE_URL}/auth/sign_in`, {
     email,
     password,
   });
@@ -19,7 +21,7 @@ export const signIn = async ({ email, password }) => {
 export const signOut = async () => {
   const authInfo = getAuthInfo();
 
-  return axios.delete('/api/v1/auth/sign_out', {
+  return axios.delete(`${BASE_URL}/auth/sign_out`, {
     headers: {
       'access-token': authInfo['access-token'],
       client: authInfo['client'],
@@ -33,7 +35,7 @@ export const validateToken = async () => {
 
   if (!authInfo['access-token'] || !authInfo['client'] || !authInfo['uid']) return null;
 
-  const res = await axios.get('/api/v1/auth/validate_token', {
+  const res = await axios.get(`${BASE_URL}/auth/validate_token`, {
     headers: {
       'access-token': authInfo['access-token'],
       client: authInfo['client'],
@@ -44,8 +46,10 @@ export const validateToken = async () => {
   return res;
 };
 
+// TODO: 要修正
+
 export const requestPasswordReset = async ({ email }) => {
-  await axios.post('/api/v1/auth/password', {
+  await axios.post(`${BASE_URL}/auth/password`, {
     email,
     redirect_url: 'http://localhost:5173/reset-password',
   });
@@ -59,7 +63,7 @@ export const resetPassword = async ({
   uid,
 }) => {
   await axios.put(
-    '/api/v1/auth/password',
+    `${BASE_URL}/auth/password`,
     {
       password,
       password_confirmation: passwordConfirmation,
@@ -75,7 +79,7 @@ export const requestPasswordChange = async ({
   uid,
 }) => {
   await axios.put(
-    '/api/v1/auth',
+    `${BASE_URL}/auth`,
     {
       current_password: currentPassword,
       password: newPassword,
