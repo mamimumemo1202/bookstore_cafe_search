@@ -29,4 +29,7 @@ test:
 # ensure the database is located in a persisted volume.
 production:
   <<: *default
-  # database: path/to/persistent/storage/production.sqlite3
+  host: <%= ENV["DB_HOST"] %>
+  database: <%= ENV["DB_NAME"] %>
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
