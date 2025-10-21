@@ -1,4 +1,4 @@
-module ExternalAPI
+module ExternalApiErrors
   class Error < StandardError; end
   class BadRequest   < Error; end  # 400
   class AuthError    < Error; end  # 401/403

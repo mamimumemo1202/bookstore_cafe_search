@@ -11,25 +11,25 @@
     Rails.logger.error("[500] #{e.class}: #{e.message}")
     render_error('internal_error', 'internal server error', :internal_server_error)
   end
-  rescue_from ExternalAPI::BadRequest do |e|
+  rescue_from ExternalApiErrors::BadRequest do |e|
     render_error('bad_request', e.message, :bad_request)
   end
-  rescue_from ExternalAPI::AuthError do |e|
+  rescue_from ExternalApiErrors::AuthError do |e|
     render_error('auth_error', e.message, :forbidden)
   end
-  rescue_from ExternalAPI::NotFound do |e|
+  rescue_from ExternalApiErrors::NotFound do |e|
     render_error('not_found', e.message, :not_found)
   end
-  rescue_from ExternalAPI::RateLimited do |e|
+  rescue_from ExternalApiErrors::RateLimited do |e|
     render_error('rate_limited', e.message, :too_many_requests)
   end
-  rescue_from ExternalAPI::Timeout do |e|
+  rescue_from ExternalApiErrors::Timeout do |e|
     render_error('timeout', e.message.presence || 'upstream timeout', :service_unavailable)
   end
-  rescue_from ExternalAPI::ServerError do |e|
+  rescue_from ExternalApiErrors::ServerError do |e|
     render_error('upstream_error', e.message.presence || 'upstream server error', :bad_gateway)
   end
-  rescue_from ExternalAPI::UpstreamError do |e|
+  rescue_from ExternalApiErrors::UpstreamError do |e|
     render_error('upstream_error', e.message.presence || 'upstream error', :bad_gateway)
   end
 

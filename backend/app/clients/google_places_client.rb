@@ -78,7 +78,7 @@ class GooglePlacesClient
           lng:       r.dig("geometry", "location", "lng"),
           photo_ref: r.dig("photos", 0, "photo_reference")
         }
-      rescue ExternalAPI::Error => e
+      rescue ExternalApiErrors::Error => e
         Rails.logger.warn("[PlacesBulk] skip pid=#{pid} #{e.class}: #{e.message}")
         next nil
       end
@@ -94,31 +94,31 @@ class GooglePlacesClient
 
     case resp.code.to_i
     when 200..299 then json
-    when 400      then raise ExternalAPI::BadRequest,   json["error_message"]
-    when 401,403  then raise ExternalAPI::AuthError,    json["error_message"]
-    when 404      then raise ExternalAPI::NotFound,     json["error_message"]
-    when 429      then raise ExternalAPI::RateLimited,  json["error_message"]
-    when 500..599 then raise ExternalAPI::ServerError, "HTTP #{resp.code}"
-    else               raise ExternalAPI::UpstreamError, "HTTP #{resp.code}"
+    when 400      then raise ExternalApiErrors::BadRequest,   json["error_message"]
+    when 401,403  then raise ExternalApiErrors::AuthError,    json["error_message"]
+    when 404      then raise ExternalApiErrors::NotFound,     json["error_message"]
+    when 429      then raise ExternalApiErrors::RateLimited,  json["error_message"]
+    when 500..599 then raise ExternalApiErrors::ServerError, "HTTP #{resp.code}"
+    else               raise ExternalApiErrors::UpstreamError, "HTTP #{resp.code}"
     end
   rescue Net::OpenTimeout, Net::ReadTimeout
-    raise ExternalAPI::Timeout
+    raise ExternalApiErrors::Timeout
   rescue SocketError, Errno::ECONNREFUSED
-    raise ExternalAPI::ServerError, "connection failed"
+    raise ExternalApiErrors::ServerError, "connection failed"
   rescue HTTParty::Error => e
-    raise ExternalAPI::UpstreamError, e.message
+    raise ExternalApiErrors::UpstreamError, e.message
   rescue => e
-    raise ExternalAPI::UpstreamError, e.message
+    raise ExternalApiErrors::UpstreamError, e.message
   end
 
   def ensure_google_ok!(json)
     case json["status"]
     when "OK", "ZERO_RESULTS" then return
-    when "OVER_QUERY_LIMIT"    then raise ExternalAPI::RateLimited, json["error_message"]
-    when "REQUEST_DENIED"      then raise ExternalAPI::AuthError,   json["error_message"]
-    when "INVALID_REQUEST"     then raise ExternalAPI::BadRequest,  json["error_message"]
-    when "NOT_FOUND"           then raise ExternalAPI::NotFound,    json["error_message"]
-    else                           raise ExternalAPI::UpstreamError, (json["status"] || "unknown status")
+    when "OVER_QUERY_LIMIT"    then raise ExternalApiErrors::RateLimited, json["error_message"]
+    when "REQUEST_DENIED"      then raise ExternalApiErrors::AuthError,   json["error_message"]
+    when "INVALID_REQUEST"     then raise ExternalApiErrors::BadRequest,  json["error_message"]
+    when "NOT_FOUND"           then raise ExternalApiErrors::NotFound,    json["error_message"]
+    else                           raise ExternalApiErrors::UpstreamError, (json["status"] || "unknown status")
     end
   end
 end
