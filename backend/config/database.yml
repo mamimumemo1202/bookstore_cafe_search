@@ -28,8 +28,5 @@ test:
 # Similarly, if you deploy your application as a Docker container, you must
 # ensure the database is located in a persisted volume.
 production:
+  url: <%= ENV.fetch("DATABASE_URL") %>
   <<: *default
-  host: <%= ENV["DB_HOST"] %>
-  database: <%= ENV["DB_NAME"] %>
-  username: <%= ENV["DB_USERNAME"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
