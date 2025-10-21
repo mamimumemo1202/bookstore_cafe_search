@@ -6,13 +6,20 @@
 # Read more: https://github.com/cyu/rack-cors
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  # allow do
+
+  #   origins "https://bookstore-cafe-search.pages.dev/", "http://localhost:5173" 
+
+  #   resource "/api/v1/*",
+  #     headers: :any,
+  #      expose: [ "access-token", "client", "uid" ],
+  #     methods: [ :get, :post, :put, :patch, :delete, :options, :head ]
+  # end
+
   allow do
-
-    origins "https://bookstore-cafe-search.pages.dev/", "http://localhost:5173" 
-
-    resource "/api/v1/*",
-      headers: :any,
-       expose: [ "access-token", "client", "uid" ],
-      methods: [ :get, :post, :put, :patch, :delete, :options, :head ]
+    origins "*"
+    resource "/api/v1/*", headers: :any, methods: [:get, :options, :head]
   end
+
 end
+  
