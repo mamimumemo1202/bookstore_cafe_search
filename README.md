@@ -60,7 +60,7 @@
 
 ## ER図
 
-![image.png](attachment:77c8076f-f305-457e-bc42-a4207921fe1d:image.png)
+[![image.png](attachment:77c8076f-f305-457e-bc42-a4207921fe1d:image.png)](https://github.com/mamimumemo1202/bookstore_cafe_search/issues/9#issue-3544105993)
 
 Likeテーブルにはポリモーフィックを採用しており、いいねの対象であるbookstore, cafe, pairはlikeable_typeとlikeable_idで管理しております。
 
