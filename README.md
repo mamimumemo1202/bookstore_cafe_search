@@ -60,13 +60,13 @@
 
 ## ER図
 
-[![image.png](attachment:77c8076f-f305-457e-bc42-a4207921fe1d:image.png)](https://github.com/mamimumemo1202/bookstore_cafe_search/issues/9#issue-3544105993)
+画像準備中
 
 Likeテーブルにはポリモーフィックを採用しており、いいねの対象であるbookstore, cafe, pairはlikeable_typeとlikeable_idで管理しております。
 
 ## インフラ構成図
 
-https://viewer.diagrams.net/?tags=%7B%7D&lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=%E5%90%8D%E7%A7%B0%E6%9C%AA%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB.drawio&dark=auto#R%3Cmxfile%3E%3Cdiagram%20name%3D%22%E3%83%9A%E3%83%BC%E3%82%B81%22%20id%3D%22KnWM5tLUaVSK3Mwh8btM%22%3E3VjbcpswEP0azbQPyXALhkewSZOZtOPW08urYmRQLRAVwpd8fVcgjDF2ms7kPn6wdLSSds%2Be3ZGN7HG2%2BSRwkX7mMWHIMuINsifIskzT8%2BBLIdsGcU2%2FARJBY23UATN6RzRoaLSiMSl7hpJzJmnRB%2Bc8z8lc9jAsBF%2F3zRac9W8tcEIGwGyO2RD9SWOZNqhnjTr8itAkbW82XR1fhltjHUmZ4piv9yA7QvZYcC6bUbYZE6bIa3lp9l2eWN05JkguH7IhvSq%2B82l6%2FSv3Ai9Nlz%2FurpdnLc0rzCodsfZWblsKSAyM6CkXMuUJzzGLOjQUvMpjou4xYNbZ3HBeAGgC%2BJtIudXpxZXkAKUyY3q1uVNddDI4DZW8EnNyX0RaJFgkRN5jN9qlALRLeEak2MI%2BQRiWdNX3A2sRJTu7jmcYaKr%2Fh%2FYB62PGq3jBIGDAp6CqElkugwDCmK5gmKjhh28Eg8YtYzYNPrbr4MCeySB7XW4U0euUSjIrcE3hGkr2WB5WREiyuT8TQ%2BbaDSNdALrgLUdLbN2Vj9nWRLpXOq7xVGQP2X7jGh89UOPeS2p8NGD9GwEGxVFdY8pA8EYwvX6tunYM45Xp2hsQ%2FIXw%2FBi9MyIgdkZKxXHBS5kIMvt681ao3s1froVY762F%2BA9sIScy9TwtxP836%2BWSyHnaUlpJRnMy3r0FFbjguRxzxkW9wYbPpXIhTASOKenWcp6rJC0oY4fmE8BLKfiSHBjHuEx3CVWap%2FByvMG3hE15SSWFcrQnt1xKnu0ZBIwmakGqtIdYz%2BbgC3THXsKV71oNIEE918GrK3FZNIEu6Eb5ERacqlOiFRxW6kPg4VmoDdkmUW%2F0c7wunfOqJKJ8nHK1DsrVG1bryBsWa4s9frHaR2TTNLrU7KnH%2FVOp13eYQRXQ%2FKzORwAWRrGpqWnXu87YHKPScPQgtXBW1glT55jOqYMiG3k28l09CPx6YKHA1YMQBi7yYTxBkYPCCfLHe%2B268aDvFcAqvhNNHPIr%2B%2BI61sg5KGHB6p8pKY1jkg%2Fa1mM8EZ2%2BYEz3SH83jvR358n6u%2FPqJQNPIxT5CIrLD2pFXKLAfC%2BKsK2Dx9VoqAj3WQVx8eoFMQlVh%2FAiFFygaKQaBgjjnejB8fp6sO0n0wNMu%2F9g6rW9f7Ls6C8%3D%3C%2Fdiagram%3E%3C%2Fmxfile%3E
+画像準備中
 
 ## 開発の背景
 
