@@ -1,29 +1,46 @@
-class Api::V1::PlacesController < ApplicationController
-    def index
-      lat = params[:lat]
-      lng = params[:lng]
-      keyword = params[:keyword] 
-  
-      client = GooglePlacesClient.new
-      places = client.search_nearby(lat: lat, lng: lng, keyword: keyword)
-  
-      render json: { places: places }
-    end
+class Api::V1::PlacesController < Api::V1::BaseController
+  def index
+    payload = Places::SearchPlaces.call(
+      lat: params[:lat],
+      lng: params[:lng],
+      type: params[:type],
+      bookstore_pid: params[:bpid],
+      user: current_api_v1_user
+    )
 
-    # いまは使ってないけど将来クリックしたときに表示する用に残しておくけど、詳細の住所だけ表示して
-    # クリックしたときはGooglemapの遷移するようにしたほうがいい
-    def show
+    render json: { places: payload }
+  end
+
+
+  # カードをクリックしたときのリッチ情報を返す。カードクリック時に発火。
+  def show
       place_id = params[:id]
 
-      client = GooglePlacesClient.new
+      client = ::GooglePlacesClient.new
       place_details = client.fetch_place_details(place_id)
 
       render json: { place: place_details }
-
-      # エラー処理
-    rescue => e
-      Rails.logger.error(e.message)
-      render json: { error: "Place details fetch failed" }, status: 500
     end
-  end
-  
+
+    # 検索窓で検索したときにURLのlat, lngを返す
+    def geometry
+      place_id = params[:id]
+
+      client = ::GooglePlacesClient.new
+      geometry = client.fetch_place_geometry(place_id)
+
+      return render json: {geometry: geometry}
+
+    end
+
+    def get_details_bulk
+      place_ids_param = params[:place_ids]
+      raise AppErrors::BadRequest, 'place_ids is required' if place_ids_param.blank?
+
+      place_ids = Array(place_ids_param)
+      client = ::GooglePlacesClient.new
+      details_bulk = client.fetch_place_details_bulk(place_ids)
+
+      render json: { details_bulk: details_bulk }
+    end
+end

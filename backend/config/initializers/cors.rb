@@ -5,12 +5,19 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
-# Rails.application.config.middleware.insert_before 0, Rack::Cors do
-#   allow do
-#     origins "example.com"
-#
-#     resource "*",
-#       headers: :any,
-#       methods: [:get, :post, :put, :patch, :delete, :options, :head]
-#   end
-# end
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+
+    origins(
+      "https://bookstore-cafe-search.pages.dev",
+      %r{\Ahttps://[a-z0-9-]+\.bookstore-cafe-search\.pages\.dev\z},
+      "http://localhost:5173"
+    )
+
+    resource "/api/v1/*",
+      headers: :any,
+       expose: [ "access-token", "client", "uid" ],
+      methods: [ :get, :post, :put, :patch, :delete, :options, :head ]
+  end
+end
+  

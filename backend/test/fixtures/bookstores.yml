@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  place_id: MyString
+  name: MyString
+  formatted_address: MyString
+  lat: 9.99
+  lng: 9.99
+  likes_count: 1
+
+two:
+  place_id: MyString
+  name: MyString
+  formatted_address: MyString
+  lat: 9.99
+  lng: 9.99
+  likes_count: 1

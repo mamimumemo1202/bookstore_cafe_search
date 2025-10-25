@@ -1,18 +1,22 @@
-// vite.config.js
+﻿
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     tailwindcss(),],
-  server: {
+  server: mode === 'development' ?  {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000', // Railsサーバー
+        target: 'http://localhost:3000',
         changeOrigin: true,
       }
     }
+  } : undefined,
+
+  test: {
+    environment: "jsdom",
   }
-})
+}))
