@@ -152,13 +152,8 @@ export function SearchResultsPage() {
 
       {isOpenModal && <SearchModal onClose={closeModal} />}
 
-      <div className="flex flex-col sm:flex-row h-screen ">
+      <div className="mt-16 flex flex-col sm:flex-row h-[calc(100vh-4rem)]">
         <div className="h-2/5 w-full  sm:w-1/2 sm:h-full">
-          <div className="w-full px-4 py-2 bg-gray-100 text-sm text-right">
-            <button onClick={() => navigate('/')} className="text-blue-600 hover:underline">
-              トップに戻る
-            </button>
-          </div>
           {/* 検索結果マップ */}
           <PlacesMap
             lat={lat}
@@ -170,7 +165,7 @@ export function SearchResultsPage() {
           />
         </div>
 
-        <div className="h-3/5 w-full pt-9  sm:w-1/2 sm:h-full sm:pt-0 overflow-y-auto pb-16">
+        <div className="h-3/5 w-full sm:w-1/2 sm:h-full overflow-hidden pb-16">
           {searchMode === 'bookstore' && (
             <div className="sticky top-0 p-2 bg-white">
               <button
@@ -184,7 +179,7 @@ export function SearchResultsPage() {
           )}
 
           {searchMode === 'bookstore' && !isOpenCafeCard ? (
-            <div className="">
+            <div className="h-full overflow-y-auto px-2">
               {/* 本屋カード */}
               <BookstoreCard
                 bookstores={bookstores}
@@ -197,7 +192,7 @@ export function SearchResultsPage() {
               />
             </div>
           ) : (
-            <div className="">
+            <div className="flex h-full flex-col overflow-hidden">
               {/* 書店セレクター */}
               {searchMode === 'bookstore' ||
                 (searchMode === 'pair' && (
@@ -209,7 +204,7 @@ export function SearchResultsPage() {
                 ))}
 
               {/* カフェカード */}
-              <div className="w-full h-full overflow-y-auto">
+              <div className="flex-1 overflow-y-auto px-2">
                 <CafeCard
                   cafes={cafes}
                   onSelectCafe={setActiveCafe}
