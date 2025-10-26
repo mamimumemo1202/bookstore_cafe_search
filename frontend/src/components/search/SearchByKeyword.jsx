@@ -3,7 +3,9 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { useModal } from '../contexts/ModalContext';
-import { fetchGeometry } from '../../apis/places';
+import { fetchGeometry, autocomplete } from '../../apis/places';
+import { toast } from 'react-toastify';
+
 
 export function SearchBar({ searchMode: propSearchMode }) {
   const [query, setQuery] = useState('');
@@ -13,7 +15,9 @@ export function SearchBar({ searchMode: propSearchMode }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL
+  const notify= (status) => {
+    if(status) toast.error("エラーが発生しました。ホームに戻ってください。")
+    }
 
   // INFO: URLからsearchModeを取得するー＞モーダルからのpropと評価し、props優先
   const searchModeParams = new URLSearchParams(location.search).get('mode') || 'bookstore';
@@ -30,13 +34,10 @@ export function SearchBar({ searchMode: propSearchMode }) {
     const autocompleteTimer = setTimeout(() => {
       const fetchSearchPredictions = async () => {
         try {
-          const res = await axios.post(`${BASE_URL}/autocomplete`, {
-            input: query,
-          });
-
+          const res = await autocomplete(query)
           setPredictions(res.data);
-        } catch (err) {
-          console.error(err);
+        } catch (error) {
+          notify(error.response.status)
           setPredictions([]);
         }
       };
@@ -55,7 +56,7 @@ export function SearchBar({ searchMode: propSearchMode }) {
       closeModal();
       navigate(`/search?lat=${res.lat}&lng=${res.lng}&mode=${searchMode}`);
     } catch (error) {
-      console.error(error);
+      notify(error.response.status)
       closeModal();
     }
   };

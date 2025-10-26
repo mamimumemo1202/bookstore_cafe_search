@@ -3,6 +3,7 @@ import { fetchLikes, fetchPlaceDetailsBulk } from '../apis/places';
 import { LikeList } from '../components/mylist/LikesList';
 import { BackButton } from '../components/common/BackButton';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
+import { toast } from 'react-toastify';
 
 export function MyList() {
   const [likedPlaces, setLikedPlaces] = useState([]);
@@ -10,6 +11,11 @@ export function MyList() {
   const [cafes, setCafes] = useState([]);
   const [bookstores, setBookstores] = useState([]);
   const [pairs, setPairs] = useState([]);
+
+  const notify= (status) => {
+    if(status) toast.error("エラーが発生しました。ホームに戻ってください。")
+    }
+
 
   useEffect(() => {
     const fetchLikedPlaces = async () => {
@@ -35,7 +41,7 @@ export function MyList() {
         setBookstores(likes.filter((like) => like.likeable_type === 'Bookstore'));
         setPairs(likes.filter((like) => like.likeable_type === 'Pair'));
       } catch (error) {
-        console.error(error);
+       notify(error.response.status)
       }
     };
     fetchLikedPlaces();

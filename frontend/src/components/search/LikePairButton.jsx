@@ -3,9 +3,17 @@
 import { HeartIcon, PuzzlePieceIcon } from '@heroicons/react/24/solid';
 import { likePair, unlikePlace } from '../../apis/places';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
 
 export function LikePairButton({ bookstorePlaceId, activeCafePlaceId, pairLikeId }) {
   const [liked, setLiked] = useState(false);
+
+  const notify= (status) => {
+    if(status === 401) toast.info("ログインしてください") 
+    else if (status === 400) toast.error("不正なリクエストです")
+    else if(status) toast.error("予期せぬエラーです")
+  }
 
   useEffect(() => {
     setLiked(!!pairLikeId);
@@ -18,8 +26,8 @@ export function LikePairButton({ bookstorePlaceId, activeCafePlaceId, pairLikeId
     try {
       prev ? await unlikePlace(pairLikeId) : await likePair(bookstorePlaceId, activeCafePlaceId);
     } catch (error) {
-      console.error(error);
-      setLiked(prev);
+       notify(error.response.status)
+       setLiked(prev);
     }
   };
 

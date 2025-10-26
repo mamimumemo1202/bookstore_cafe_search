@@ -3,6 +3,12 @@ import { getAuthInfo } from '.';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL
 
+export const autocomplete = async ( query ) => {
+  const response = await axios.post(`${BASE_URL}/autocomplete`, {
+            input: query})
+  return response.data;
+}
+
 export const fetchBookstores = async (lat, lng, type = 'Bookstore') => {
 
   const response = await axios.get(`${BASE_URL}/places`, {
