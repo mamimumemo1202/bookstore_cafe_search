@@ -84,7 +84,7 @@ export function SearchBar({ searchMode: propSearchMode }) {
 
       {/* INFO: 現在はdescriptionをそのまま検索予測として表示しているが
                 今後はさらにPlaceAPIを叩いてより正確な検索予測として表示する可能性あり*/}
-      <ul className="absolute z-10 mt-1 w-full bg-white rounded-md shadow-lg">
+      <ul className="absolute z-10 mt-1 w-full bg-white rounded-md shadow-lg max-h-60 overflow-y-auto">
         {predictions?.map((prediction, index) => (
           <li
             key={index}
