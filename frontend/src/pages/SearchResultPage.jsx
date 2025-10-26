@@ -13,6 +13,7 @@ import { useModal } from '../components/contexts/ModalContext';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { likePair } from '../apis/places';
 import { toast } from 'react-toastify';
+import { CardSkeleton } from '../components/search/CardSkelton';
 
 export function SearchResultsPage() {
   const [bookstores, setBookstores] = useState([]);
@@ -137,15 +138,6 @@ export function SearchResultsPage() {
     return null;
   }
 
-  if (isLoading) {
-    return (
-      <div className="w-full h-screen flex flex-col justify-center items-center">
-        <LoadingIcon />
-        <p className="mt-2 text-gray-600 text-sm">検索中です…</p>
-      </div>
-    );
-  }
-
   return (
     <>
       <Header variant="search" className="" />
@@ -181,6 +173,7 @@ export function SearchResultsPage() {
           {searchMode === 'bookstore' && !isOpenCafeCard ? (
             <div className="h-full overflow-y-auto px-2">
               {/* 本屋カード */}
+              {isLoading && (<><CardSkeleton /><CardSkeleton /><CardSkeleton /></>)}
               <BookstoreCard
                 bookstores={bookstores}
                 onSelectBookstore={setActiveBookstore}
