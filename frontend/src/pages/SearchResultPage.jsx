@@ -12,6 +12,7 @@ import { SearchModal } from '../components/search/SearchModal';
 import { useModal } from '../components/contexts/ModalContext';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { likePair } from '../apis/places';
+import { toast } from 'react-toastify';
 
 export function SearchResultsPage() {
   const [bookstores, setBookstores] = useState([]);
@@ -23,6 +24,10 @@ export function SearchResultsPage() {
   const { isOpenModal, closeModal } = useModal();
 
   const navigate = useNavigate();
+
+  const notify= (status) => {
+    if(status) toast.error("エラーが発生しました。ホームに戻ってください。")
+    }
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -85,8 +90,8 @@ export function SearchResultsPage() {
             setActiveBookstore(b)
           }
         }
-      } catch (err) {
-        console.error('SearchResultsPageでのエラー', err);
+      } catch (error) {
+       notify(error.response.status)
       } finally {
         stopLoading();
       }

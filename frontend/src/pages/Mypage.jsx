@@ -10,16 +10,13 @@ import { Avatar } from '../components/common/Avatar';
 
 export function Mypage() {
   const { isLoggedIn, setIsLoggedIn, user, setUser, isLoading } = useAuthContext();
-
-  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
     try {
       await signOut();
-    } catch (error) {
-      console.error('React側で失敗', error);
-      setErrorMessage('エラーが発生しました。もう一度試してください。');
+    } catch  {
+      await signOut();
     } finally {
       clearAuthInfo();
       setUser(null);
@@ -39,10 +36,6 @@ export function Mypage() {
       </div>
 
       <div className="flex flex-col justify-center pt-10  mx-10">
-        {errorMessage && (
-          <div className="bg-red-200 text-red-800 p-2 rounded mb-2">{errorMessage}</div>
-        )}
-
         <div className="flex justify-center pb-4">
           <div className="w-16 h-16">
             <Avatar user={user} />

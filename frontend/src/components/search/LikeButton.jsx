@@ -3,10 +3,17 @@
 import { HeartIcon } from '@heroicons/react/24/solid';
 import { likePlace, unlikePlace } from '../../apis/places';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export function LikeButton({ placeId, type, likeId }) {
   const [liked, setLiked] = useState(false);
   const [currentLikeId, setCurrentLikeId] = useState(likeId);
+
+  const notify= (status) => {
+    if(status === 401) toast.info("ログインしてください") 
+    else if (status === 400) toast.error("不正なリクエストです")
+    else if(status) toast.error("予期せぬエラーです")
+  }
 
   useEffect(() => {
     setLiked(!!likeId);
@@ -27,8 +34,8 @@ export function LikeButton({ placeId, type, likeId }) {
         setLiked(true);
       }
     } catch (error) {
-      console.error(error);
-      setLiked(prev);
+       notify(error.response.status)
+       setLiked(prev);
     }
   };
 
