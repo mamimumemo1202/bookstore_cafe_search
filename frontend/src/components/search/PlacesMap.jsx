@@ -1,6 +1,10 @@
 // src/components/PlacesMap.jsx
 import { useEffect, useState, useRef } from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
+import coffee from '../../assets/coffee.png';
+import book from '../../assets/book.png';
+
+
 
 // 地図のスタイルを定数化
 const containerStyle = {
@@ -42,9 +46,7 @@ export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, active
             key={bookstore.place_id}
             position={{ lat: bookstore.lat, lng: bookstore.lng }}
             title={bookstore.name}
-            icon={{
-              url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-            }}
+            icon={book}
           />
         ))}
         {/* カフェのピン */}
@@ -53,9 +55,7 @@ export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, active
             key={cafe.place_id}
             position={{ lat: cafe.lat, lng: cafe.lng }}
             title={cafe.name}
-            icon={{
-              url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-            }}
+            icon={coffee}
           />
         ))}
       </GoogleMap>
