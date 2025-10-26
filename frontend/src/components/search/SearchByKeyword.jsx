@@ -35,7 +35,7 @@ export function SearchBar({ searchMode: propSearchMode }) {
       const fetchSearchPredictions = async () => {
         try {
           const res = await autocomplete(query)
-          setPredictions(res.data);
+          setPredictions(res);
         } catch (error) {
           notify(error.response.status)
           setPredictions([]);
@@ -85,7 +85,7 @@ export function SearchBar({ searchMode: propSearchMode }) {
       {/* INFO: 現在はdescriptionをそのまま検索予測として表示しているが
                 今後はさらにPlaceAPIを叩いてより正確な検索予測として表示する可能性あり*/}
       <ul className="absolute z-10 mt-1 w-full bg-white rounded-md shadow-lg">
-        {predictions.map((prediction, index) => (
+        {predictions?.map((prediction, index) => (
           <li
             key={index}
             className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
