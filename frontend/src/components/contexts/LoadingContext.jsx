@@ -24,8 +24,4 @@ export function LoadingProvider({ children, defaultLoading = false }) {
   );
 }
 
-export function useLoading() {
-  const ctx = useContext(LoadingContext);
-  if (!ctx) throw new Error('useLoading must be used inside <LoadingProvider>');
-  return ctx;
-}
+export const useLoading = () => useContext(LoadingContext) 
