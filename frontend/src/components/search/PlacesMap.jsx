@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import coffee from '../../assets/coffee.png';
 import book from '../../assets/book.png';
+import pin from '../../assets/pin.png';
 
 
 
@@ -40,6 +41,10 @@ export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, active
         }}
         onLoad={(map) => (mapRef.current = map)} // map インスタンスを保存
       >
+          <Marker
+          position={{lat: lat, lng: lng}}
+          title='current location'
+          icon={pin}/>
         {/* 本屋のピン */}
         {bookstores.map((bookstore) => (
           <Marker
