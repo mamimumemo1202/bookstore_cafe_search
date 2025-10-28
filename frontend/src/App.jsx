@@ -11,11 +11,22 @@ import { ResetPasswordPage } from './pages/ResetPasswordPage';
 import { ConfirmedPage } from './pages/ConfimedPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { ChangePasswordPage } from './pages/ChangePasswordPage';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // TODO: 未ログイン時のアクセスを制限する認可の設定
 export function App() {
   return (
     <>
+    <ToastContainer
+      toastStyle={{
+            maxWidth: '60vw',
+            borderRadius: '8px',
+            padding: '12px 14px',
+            fontSize: '14px',
+          }}
+      autoClose={1500}
+      hideProgressBar />
       <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
         <BrowserRouter>
           <AuthProvider>

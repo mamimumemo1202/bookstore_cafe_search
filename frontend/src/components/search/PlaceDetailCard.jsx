@@ -28,7 +28,7 @@ export function PlaceDetailCard({ placeId }) {
   return (
     <>
       <div className="flex flex-col p-2">
-        <div className="flex gap-3 py-5">
+        <div className="grid grid-cols-3 gap-3 py-5">
           {place?.photos?.length ? (
             place?.photos
               ?.slice(0, 3)
@@ -38,7 +38,7 @@ export function PlaceDetailCard({ placeId }) {
                   src={getPlacePhotoUrl(p.photo_reference)}
                   alt="place photo"
                   loading="eager"
-                  className="w-32 h-32 object-cover"
+                  className="h-24 w-full object-cover"
                 />
               ))
           ) : (
@@ -46,7 +46,7 @@ export function PlaceDetailCard({ placeId }) {
               src={noImage}
               alt="No image"
               loading="eager"
-              className="w-32 h-auto object-cover"
+              className="col-span-3 h-24 w-full object-cover"
             />
           )}
         </div>

@@ -12,6 +12,8 @@ import { SearchModal } from '../components/search/SearchModal';
 import { useModal } from '../components/contexts/ModalContext';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { likePair } from '../apis/places';
+import { toast } from 'react-toastify';
+import { CardSkeleton } from '../components/search/CardSkelton';
 
 export function SearchResultsPage() {
   const [bookstores, setBookstores] = useState([]);
@@ -23,6 +25,10 @@ export function SearchResultsPage() {
   const { isOpenModal, closeModal } = useModal();
 
   const navigate = useNavigate();
+
+  const notify= (status) => {
+    if(status) toast.error("エラーが発生しました。ホームに戻ってください。")
+    }
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -85,8 +91,8 @@ export function SearchResultsPage() {
             setActiveBookstore(b)
           }
         }
-      } catch (err) {
-        console.error('SearchResultsPageでのエラー', err);
+      } catch (error) {
+       notify(error.response.status)
       } finally {
         stopLoading();
       }
@@ -132,28 +138,14 @@ export function SearchResultsPage() {
     return null;
   }
 
-  if (isLoading) {
-    return (
-      <div className="w-full h-screen flex flex-col justify-center items-center">
-        <LoadingIcon />
-        <p className="mt-2 text-gray-600 text-sm">検索中です…</p>
-      </div>
-    );
-  }
-
   return (
     <>
       <Header variant="search" className="" />
 
       {isOpenModal && <SearchModal onClose={closeModal} />}
 
-      <div className="flex flex-col sm:flex-row h-screen ">
+      <div className="mt-16 flex flex-col sm:flex-row h-[calc(100vh-4rem)]">
         <div className="h-2/5 w-full  sm:w-1/2 sm:h-full">
-          <div className="w-full px-4 py-2 bg-gray-100 text-sm text-right">
-            <button onClick={() => navigate('/')} className="text-blue-600 hover:underline">
-              トップに戻る
-            </button>
-          </div>
           {/* 検索結果マップ */}
           <PlacesMap
             lat={lat}
@@ -165,7 +157,7 @@ export function SearchResultsPage() {
           />
         </div>
 
-        <div className="h-3/5 w-full pt-9  sm:w-1/2 sm:h-full sm:pt-0 overflow-y-auto pb-16">
+        <div className="h-3/5 w-full sm:w-1/2 sm:h-full overflow-hidden pb-16">
           {searchMode === 'bookstore' && (
             <div className="sticky top-0 p-2 bg-white">
               <button
@@ -179,8 +171,9 @@ export function SearchResultsPage() {
           )}
 
           {searchMode === 'bookstore' && !isOpenCafeCard ? (
-            <div className="">
+            <div className="h-full overflow-y-auto px-2">
               {/* 本屋カード */}
+              {isLoading && (<><CardSkeleton /><CardSkeleton /><CardSkeleton /></>)}
               <BookstoreCard
                 bookstores={bookstores}
                 onSelectBookstore={setActiveBookstore}
@@ -192,7 +185,7 @@ export function SearchResultsPage() {
               />
             </div>
           ) : (
-            <div className="">
+            <div className="flex h-full flex-col overflow-hidden">
               {/* 書店セレクター */}
               {searchMode === 'bookstore' ||
                 (searchMode === 'pair' && (
@@ -204,7 +197,7 @@ export function SearchResultsPage() {
                 ))}
 
               {/* カフェカード */}
-              <div className="w-full h-full overflow-y-auto">
+              <div className="flex-1 overflow-y-auto px-2">
                 <CafeCard
                   cafes={cafes}
                   onSelectCafe={setActiveCafe}
