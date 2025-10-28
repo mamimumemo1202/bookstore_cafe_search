@@ -33,9 +33,10 @@ class Api::V1::PlacesController < Api::V1::BaseController
 
     end
 
+    # いいねしたそれぞれの場所のname formatted_address photosを取得し、カードに表示
     def get_details_bulk
       place_ids_param = params[:place_ids]
-      raise AppErrors::BadRequest, 'place_ids is required' if place_ids_param.blank?
+      return render json: { details_bulk: [] } if place_ids_param.blank?
 
       place_ids = Array(place_ids_param)
       client = ::GooglePlacesClient.new
