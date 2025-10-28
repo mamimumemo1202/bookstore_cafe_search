@@ -5,11 +5,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CafeCard } from '../components/search/CafeCard';
 import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPlaceDetails } from '../apis/places';
 import { BookstoreCard } from '../components/search/BookstoreCard';
-import { LoadingIcon } from '../components/common/LoadingIcon';
-import { useLoading } from '../hooks/useLoading';
 import { Header } from '../components/layout/Header';
 import { SearchModal } from '../components/search/SearchModal';
 import { useModal } from '../components/contexts/ModalContext';
+import { useLoading } from "../components/contexts/LoadingContext";
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { likePair } from '../apis/places';
 import { toast } from 'react-toastify';
@@ -21,7 +20,7 @@ export function SearchResultsPage() {
   const [activeBookstore, setActiveBookstore] = useState(null);
   const [activeCafe, setActiveCafe] = useState(null);
   const [isOpenCafeCard, setIsOpenCafeCard] = useState(false);
-  const { isLoading, startLoading, stopLoading } = useLoading();
+  const { isLoading, withLoading } = useLoading();
   const { isOpenModal, closeModal } = useModal();
 
   const navigate = useNavigate();
@@ -72,8 +71,9 @@ export function SearchResultsPage() {
     if (!lat || !lng) return;
 
     const fetchPlaces = async () => {
-      startLoading();
+      
       try {
+        await withLoading( async () => {
         if (searchMode === 'bookstore') {
           const res = await fetchBookstores(lat, lng);
           setBookstores(res);
@@ -90,11 +90,9 @@ export function SearchResultsPage() {
             const b = bs.find((b) => b.place_id === bpid);
             setActiveBookstore(b)
           }
-        }
+        }})
       } catch (error) {
        notify(error.response.status)
-      } finally {
-        stopLoading();
       }
     };
     fetchPlaces();

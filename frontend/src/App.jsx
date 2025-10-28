@@ -7,6 +7,7 @@ import { AuthProvider } from './components/contexts/AuthContext';
 import { Mypage } from './pages/Mypage';
 import { MyList } from './pages/MyList';
 import { ModalProvider } from './components/contexts/ModalContext';
+import { LoadingProvider } from './components/contexts/LoadingContext';
 import { ResetPasswordPage } from './pages/ResetPasswordPage';
 import { ConfirmedPage } from './pages/ConfimedPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
@@ -31,6 +32,7 @@ export function App() {
         <BrowserRouter>
           <AuthProvider>
             <ModalProvider>
+              <LoadingProvider>
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/confirmed" element={<ConfirmedPage />} />
@@ -42,6 +44,7 @@ export function App() {
                 <Route path="/mylist" element={<MyList />} />
                 <Route path="/search" element={<SearchResultsPage />} />
               </Routes>
+              </LoadingProvider>
             </ModalProvider>
           </AuthProvider>
         </BrowserRouter>
