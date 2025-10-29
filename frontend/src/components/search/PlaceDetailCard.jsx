@@ -65,7 +65,7 @@ export function PlaceDetailCard({ placeId }) {
               src={noImage}
               alt="No image"
               loading="eager"
-              className="col-span-3 h-24 w-full object-cover"
+              className={`col-span-3 h-24 w-full object-cover ${isLoading? "opacity-0" : "opacity-100" }`}
             />
           )}
         </div>
