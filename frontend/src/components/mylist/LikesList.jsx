@@ -5,7 +5,7 @@ import { SearchModal } from '../search/SearchModal';
 import { useState } from 'react';
 import { PlaceDetailCard } from '../search/PlaceDetailCard';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
-import { CardSkeleton } from '../search/CardSkelton';
+import { Skeleton } from '../search/Skelton';
 import { useLoading } from '../contexts/LoadingContext';
 
 export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
@@ -24,7 +24,7 @@ export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
       <div>
         <div className="py-2">本屋</div>
         <div className="grid grid-cols-1">
-          { isLoading && <><CardSkeleton /><CardSkeleton /></>}
+          { isLoading && <><Skeleton /><Skeleton /></>}
           {bookstores?.length > 0 ? (
             bookstores?.map((like) => (
               <ul
@@ -67,7 +67,7 @@ export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
       <div>
         <div className="py-2">カフェ</div>
         <div className="grid grid-cols-1">
-          { isLoading && <><CardSkeleton /><CardSkeleton /></>}
+          { isLoading && <><Skeleton /><Skeleton /></>}
           {cafes?.length > 0 ? (
             cafes?.map((like) => (
               <ul
@@ -106,7 +106,7 @@ export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
       <div>
         <div className="py-2">ペア</div>
         <div className="grid grid-cols-1">
-          { isLoading && <><CardSkeleton /><CardSkeleton /></>}
+          { isLoading && <><Skeleton /><Skeleton /></>}
           {pairs.length > 0 ? (
             pairs.map((like) => (
               <ul

@@ -6,3 +6,12 @@ export function CardSkeleton() {
     </div>
   );
 }
+
+export function ImageSkelton() {
+  return(
+  <>
+  {[0,1,2].map((_, i) => (
+            <div key={i} className="animate-pulse h-24 w-full bg-gray-50 rounded-md" />
+          ))}
+  </>)
+}
