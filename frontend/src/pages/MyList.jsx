@@ -5,13 +5,15 @@ import { BackButton } from '../components/common/BackButton';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { toast } from 'react-toastify';
 import { useLoading } from '../components/contexts/LoadingContext';
+import { TextUnderlineIcon } from '@phosphor-icons/react';
 
 export function MyList() {
   const [placeDetails, setPlaceDetails] = useState({});
   const [cafes, setCafes] = useState([]);
   const [bookstores, setBookstores] = useState([]);
   const [pairs, setPairs] = useState([]);
-  const { withLoading} = useLoading(null)
+  const [isLoading, setIsLoading] = useState(false)
+
 
   const notify= (status) => {
     if(status) toast.error("エラーが発生しました。ホームに戻ってください。")
@@ -21,7 +23,7 @@ export function MyList() {
   useEffect(() => {
 
     const fetchLikedPlaces = async () => {
-      await withLoading( async() => {
+      setIsLoading(true)
       try {
         const likes = await fetchLikes();
 
@@ -44,7 +46,7 @@ export function MyList() {
         setPairs(likes.filter((like) => like.likeable_type === 'Pair'));
       } catch (error) {
        notify(error.response.status)
-      }})
+      } finally { setIsLoading(false) }
     };
     fetchLikedPlaces();
   }, []);
@@ -61,6 +63,7 @@ export function MyList() {
           cafes={cafes}
           bookstores={bookstores}
           pairs={pairs}
+          isLoading={isLoading}
         />
         <FooterNavigation />
       </div>

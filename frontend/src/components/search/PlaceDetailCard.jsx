@@ -11,7 +11,7 @@ import {
 import noImage from '../../assets/no-image.png';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { toast } from 'react-toastify';
-import { ImageSkelton } from './Skelton';
+import { ImageSkeleton } from './Skeleton';
 
 export function PlaceDetailCard({ placeId }) {
   const [place, setPlace] = useState(false);
@@ -42,7 +42,7 @@ export function PlaceDetailCard({ placeId }) {
       <div className="flex flex-col p-2">
         <div className="grid grid-cols-3 gap-3 py-5">
           
-          { isLoading && <ImageSkelton/>}
+          { isLoading && <ImageSkeleton/>}
 
           {place?.photos?.length ? (
             place?.photos

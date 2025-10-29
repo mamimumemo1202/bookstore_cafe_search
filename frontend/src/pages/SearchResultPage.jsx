@@ -12,7 +12,7 @@ import { useLoading } from "../components/contexts/LoadingContext";
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { likePair } from '../apis/places';
 import { toast } from 'react-toastify';
-import { Skeleton } from '../components/search/Skelton';
+import { CardSkeleton } from '../components/search/Skeleton';
 
 export function SearchResultsPage() {
   const [bookstores, setBookstores] = useState([]);
@@ -171,7 +171,7 @@ export function SearchResultsPage() {
           {searchMode === 'bookstore' && !isOpenCafeCard ? (
             <div className="h-full overflow-y-auto px-2">
               {/* 本屋カード */}
-              {isLoading && (<><Skeleton /><Skeleton /><Skeleton /></>)}
+              {isLoading && (<><CardSkeleton /><CardSkeleton /><CardSkeleton /></>)}
               <BookstoreCard
                 bookstores={bookstores}
                 onSelectBookstore={setActiveBookstore}
@@ -196,7 +196,7 @@ export function SearchResultsPage() {
 
               {/* カフェカード */}
               <div className="flex-1 overflow-y-auto p-2">
-                {isLoading && (<><Skeleton /><Skeleton /><Skeleton /></>)}
+                {isLoading && (<><CardSkeleton /><CardSkeleton /><CardSkeleton /></>)}
 
                 <CafeCard
                   cafes={cafes}

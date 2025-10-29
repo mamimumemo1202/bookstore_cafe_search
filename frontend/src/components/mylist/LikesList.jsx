@@ -5,13 +5,12 @@ import { SearchModal } from '../search/SearchModal';
 import { useState } from 'react';
 import { PlaceDetailCard } from '../search/PlaceDetailCard';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
-import { Skeleton } from '../search/Skelton';
-import { useLoading } from '../contexts/LoadingContext';
+import { CardSkeleton } from '../search/Skeleton';
 
-export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
+
+export function LikeList({ placeDetails, cafes, bookstores, pairs, isLoading }) {
   const { isOpenModal, closeModal } = useModal();
   const [openId, setOpenId] = useState(null);
-  const { isLoading } = useLoading(null)
 
   const handleDetailToggle = (id) => {
     setOpenId(openId === id ? null : id);
@@ -24,7 +23,7 @@ export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
       <div>
         <div className="py-2">本屋</div>
         <div className="grid grid-cols-1">
-          { isLoading && <><Skeleton /><Skeleton /></>}
+          { isLoading && <><CardSkeleton /><CardSkeleton /></>}
           {bookstores?.length > 0 ? (
             bookstores?.map((like) => (
               <ul
@@ -59,7 +58,7 @@ export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
               </ul>
             ))
           ) : (
-            <div>いいねした本屋がありません</div>
+            <div className={`${isLoading? "hidden" : " "}`}>いいねした本屋がありません</div>
           )}
         </div>
       </div>
@@ -67,7 +66,7 @@ export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
       <div>
         <div className="py-2">カフェ</div>
         <div className="grid grid-cols-1">
-          { isLoading && <><Skeleton /><Skeleton /></>}
+          { isLoading && <><CardSkeleton /><CardSkeleton /></>}
           {cafes?.length > 0 ? (
             cafes?.map((like) => (
               <ul
@@ -98,7 +97,7 @@ export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
               </ul>
             ))
           ) : (
-            <div>いいねしたカフェがありません</div>
+            <div className={`${isLoading? "hidden" : " "}`}>いいねしたカフェがありません</div>
           )}
         </div>
       </div>
@@ -106,7 +105,7 @@ export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
       <div>
         <div className="py-2">ペア</div>
         <div className="grid grid-cols-1">
-          { isLoading && <><Skeleton /><Skeleton /></>}
+          { isLoading && <><CardSkeleton /><CardSkeleton /></>}
           {pairs.length > 0 ? (
             pairs.map((like) => (
               <ul
@@ -142,7 +141,7 @@ export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
               </ul>
             ))
           ) : (
-            <div>いいねしたペアがありません</div>
+            <div className={`${isLoading? "hidden" : " "}`}>いいねしたペアがありません</div>
           )}
         </div>
       </div>

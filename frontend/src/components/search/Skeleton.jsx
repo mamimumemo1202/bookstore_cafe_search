@@ -7,7 +7,7 @@ export function CardSkeleton() {
   );
 }
 
-export function ImageSkelton() {
+export function ImageSkeleton() {
   return(
   <>
   {[0,1,2].map((_, i) => (
