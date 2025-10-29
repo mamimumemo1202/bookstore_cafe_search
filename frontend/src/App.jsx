@@ -14,6 +14,7 @@ import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { ChangePasswordPage } from './pages/ChangePasswordPage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { RequireAuth, GuestOnly } from './routes';
 
 // TODO: 未ログイン時のアクセスを制限する認可の設定
 export function App() {
@@ -34,19 +35,27 @@ export function App() {
             <ModalProvider>
               <LoadingProvider>
               <Routes>
+
                 <Route path="/" element={<HomePage />} />
+                <Route path="/search" element={<SearchResultsPage />} />
+
+                <Route element={<RequireAuth/>}>
+                  <Route path="/mypage/password" element={<ChangePasswordPage />} />
+                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                  <Route path="/mypage" element={<Mypage />} />
+                  <Route path="/mylist" element={<MyList />} />
+                </Route>
+
+                <Route element={<GuestOnly/>} >
                 <Route path="/confirmed" element={<ConfirmedPage />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                <Route path="/mypage/password" element={<ChangePasswordPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/auth" element={<AuthPage />} />
-                <Route path="/mypage" element={<Mypage />} />
-                <Route path="/mylist" element={<MyList />} />
-                <Route path="/search" element={<SearchResultsPage />} />
+                </Route>
+
               </Routes>
               </LoadingProvider>
             </ModalProvider>
-          </AuthProvider>
+          </AuthProvider> 
         </BrowserRouter>
       </LoadScript>
     </>
