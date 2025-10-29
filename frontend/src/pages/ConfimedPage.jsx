@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export function ConfirmedPage() {
   const navigate = useNavigate();
@@ -7,7 +8,8 @@ export function ConfirmedPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/');
-    }, 2000);
+      toast.info("ログインできます")
+    }, 10000);
 
     return () => clearTimeout(timer);
   }, [navigate]);

@@ -1,35 +1,36 @@
-// TODO:
-
 import { useState } from 'react';
 import { signUp } from '../../apis/auth';
-import { saveAuthInfo } from '../../apis';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
+import { useLoading } from '../contexts/LoadingContext';
+import { toast } from 'react-toastify';
 
 export function SignUpForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const { isLoggedIn, setIsLoggedIn, user, setUser } = useAuthContext();
+  const { withLoading, isLoading } = useLoading();
 
   const navigate = useNavigate();
 
-  // TODO: 6桁コード認証の実装
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await signUp({ email, password, passwordConfirmation });
-      navigate('/');
-    } catch (error) {
-      console.error(error);
-      if (error.response) {
-        const messages = error.response.data.errors.full_messages;
-        setErrorMessage(messages.join('\n'));
-      } else {
-        setErrorMessage('Unexpected error occured');
+    setErrorMessage('');
+    await withLoading(async () => {
+      try {
+        await signUp({ email, password, passwordConfirmation });
+        navigate('/');
+        toast.info('認証メールを送信しました', { autoClose: 5000 });
+      } catch (error) {
+        if (error.response) {
+          const messages = error.response.data.errors.full_messages;
+          setErrorMessage(messages.join('\n'));
+        } else {
+          setErrorMessage('予期せぬエラーが発生しました');
+        }
       }
-    }
+    });
   };
 
   return (
@@ -47,6 +48,7 @@ export function SignUpForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="メールアドレス"
           className="my-2 mx-5 p-2 shadow-sm rounded-full"
+          disabled={isLoading}
         />
         <input
           type="password"
@@ -54,6 +56,7 @@ export function SignUpForm() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="パスワード"
           className="my-2 mx-5 p-2 shadow-sm rounded-full"
+          disabled={isLoading}
         />
         <input
           type="password"
@@ -61,9 +64,14 @@ export function SignUpForm() {
           onChange={(e) => setPasswordConfirmation(e.target.value)}
           placeholder="パスワード（確認）"
           className="my-2 mx-5 p-2 shadow-sm rounded-full"
+          disabled={isLoading}
         />
-        <button type="submit" className="my-6 mx-5 p-2 rounded-full bg-primary-600 text-white">
-          登録
+        <button
+          type="submit"
+          className="my-6 mx-5 p-2 rounded-full bg-primary-600 text-white disabled:bg-primary-300 disabled:cursor-not-allowed"
+          disabled={isLoading}
+        >
+          {isLoading ? '登録中...' : '登録'}
         </button>
       </form>
     </>

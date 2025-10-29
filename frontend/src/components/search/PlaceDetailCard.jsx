@@ -1,4 +1,3 @@
-// 写真、店舗名、評価、営業時間、住所、オリジナル情報（ペアの時の距離）
 import { useEffect, useState } from 'react';
 import { fetchPlaceDetails } from '../../apis/places';
 import {
@@ -11,24 +10,44 @@ import {
 } from '@heroicons/react/24/outline';
 import noImage from '../../assets/no-image.png';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
+import { toast } from 'react-toastify';
 
 export function PlaceDetailCard({ placeId }) {
   const [place, setPlace] = useState(false);
   const [openToggle, setOpenToggle] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
-  const placeDetails = async () => {
-    const res = await fetchPlaceDetails(placeId);
-    setPlace(res);
-  };
+  const notify= (status) => {
+      if(status === 401) toast.info("ログインしてください") 
+      else if (status === 400) toast.error("不正なリクエストです")
+      else if(status) toast.error("予期せぬエラーです")
+    }
+
 
   useEffect(() => {
-    placeDetails();
+    const placeDetails = async () => {
+      try {
+        setIsLoading(true)
+        const res = await fetchPlaceDetails(placeId);
+        setPlace(res);
+      } catch (error) {
+        notify(error.response.status)
+      } finally{ setIsLoading(false) }
+    };placeDetails()
   }, [placeId]);
 
   return (
     <>
       <div className="flex flex-col p-2">
         <div className="grid grid-cols-3 gap-3 py-5">
+          
+          { isLoading && (
+            <>
+          {[0,1,2].map((_, i) => (
+            <div key={i} className="h-24 w-full bg-gray-200 rounded-md" />
+          ))}
+          </>)}
+
           {place?.photos?.length ? (
             place?.photos
               ?.slice(0, 3)
@@ -89,7 +108,7 @@ export function PlaceDetailCard({ placeId }) {
         {openToggle && (
           <div className="mt-2 text-sm">
             {place?.opening_hours ? (
-              place?.opening_hours['weekday_text'].map((h, i) => <div key={i}>　　{h}</div>)
+              place?.opening_hours['weekday_text'].map((h, i) => <div key={i}>  {h}</div>)
             ) : (
               <div className="text-primary-400">営業時間情報がありません</div>
             )}
