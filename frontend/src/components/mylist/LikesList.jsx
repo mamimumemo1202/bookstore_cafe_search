@@ -5,10 +5,13 @@ import { SearchModal } from '../search/SearchModal';
 import { useState } from 'react';
 import { PlaceDetailCard } from '../search/PlaceDetailCard';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
+import { CardSkeleton } from '../search/CardSkelton';
+import { useLoading } from '../contexts/LoadingContext';
 
-export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }) {
+export function LikeList({ placeDetails, cafes, bookstores, pairs }) {
   const { isOpenModal, closeModal } = useModal();
   const [openId, setOpenId] = useState(null);
+  const { isLoading } = useLoading(null)
 
   const handleDetailToggle = (id) => {
     setOpenId(openId === id ? null : id);
@@ -19,46 +22,9 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
       {isOpenModal && <SearchModal onClose={closeModal} />}
 
       <div>
-        <div className="py-2">カフェ</div>
-        <div className="grid grid-cols-1">
-          {cafes?.length > 0 ? (
-            cafes?.map((like) => (
-              <ul
-                key={like.id}
-                className="rounded-r-xl shadow-md p-4 mb-1 mr-1 border-l-5 text-primary-800 bg-primary-50 border-l-5 border-primary-300 "
-                onClick={() => {
-                  handleDetailToggle(like.id);
-                }}
-              >
-                <li className="flex justify-between">
-                  <div className="shrink-0 overflow-hidden rounded-r-md ">
-                    <img
-                      src={getPlacePhotoUrl(placeDetails[like.likeable?.place_id].photo_ref)}
-                      alt="No image"
-                      loading="eager"
-                      className="w-17 h-17 object-cover"
-                    />
-                  </div>
-                  <div className="text-lg font-semibold cursor-pointer">
-                    {placeDetails[like.likeable?.place_id].name}
-                  </div>
-                  <button onClick={(e) => e.stopPropagation()}>
-                    <LikeButton placeId={like.likeable.place_id} type="Cafe" likeId={like.id} />
-                  </button>
-                </li>
-
-                {openId === like.id && <PlaceDetailCard placeId={like.likeable?.place_id} />}
-              </ul>
-            ))
-          ) : (
-            <div>いいねしたカフェがありません</div>
-          )}
-        </div>
-      </div>
-
-      <div>
         <div className="py-2">本屋</div>
         <div className="grid grid-cols-1">
+          { isLoading && <><CardSkeleton /><CardSkeleton /></>}
           {bookstores?.length > 0 ? (
             bookstores?.map((like) => (
               <ul
@@ -99,8 +65,48 @@ export function LikeList({ likedPlaces, placeDetails, cafes, bookstores, pairs }
       </div>
 
       <div>
+        <div className="py-2">カフェ</div>
+        <div className="grid grid-cols-1">
+          { isLoading && <><CardSkeleton /><CardSkeleton /></>}
+          {cafes?.length > 0 ? (
+            cafes?.map((like) => (
+              <ul
+                key={like.id}
+                className="rounded-r-xl shadow-md p-4 mb-1 mr-1 border-l-5 text-primary-800 bg-primary-50 border-l-5 border-primary-300 "
+                onClick={() => {
+                  handleDetailToggle(like.id);
+                }}
+              >
+                <li className="flex justify-between">
+                  <div className="shrink-0 overflow-hidden rounded-r-md ">
+                    <img
+                      src={getPlacePhotoUrl(placeDetails[like.likeable?.place_id].photo_ref)}
+                      alt="No image"
+                      loading="eager"
+                      className="w-17 h-17 object-cover"
+                    />
+                  </div>
+                  <div className="text-lg font-semibold cursor-pointer">
+                    {placeDetails[like.likeable?.place_id].name}
+                  </div>
+                  <button onClick={(e) => e.stopPropagation()}>
+                    <LikeButton placeId={like.likeable.place_id} type="Cafe" likeId={like.id} />
+                  </button>
+                </li>
+
+                {openId === like.id && <PlaceDetailCard placeId={like.likeable?.place_id} />}
+              </ul>
+            ))
+          ) : (
+            <div>いいねしたカフェがありません</div>
+          )}
+        </div>
+      </div>
+
+      <div>
         <div className="py-2">ペア</div>
         <div className="grid grid-cols-1">
+          { isLoading && <><CardSkeleton /><CardSkeleton /></>}
           {pairs.length > 0 ? (
             pairs.map((like) => (
               <ul

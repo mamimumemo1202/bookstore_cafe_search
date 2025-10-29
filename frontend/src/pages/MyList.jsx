@@ -4,13 +4,14 @@ import { LikeList } from '../components/mylist/LikesList';
 import { BackButton } from '../components/common/BackButton';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { toast } from 'react-toastify';
+import { useLoading } from '../components/contexts/LoadingContext';
 
 export function MyList() {
-  const [likedPlaces, setLikedPlaces] = useState([]);
   const [placeDetails, setPlaceDetails] = useState({});
   const [cafes, setCafes] = useState([]);
   const [bookstores, setBookstores] = useState([]);
   const [pairs, setPairs] = useState([]);
+  const { withLoading} = useLoading(null)
 
   const notify= (status) => {
     if(status) toast.error("エラーが発生しました。ホームに戻ってください。")
@@ -18,10 +19,11 @@ export function MyList() {
 
 
   useEffect(() => {
+
     const fetchLikedPlaces = async () => {
+      await withLoading( async() => {
       try {
         const likes = await fetchLikes();
-        setLikedPlaces(likes);
 
         const arr = likes.flatMap((item) => {
           if (item.likeable_type === 'Pair') {
@@ -42,7 +44,7 @@ export function MyList() {
         setPairs(likes.filter((like) => like.likeable_type === 'Pair'));
       } catch (error) {
        notify(error.response.status)
-      }
+      }})
     };
     fetchLikedPlaces();
   }, []);
@@ -55,7 +57,6 @@ export function MyList() {
         </div>
 
         <LikeList
-          likedPlaces={likedPlaces}
           placeDetails={placeDetails}
           cafes={cafes}
           bookstores={bookstores}
