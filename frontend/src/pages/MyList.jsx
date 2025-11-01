@@ -69,6 +69,7 @@ export function MyList() {
     label: "ペア",
     likedPlaces: pairs
   }]
+  
 
   return (
     <>
@@ -96,9 +97,7 @@ export function MyList() {
               <PairLikesList
                 placeDetails={placeDetails}
                 likedPlaces={likedPlaces}
-                isLoading={isLoading}
-                type={key}
-                label={label}/>}
+                isLoading={isLoading}/>}
               </div>
             </Fragment>
           ))}

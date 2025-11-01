@@ -6,7 +6,7 @@ import { PlaceDetailCard } from '../search/PlaceDetailCard';
 import { CardSkeleton } from '../search/Skeleton';
 
 
-export function PairLikesList({ placeDetails, likedPlaces, isLoading, type, label }) {
+export function PairLikesList({ placeDetails, likedPlaces, isLoading}) {
   const { isOpenModal, closeModal } = useModal();
   const [openId, setOpenId] = useState(null);
 
@@ -19,7 +19,7 @@ export function PairLikesList({ placeDetails, likedPlaces, isLoading, type, labe
       {isOpenModal && <SearchModal onClose={closeModal} />}
 
       <div>
-        <div className="grid grid-cols-1">
+        <div className="grid grid-cols-1 gap-2">
           { isLoading && <><CardSkeleton /><CardSkeleton /></>}
           { likedPlaces.length > 0 ? (
             likedPlaces?.map((like) => (

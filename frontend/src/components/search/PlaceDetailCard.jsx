@@ -74,13 +74,13 @@ export function PlaceDetailCard({ placeId, type, likeId }) {
           </div>
         </div>
         <div className="flex gap-1">
-          <GlobeAsiaAustraliaIcon className="w-6 h-6" />
+          <GlobeAsiaAustraliaIcon className="w-6 h-6 shrink-0" />
           {place?.website ? (
             <a
               href={place.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm underline"
+              className="flex-1 min-w-0 overflow-x-auto whitespace-nowrap underline"
             >
               {place.website}
             </a>
@@ -128,12 +128,12 @@ export function PlaceDetailCard({ placeId, type, likeId }) {
           className="btn flex-1 justify-center">
             ルートや口コミを詳しく見る
           </a>
-          <button className="btn" onClick={(e) => e.stopPropagation()}>
+          {likeId && <button className="btn" onClick={(e) => e.stopPropagation()}>
             <LikeButton
               placeId={placeId}
               type={type}
               likeId={likeId}/>
-          </button>
+          </button>}
         </div>
       </div>
     </>

@@ -21,7 +21,7 @@ export function LikesList({ placeDetails, likedPlaces, isLoading, type, label })
       {isOpenModal && <SearchModal onClose={closeModal} />}
 
       <div>
-        <div className="grid grid-cols-1">
+        <div className="grid grid-cols-1 gap-2">
           { isLoading && <><CardSkeleton /><CardSkeleton /></>}
 
           { likedPlaces?.length > 0 ? (
@@ -33,7 +33,7 @@ export function LikesList({ placeDetails, likedPlaces, isLoading, type, label })
                   handleDetailToggle(like.id);
                 }}
               >
-                <li className="flex justify-between">
+                <li className="flex justfy-center">
                   <div className="shrink-0 overflow-hidden rounded-md ">
                     <img
                       src={getPlacePhotoUrl(placeDetails[like.likeable?.place_id].photo_ref)}
@@ -45,25 +45,20 @@ export function LikesList({ placeDetails, likedPlaces, isLoading, type, label })
                   <div className="text-lg font-semibold cursor-pointer p-2">
                     {placeDetails[like.likeable?.place_id].name}
                   </div>
-                  <button 
-                    onClick={(e) => e.stopPropagation()}
-                    className='mr-5'>
-                    <LikeButton
-                      placeId={like.likeable?.place_id}
-                      type={type}
-                      likeId={like.id}
-                    />
-                  </button>
                 </li>
 
-                {openId === like.id && <PlaceDetailCard placeId={like.likeable?.place_id} />}
+                {openId === like.id && 
+                <PlaceDetailCard 
+                  placeId={like.likeable?.place_id}
+                  type={type}
+                  likeId={like.id} />}
               </ul>
             ))
           ) : (
-            <div className={`${isLoading? "hidden" : " "}`}>いいねした{label}がありません</div>
+            <div className={` my-2 ${isLoading? "hidden" : " "}`}>いいねした{label}がありません</div>
           )}
         </div>
       </div>
     </>
   );
-}
+} 
