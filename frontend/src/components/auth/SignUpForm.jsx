@@ -36,18 +36,18 @@ export function SignUpForm() {
   return (
     <>
       {errorMessage && (
-        <div className="bg-red-200 text-red-800 p-2 rounded mb-2 whitespace-pre-wrap">
+        <div className="p-2 rounded mb-2 alert alert-error">
           {errorMessage}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="flex flex-col">
+      <form className="flex flex-col gap-5 my-5" onSubmit={handleSubmit} >
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="メールアドレス"
-          className="my-2 mx-5 p-2 shadow-sm rounded-full"
+          className="p-2 shadow-sm rounded-full bg-base-100"
           disabled={isLoading}
         />
         <input
@@ -55,7 +55,7 @@ export function SignUpForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="パスワード"
-          className="my-2 mx-5 p-2 shadow-sm rounded-full"
+          className="p-2 shadow-sm rounded-full"
           disabled={isLoading}
         />
         <input
@@ -63,12 +63,12 @@ export function SignUpForm() {
           value={passwordConfirmation}
           onChange={(e) => setPasswordConfirmation(e.target.value)}
           placeholder="パスワード（確認）"
-          className="my-2 mx-5 p-2 shadow-sm rounded-full"
+          className="p-2 shadow-sm rounded-full"
           disabled={isLoading}
         />
         <button
           type="submit"
-          className="my-6 mx-5 p-2 rounded-full bg-primary-600 text-white disabled:bg-primary-300 disabled:cursor-not-allowed"
+          className=" btn rounded-full disabled:cursor-not-allowed"
           disabled={isLoading}
         >
           {isLoading ? '登録中...' : '登録'}

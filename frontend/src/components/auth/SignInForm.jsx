@@ -49,16 +49,16 @@ export function SignInForm() {
   return (
     <>
       {errorMessage && (
-        <div className="mb-2 rounded bg-red-200 p-2 text-error-500">{errorMessage}</div>
+        <div className="mb-2 rounded alert alert-error">{errorMessage}</div>
       )}
 
-      <form className="flex flex-col" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-5 my-5" onSubmit={handleSubmit}>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="メールアドレス"
-          className="mx-5 my-2 rounded-full p-2 shadow-sm"
+          className="p-2 rounded-full shadow-sm"
           disabled={isLoading}
         />
         <input
@@ -66,12 +66,12 @@ export function SignInForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="パスワード"
-          className="mx-5 my-2 rounded-full p-2 shadow-sm"
+          className="p-2 rounded-full shadow-sm"
           disabled={isLoading}
         />
         <button
           type="button"
-          className="mx-5 p-2 text-sm text-blue-500 hover:underline disabled:text-blue-300"
+          className="text-sm hover:underline"
           onClick={() => navigate('/forgot-password')}
           disabled={isLoading}
         >
@@ -79,7 +79,7 @@ export function SignInForm() {
         </button>
         <button
           type="submit"
-          className="mx-5 my-10 rounded-full bg-primary-600 p-2 text-primary-50 disabled:cursor-not-allowed disabled:bg-primary-300"
+          className="btn rounded-full disabled:cursor-not-allowed "
           disabled={isLoading}
         >
           {isLoading ? 'ログイン中...' : 'ログイン'}
