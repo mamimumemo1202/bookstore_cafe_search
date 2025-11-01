@@ -1,5 +1,6 @@
 import { requestPasswordReset } from '../apis/auth';
 import { useState } from 'react';
+import { BackButton } from '../components/common/BackButton';
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -23,6 +24,10 @@ export function ForgotPasswordPage() {
 
   return (
     <>
+      <div className="flex m-4 p-1 w-8 h-8 rounded-full shadow-xl">
+        <BackButton />
+      </div>
+      
       <div>リセットするアカウントのメールアドレスを入力してください。</div>
       {notice && <div className="bg-green-200 text-green-800 p-2 rounded mb-2">{notice}</div>}
 

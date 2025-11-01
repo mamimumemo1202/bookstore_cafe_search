@@ -38,19 +38,21 @@ export function App() {
 
                 <Route path="/" element={<HomePage />} />
                 <Route path="/search" element={<SearchResultsPage />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
 
                 <Route element={<RequireAuth/>}>
                   <Route path="/mypage/password" element={<ChangePasswordPage />} />
-                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                   <Route path="/mypage" element={<Mypage />} />
                   <Route path="/mylist" element={<MyList />} />
                 </Route>
 
                 <Route element={<GuestOnly/>} >
                 <Route path="/confirmed" element={<ConfirmedPage />} />
-                <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/auth" element={<AuthPage />} />
                 </Route>
+
+                <Route path='*' element={<test/>}/>
 
               </Routes>
               </LoadingProvider>
