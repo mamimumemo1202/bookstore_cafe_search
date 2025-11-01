@@ -6,14 +6,15 @@ import {
   ClockIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  StarIcon,
 } from '@heroicons/react/24/outline';
 import noImage from '../../assets/no-image.png';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { toast } from 'react-toastify';
 import { ImageSkeleton } from './Skeleton';
+import { Rating } from '../search/rating';
+import { LikeButton } from './LikeButton';
 
-export function PlaceDetailCard({ placeId }) {
+export function PlaceDetailCard({ placeId, type, likeId }) {
   const [place, setPlace] = useState(false);
   const [openToggle, setOpenToggle] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
@@ -39,7 +40,7 @@ export function PlaceDetailCard({ placeId }) {
 
   return (
     <>
-      <div className="flex flex-col p-2">
+      <div className="flex flex-col p-2 gap-1">
         <div className="grid grid-cols-3 gap-3 py-5">
           
           { isLoading && <ImageSkeleton/>}
@@ -67,8 +68,10 @@ export function PlaceDetailCard({ placeId }) {
         </div>
 
         <div className="flex gap-1">
-          <MapPinIcon className="h-6 w-6" />
-          {place.formatted_address}
+          <MapPinIcon className="h-6 w-6 shrink-0" />
+          <div className="flex-1 min-w-0 overflow-x-auto whitespace-nowrap">
+            <p className="inline-block">{place.formatted_address}</p>
+          </div>
         </div>
         <div className="flex gap-1">
           <GlobeAsiaAustraliaIcon className="w-6 h-6" />
@@ -77,7 +80,7 @@ export function PlaceDetailCard({ placeId }) {
               href={place.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm"
+              className="inline-flex items-center gap-1 text-sm underline"
             >
               {place.website}
             </a>
@@ -111,21 +114,26 @@ export function PlaceDetailCard({ placeId }) {
           </div>
         )}
 
-        <div className="flex gap-1">
-          <StarIcon className="h-6 w-6" />
-          <div>{place?.rating ? place.rating : '評価がありません'}</div>
+        <div className="flex gap-1 mb-2">
+          <Rating
+          rating={place?.rating}/>
+          <p>{place?.rating}</p>
         </div>
 
-        <div>
-          経路や詳しいレビューは
+        <div className="flex items-center gap-2">
           <a
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place?.name)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-400 underline"
-          >
-            こちら
+          href={`https://www.google.com/maps/search/?api=1&query=${place?.geometry?.location?.lat},${place?.geometry?.location?.lng}`}
+          target="_blank"
+          rel="noopener noreferrer" 
+          className="btn flex-1 justify-center">
+            ルートや口コミを詳しく見る
           </a>
+          <button className="btn" onClick={(e) => e.stopPropagation()}>
+            <LikeButton
+              placeId={placeId}
+              type={type}
+              likeId={likeId}/>
+          </button>
         </div>
       </div>
     </>
