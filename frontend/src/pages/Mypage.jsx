@@ -54,7 +54,7 @@ export function Mypage() {
 
         <button
           type="button"
-          className="flex justify-start text-sm mb-2 hover:underline"
+          className="flex justify-start text-sm mb-2 underline"
           onClick={() => navigate('/mypage/password')}
         >
           パスワードを変更する

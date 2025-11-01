@@ -71,7 +71,7 @@ export function SignInForm() {
         />
         <button
           type="button"
-          className="text-sm hover:underline"
+          className="text-sm underline"
           onClick={() => navigate('/forgot-password')}
           disabled={isLoading}
         >
