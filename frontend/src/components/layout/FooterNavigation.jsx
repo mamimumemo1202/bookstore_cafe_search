@@ -9,7 +9,7 @@ export function FooterNavigation() {
   const { openModal } = useModal();
 
   return (
-    <nav aria-label="footer navigation" className="fixed bottom-0 w-full h-16 flex justify-around items-center bg-primary-500 text-primary-100 border border-primary-200 border-t-2">
+    <nav aria-label="footer navigation" className="fixed bottom-0 w-full h-16 flex justify-around items-center border-t-2">
       <button className="flex flex-col items-center"
         onClick={() => navigate('/')}>
         <HomeIcon className="w-6 h-6"  />

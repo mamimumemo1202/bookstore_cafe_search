@@ -15,7 +15,7 @@ export function Header({ variant }) {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 h-16 bg-white z-50 border-b-2 border-primary-200">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-white z-50 border-b-2">
         {variant === 'home' && (
           <div className="flex justify-between w-full items-center h-full ">
             <BookOpenIcon className="h-6 w-6 ml-6" onClick={() => navigate('/')} />
@@ -23,7 +23,7 @@ export function Header({ variant }) {
             <div className="flex flex-row items-end gap-3 mr-6">
               {!isLoggedIn && (
                 <button
-                  className="hover:font-bold hover:underline"
+                  className="hover:font-bold underline"
                   onClick={() => navigate('/auth')}
                 >
                   新規登録・ログイン
