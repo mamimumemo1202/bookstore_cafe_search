@@ -54,7 +54,8 @@ DeviseTokenAuth.setup do |config|
   # Makes it possible to use custom uid column
   # config.other_uid = "foo"
 
-  config.default_confirm_success_url = "#{ENV['FRONTEND_BASE_URL']}/auth?verified=1"
+# "#{ENV['FRONTEND_BASE_URL']}/auth?verified=1"
+  config.default_confirm_success_url = "http://localhost:5173/auth?verified=1"
 
   # By default, only Bearer Token authentication is implemented out of the box.
   # If, however, you wish to integrate with legacy Devise authentication, you can

@@ -51,7 +51,7 @@ export const validateToken = async () => {
 export const requestPasswordReset = async ({ email }) => {
   await axios.post(`${BASE_URL}/auth/password`, {
     email,
-    redirect_url: 'http://localhost:5173/reset-password',
+    redirect_url: `${BASE_URL}/reset-password`,
   });
 };
 
