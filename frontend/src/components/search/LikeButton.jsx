@@ -42,7 +42,7 @@ export function LikeButton({ placeId, type, likeId }) {
   return (
     <>
       <HeartIcon
-        className={`w-6 h-6 ${liked ? 'text-accent-500' : 'text-accent-100'}`}
+        className={`w-6 h-6 ${liked ? 'text-accent-500' : 'text-gray-100'}`}
         onClick={() => handleLike()}
       />
     </>

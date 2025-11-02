@@ -142,8 +142,8 @@ export function SearchResultsPage() {
 
       {isOpenModal && <SearchModal onClose={closeModal} />}
 
-      <div className="mt-16 flex flex-col sm:flex-row h-[calc(100vh-4rem)]">
-        <div className="h-2/5 w-full  sm:w-1/2 sm:h-full">
+      <div className="pt-16 min-h-screen flex flex-col">
+        <div className="h-60 w-full">
           {/* 検索結果マップ */}
           <PlacesMap
             lat={lat}
@@ -155,23 +155,31 @@ export function SearchResultsPage() {
           />
         </div>
 
-        <div className="h-3/5 w-full sm:w-1/2 sm:h-full overflow-hidden pb-16">
+        <div className="flex-1 overflow-y-auto pb-16">
           {searchMode === 'bookstore' && (
-            <div className="sticky top-0 p-2 bg-white">
+            <div className="sticky top-0">
+              <div className={`flex p-3 ${isOpenCafeCard? "justify-starts" : "justify-end"}`}>
               <button
                 type="button"
-                className="justify-end text-sm text-primary-600 hover:underline"
+                className="text-md underline"
                 onClick={() => setIsOpenCafeCard((prev) => !prev)}
               >
                 {isOpenCafeCard ? '本屋を選びなおす' : 'カフェも選ぶ'}
               </button>
+              </div>
             </div>
           )}
 
           {searchMode === 'bookstore' && !isOpenCafeCard ? (
             <div className="h-full overflow-y-auto px-2">
               {/* 本屋カード */}
-              {isLoading && (<><CardSkeleton /><CardSkeleton /><CardSkeleton /></>)}
+              {isLoading && (
+                <div className='grid grid-col gap-2'>
+                  <CardSkeleton />
+                  <CardSkeleton />
+                  <CardSkeleton />
+                </div>)}
+
               <BookstoreCard
                 bookstores={bookstores}
                 onSelectBookstore={setActiveBookstore}
@@ -195,7 +203,7 @@ export function SearchResultsPage() {
                 ))}
 
               {/* カフェカード */}
-              <div className="flex-1 overflow-y-auto p-2">
+              <div className="flex-1 overflow-y-auto">
                 {isLoading && (<><CardSkeleton /><CardSkeleton /><CardSkeleton /></>)}
 
                 <CafeCard

@@ -23,7 +23,7 @@ export function BookstoreSelector({ bookstores, onSelectBookstore, activeBooksto
 
   return (
     <>
-      <div className="w-full p-4 bg-gray-100 flex justify-center items-center gap-4">
+      <div className="w-full p-4 bg-base-100 flex justify-center items-center gap-4">
         <ChevronLeftIcon className={`w-5 h-5 ${!hasList ? 'opacity-40 cursor-not-allowed' : ''}`} onClick={handlePrevBookstore} />
         <div className="w-5/6 px-4 py-2 bg-white rounded shadow">
           <div className="flex justify-center items-center">
