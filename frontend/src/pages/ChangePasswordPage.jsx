@@ -47,7 +47,7 @@ export function ChangePasswordPage() {
       </div>
 
       <div className='flex flex-col mx-10 gap-5'>
-      <div className='text-3xl'>パスワードの変更を変更してください</div>
+      <div className='text-3xl text-center'>パスワード変更</div>
 
       {notice && <div className="bg-green-200 text-green-800 p-2 rounded mb-2">{notice}</div>}
 

@@ -3,7 +3,7 @@ export function SignOutButton({ handleSignOut }) {
     <>
       <button
         type="button"
-        className="btn rounded-ful"
+        className="btn"
         onClick={() => handleSignOut()}
       >
         ログアウト
