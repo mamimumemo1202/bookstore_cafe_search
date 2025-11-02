@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { OpenMapAppButton } from '../search/OpenMapAppButton';
 import { LikeButton } from './LikeButton';
 import { LikePairButton } from './LikePairButton';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';

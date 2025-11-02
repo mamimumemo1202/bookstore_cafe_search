@@ -15,7 +15,7 @@ export function Header({ variant }) {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 h-16 bg-white z-50 border-b-2">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-base-100 z-50 border-b-2 border-base-200">
         {variant === 'home' && (
           <div className="flex justify-between w-full items-center h-full ">
             <BookOpenIcon className="h-6 w-6 ml-6" onClick={() => navigate('/')} />

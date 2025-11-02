@@ -9,7 +9,6 @@ import { MyList } from './pages/MyList';
 import { ModalProvider } from './components/contexts/ModalContext';
 import { LoadingProvider } from './components/contexts/LoadingContext';
 import { ResetPasswordPage } from './pages/ResetPasswordPage';
-import { ConfirmedPage } from './pages/ConfimedPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { ChangePasswordPage } from './pages/ChangePasswordPage';
 import { ToastContainer, toast } from 'react-toastify';
@@ -48,7 +47,6 @@ export function App() {
                 </Route>
 
                 <Route element={<GuestOnly/>} >
-                <Route path="/confirmed" element={<ConfirmedPage />} />
                 <Route path="/auth" element={<AuthPage />} />
                 </Route>
 
