@@ -88,3 +88,7 @@ export const requestPasswordChange = async ({
     { headers: { uid } }
   );
 };
+
+export const resentConfirmation = async( email ) => {
+  await axios.post(`${BASE_URL}/auth/confirmation`, {email})
+}

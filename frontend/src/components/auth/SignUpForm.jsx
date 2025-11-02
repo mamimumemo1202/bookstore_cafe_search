@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { signUp } from '../../apis/auth';
+import { signUp, resentConfirmation } from '../../apis/auth';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
 import { useLoading } from '../contexts/LoadingContext';
 import { toast } from 'react-toastify';
+
 
 export function SignUpForm() {
   const [email, setEmail] = useState('');
@@ -11,6 +12,7 @@ export function SignUpForm() {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { withLoading, isLoading } = useLoading();
+  const [notice, setNotice] = useState("")
 
   const navigate = useNavigate();
 
@@ -20,8 +22,7 @@ export function SignUpForm() {
     await withLoading(async () => {
       try {
         await signUp({ email, password, passwordConfirmation });
-        navigate('/');
-        toast.info('認証メールを送信しました', { autoClose: 5000 });
+        setNotice('認証メールを送信しました。');
       } catch (error) {
         if (error.response) {
           const messages = error.response.data.errors.full_messages;
@@ -38,6 +39,17 @@ export function SignUpForm() {
       {errorMessage && (
         <div className="p-2 rounded mb-2 alert alert-error">
           {errorMessage}
+        </div>
+      )}
+      {notice && (
+        <div className="p-2 rounded mb-2 alert alert-info">
+          {notice}
+          <button 
+          type='button' 
+          className='underline'
+          onClick={() => {resentConfirmation(email)}}>
+            再送する
+          </button>
         </div>
       )}
 
