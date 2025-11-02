@@ -27,7 +27,7 @@ export function SearchModal({ onClose }) {
         </button>
 
         <h1 className="text-xl mb-4">現在地からさがす</h1>
-        <div className="flex flex-col justify-center sm:flex-row gap-3">
+        <div className="flex items-center justify-center sm:flex-row gap-3">
           <SearchButton label={'本屋'} searchMode={'bookstore'} />
           <SearchButton label={'カフェ'} searchMode={'cafe'} />
         </div>

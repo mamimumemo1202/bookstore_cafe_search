@@ -26,11 +26,11 @@ export function BookstoreCard({
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-2">
+      <div className="grid grid-cols-1 gap-2 mb-3">
         {bookstores.map((bookstore) => (
           <div
             key={bookstore.place_id}
-            className={` rounded-md shadow-md  bg-base-100 ${activeBookstore?.place_id === bookstore.place_id ? '' : ''}`}
+            className={` rounded-md shadow-md bg-base-100 ${activeBookstore?.place_id === bookstore.place_id ? '' : ''}`}
             onClick={() => handleBookstoreSelect(bookstore)}
           >
             {/* 左サムネ + 右テキスト */}

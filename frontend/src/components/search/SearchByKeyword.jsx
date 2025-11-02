@@ -64,7 +64,7 @@ export function SearchBar({ searchMode: propSearchMode }) {
   return (
     <div className="relative w-full max-w-md mx-auto">
       <form
-        className="flex p-3"
+        className="flex"
         onSubmit={(e) => {
           e.preventDefault();
           handleSearch();

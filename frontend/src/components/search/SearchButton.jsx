@@ -28,7 +28,7 @@ export function SearchButton({ label, searchMode }) {
   return (
     <>
       <button
-        className="btn flex text-base-content"
+        className="btn text-base-content"
         onClick={() => handleSearch()}
       >
         {label}
