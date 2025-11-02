@@ -74,7 +74,7 @@ export function SearchBar({ searchMode: propSearchMode }) {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full border border-gray-300 rounded-md px-4 py-2"
+          className="input"
           placeholder="例：神保町駅"
         />
         <button type="submit">

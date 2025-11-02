@@ -47,7 +47,7 @@ export function SignUpForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="メールアドレス"
-          className="p-2 shadow-sm rounded-full bg-base-100"
+          className="input"
           disabled={isLoading}
         />
         <input
@@ -55,7 +55,7 @@ export function SignUpForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="パスワード"
-          className="p-2 shadow-sm rounded-full"
+          className="input"
           disabled={isLoading}
         />
         <input
@@ -63,12 +63,12 @@ export function SignUpForm() {
           value={passwordConfirmation}
           onChange={(e) => setPasswordConfirmation(e.target.value)}
           placeholder="パスワード（確認）"
-          className="p-2 shadow-sm rounded-full"
+          className="input"
           disabled={isLoading}
         />
         <button
           type="submit"
-          className=" btn rounded-full disabled:cursor-not-allowed"
+          className=" btn disabled:cursor-not-allowed"
           disabled={isLoading}
         >
           {isLoading ? '登録中...' : '登録'}

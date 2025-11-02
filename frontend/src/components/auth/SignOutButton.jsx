@@ -3,7 +3,7 @@ export function SignOutButton({ handleSignOut }) {
     <>
       <button
         type="button"
-        className="btn rounded-full hover:bg-primary-400"
+        className="btn rounded-ful"
         onClick={() => handleSignOut()}
       >
         ログアウト

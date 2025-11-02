@@ -109,7 +109,7 @@ export function PlaceDetailCard({ placeId, type, likeId }) {
             {place?.opening_hours ? (
               place?.opening_hours['weekday_text'].map((h, i) => <div key={i}>  {h}</div>)
             ) : (
-              <div className="text-primary-400">営業時間情報がありません</div>
+              <div className="">営業時間情報がありません</div>
             )}
           </div>
         )}

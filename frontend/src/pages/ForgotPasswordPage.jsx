@@ -5,7 +5,7 @@ import { BackButton } from '../components/common/BackButton';
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const { notice, setNotice } = useState('');
+  const { notice, setNotice } = useState('送信しました。届かない場合はメールアドレスをご確認ください。');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,10 +28,10 @@ export function ForgotPasswordPage() {
         <BackButton />
       </div>
       
-      <div>リセットするアカウントのメールアドレスを入力してください。</div>
-      {notice && <div className="bg-green-200 text-green-800 p-2 rounded mb-2">{notice}</div>}
+      <div className='text-center mt-5'>リセットするアカウントのメールアドレスを入力してください。</div>
+      {notice && <div className="alert alert-info p-2 rounded mb-2">{notice}</div>}
 
-      <form onSubmit={handleSubmit} className="flex flex-col">
+      <form onSubmit={handleSubmit} className="flex flex-col items-center gap-5 px-9 mt-5">
         <input
           type="email"
           name="email"
@@ -39,12 +39,12 @@ export function ForgotPasswordPage() {
           required
           placeholder="メールアドレス"
           onChange={(e) => setEmail(e.target.value)}
-          className="my-2 mx-5 p-2 shadow-sm rounded-full"
+          className="input"
         />
 
         <button
           type="submit"
-          className="my-10 mx-5 p-2 rounded-full bg-primary-600 text-primary-50"
+          className="btn"
           disabled={submitting}
         >
           送信

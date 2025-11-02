@@ -58,7 +58,7 @@ export function SignInForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="メールアドレス"
-          className="p-2 rounded-full shadow-sm"
+          className="input"
           disabled={isLoading}
         />
         <input
@@ -66,7 +66,7 @@ export function SignInForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="パスワード"
-          className="p-2 rounded-full shadow-sm"
+          className="input"
           disabled={isLoading}
         />
         <button
@@ -79,7 +79,7 @@ export function SignInForm() {
         </button>
         <button
           type="submit"
-          className="btn rounded-full disabled:cursor-not-allowed "
+          className="btn disabled:cursor-not-allowed "
           disabled={isLoading}
         >
           {isLoading ? 'ログイン中...' : 'ログイン'}
