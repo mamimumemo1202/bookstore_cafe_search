@@ -18,10 +18,11 @@ export function Header({ variant }) {
     <>
       <header className="fixed top-0 left-0 right-0 h-16 bg-base-100 z-50 border-b-2 border-base-200">
         {variant === 'home' && (
-          <div className="flex justify-between w-full items-center h-full ml-3 ">
-            <Logo className=" h-6 w-6" onClick={() => navigate('/')} />
+          <div className="grid [grid-template-columns:1fr_auto_1fr] items-center w-full h-full">
+            <div />
+            <Logo className=" h-6 w-6 justify-self-center" onClick={() => navigate('/')} />
 
-            <div className="flex flex-row items-end gap-3 mr-6">
+            <div className="flex flex-row items-end gap-3 mr-6 justify-self-end">
               {!isLoggedIn && (
                 <button
                   className="hover:font-bold underline"
