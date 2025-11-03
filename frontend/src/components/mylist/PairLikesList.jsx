@@ -1,13 +1,11 @@
-import { LikeButton } from '../search/LikeButton';
 import { LikePairButton } from '../search/LikePairButton';
 import { useModal } from '../contexts/ModalContext';
 import { SearchModal } from '../search/SearchModal';
 import { useState } from 'react';
 import { PlaceDetailCard } from '../search/PlaceDetailCard';
-import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { CardSkeleton } from '../search/Skeleton';
 
-export function LikesList({ placeDetails, likedPlaces, isLoading, type, label }) {
+export function PairLikesList({ placeDetails, likedPlaces, isLoading }) {
   const { isOpenModal, closeModal } = useModal();
   const [openId, setOpenId] = useState(null);
 
@@ -27,8 +25,7 @@ export function LikesList({ placeDetails, likedPlaces, isLoading, type, label })
               <CardSkeleton />
             </>
           )}
-
-          {likedPlaces?.length > 0 ? (
+          {likedPlaces.length > 0 ? (
             likedPlaces?.map((like) => (
               <ul
                 key={like.id}
@@ -37,29 +34,33 @@ export function LikesList({ placeDetails, likedPlaces, isLoading, type, label })
                   handleDetailToggle(like.id);
                 }}
               >
-                <li className="flex justfy-center">
-                  <div className="shrink-0 overflow-hidden rounded-md ">
-                    <img
-                      src={getPlacePhotoUrl(placeDetails[like.likeable?.place_id].photo_ref)}
-                      alt="No image"
-                      loading="eager"
-                      className="w-17 h-17 object-cover"
-                    />
-                  </div>
+                <li className="flex justify-between">
                   <div className="text-lg font-semibold cursor-pointer p-2">
-                    {placeDetails[like.likeable?.place_id].name}
+                    {/* TODO: アイコンに差し替え */}
+                    <p>本屋: {placeDetails[like.likeable.bookstore.place_id]?.name}</p>
+                    <p>カフェ: {placeDetails[like.likeable.cafe.place_id]?.name}</p>
                   </div>
+                  <button onClick={(e) => e.stopPropagation()} className="mr-5">
+                    <LikePairButton
+                      bookstorePlaceId={like.likeable.bookstore.place_id}
+                      activeCafePlaceId={like.likeable.cafe.place_id}
+                      pairLikeId={like.id}
+                    />
+                  </button>
                 </li>
 
                 {openId === like.id && (
-                  <PlaceDetailCard placeId={like.likeable?.place_id} type={type} likeId={like.id} />
+                  <div className="px-1 pb-2">
+                    <div className="font-semibold">本屋</div>
+                    <PlaceDetailCard placeId={like.likeable.bookstore.place_id} />
+                    <div className="font-semibold mt-4">カフェ</div>
+                    <PlaceDetailCard placeId={like.likeable.cafe.place_id} />
+                  </div>
                 )}
               </ul>
             ))
           ) : (
-            <div className={` my-2 ${isLoading ? 'hidden' : ' '}`}>
-              いいねした{label}がありません
-            </div>
+            <div className={`${isLoading ? 'hidden' : ' '}`}>いいねしたペアがありません</div>
           )}
         </div>
       </div>

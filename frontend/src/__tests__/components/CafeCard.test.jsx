@@ -5,7 +5,9 @@ import { CafeCard } from '../../components/search/CafeCard';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
 
 vi.mock('../../components/search/PlaceDetailCard', () => ({
-  PlaceDetailCard: ({ placeId }) => <div data-testid={`cafe-detail-${placeId}`}>detail {placeId}</div>,
+  PlaceDetailCard: ({ placeId }) => (
+    <div data-testid={`cafe-detail-${placeId}`}>detail {placeId}</div>
+  ),
 }));
 
 vi.mock('../../components/search/LikeButton', () => ({
@@ -49,7 +51,7 @@ describe('CafeCard', () => {
         onClick={onClick}
         activeBookstore={null}
         activecafe={null}
-      />,
+      />
     );
 
     expect(screen.queryByTestId('cafe-detail-cp1')).toBeNull();
@@ -71,7 +73,7 @@ describe('CafeCard', () => {
         onClick={vi.fn()}
         activeBookstore={{ place_id: 'bp1' }}
         activecafe={null}
-      />,
+      />
     );
 
     expect(screen.getByRole('button', { name: 'MockPair' })).toBeTruthy();
@@ -85,7 +87,7 @@ describe('CafeCard', () => {
         onClick={vi.fn()}
         activeBookstore={null}
         activecafe={null}
-      />,
+      />
     );
 
     expect(screen.queryByRole('button', { name: 'MockPair' })).toBeNull();
@@ -102,7 +104,7 @@ describe('CafeCard', () => {
         onClick={onClick}
         activeBookstore={{ place_id: 'bp1' }}
         activecafe={cafe}
-      />,
+      />
     );
 
     const likeButton = screen.getByRole('button', { name: 'MockCafeLike' });

@@ -42,7 +42,7 @@ describe('PlaceDetailCard', () => {
     render(<PlaceDetailCard placeId="place-1" />);
 
     const images = await screen.findAllByRole('img', { name: 'place photo' });
-    console.log(images)
+    console.log(images);
     expect(images).toHaveLength(3);
     expect(images[0]).toHaveAttribute('src', 'https://images.example/photo-1');
 
