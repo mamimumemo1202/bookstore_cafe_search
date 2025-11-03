@@ -34,6 +34,7 @@ class Api::V1::PlacesController < Api::V1::BaseController
     end
 
     # いいねしたそれぞれの場所のname formatted_address photosを取得し、カードに表示
+    # フロントのMylistでいいねを一回もしていない時にClientでエラーを発生させないために空を許容
     def get_details_bulk
       place_ids_param = params[:place_ids]
       return render json: { details_bulk: [] } if place_ids_param.blank?

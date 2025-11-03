@@ -94,9 +94,12 @@ RSpec.describe 'Places API', type: :request do
       expect(body['details_bulk'].first.keys).to include('place_id', 'name', 'address', 'lat', 'lng', 'photo_ref')
     end
 
-    it 'place_ids未指定なら401を返す' do
+    it 'place_ids未指定を許容' do
       get '/api/v1/places/get_details_bulk', headers: json_headers
-      expect(response).to have_http_status(:bad_request)
+      expect(response).to have_http_status(:ok)
+
+      body = JSON.parse(response.body)
+      expect(body["details_bulk"]).to eq([])
     end
   end
 end
