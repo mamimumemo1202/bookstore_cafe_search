@@ -18,16 +18,6 @@ export function Logo({ variant }) {
           c-5.5,0-10-4.5-10-10s4.5-10,10-10h10h179.5h28.3l0-20L355.6,365z"
         />
       </svg>
-{/* 
-      {variant === "ss" && (
-        <div className="flex flex-col text-center">
-            <h1 className="text-3xl font-bold">ほんカフェマップ</h1>
-            <p className="text-xs mb-2">Bookstore Cafe Map</p>
-            <p className="text-sm whitespace-nowrap">本を買ったら、次はカフェで一息。</p>
-            <p className="text-sm whitespace-nowrap">お気に入りの本屋とカフェを探そう。</p>
-        </div>
-      )} */}
-      
     </div>
   );
 }
