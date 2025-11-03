@@ -1,6 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import { ModalProvider } from '../components/contexts/ModalContext';
 import { AuthProvider } from '../components/contexts/AuthContext';
+import { LoadingProvider } from '../components/contexts/LoadingContext';
 import { render, screen, cleanup, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, test, expect, afterEach, it } from 'vitest';
@@ -13,7 +14,9 @@ function renderHome() {
     <BrowserRouter>
       <AuthProvider>
         <ModalProvider>
-          <HomePage />
+          <LoadingProvider>
+            <HomePage />
+          </LoadingProvider>
         </ModalProvider>
       </AuthProvider>
     </BrowserRouter>
@@ -26,7 +29,9 @@ describe('/', () => {
       <BrowserRouter>
         <AuthProvider>
           <ModalProvider>
-            <HomePage />
+            <LoadingProvider>
+              <HomePage />
+            </LoadingProvider>
           </ModalProvider>
         </AuthProvider>
       </BrowserRouter>
@@ -49,6 +54,7 @@ describe('/', () => {
     const button = within(nav).getByRole('button', { name: '検索' });
     await userEvent.click(button);
 
-    expect(screen.getByText(/住所・.*からさがす/)).toBeTruthy();
+    // ホームとモーダルの２こ
+    expect(screen.getAllByText(/住所・.*からさがす/)).toHaveLength(2);
   });
 });

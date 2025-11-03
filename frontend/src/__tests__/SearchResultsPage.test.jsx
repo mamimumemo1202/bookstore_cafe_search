@@ -2,6 +2,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { MemoryRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from '../components/contexts/AuthContext';
+import { LoadingProvider } from '../components/contexts/LoadingContext';
 import { ModalProvider } from '../components/contexts/ModalContext';
 import { SearchResultsPage } from '../pages/SearchResultPage';
 import userEvent from '@testing-library/user-event';
@@ -79,17 +80,19 @@ function renderSearch(
     <MemoryRouter initialEntries={[url]}>
       <AuthProvider>
         <ModalProvider>
-          <Routes>
-            <Route
-              path="/search"
-              element={
-                <>
-                  <LocationTracker onChange={onLocationChange} />
-                  <SearchResultsPage />
-                </>
-              }
-            />
-          </Routes>
+          <LoadingProvider>
+            <Routes>
+              <Route
+                path="/search"
+                element={
+                  <>
+                    <LocationTracker onChange={onLocationChange} />
+                    <SearchResultsPage />
+                  </>
+                }
+              />
+            </Routes>
+          </LoadingProvider>
         </ModalProvider>
       </AuthProvider>
     </MemoryRouter>

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import axios from 'axios';
 
+
 vi.mock('axios');
 
 vi.mock('../../apis', () => ({
@@ -23,42 +24,74 @@ import {
 
 describe('places api client', () => {
   beforeEach(() => {
+    axios.defaults.baseURL = '';
     vi.clearAllMocks();
   });
 
   afterEach(() => {
     vi.clearAllMocks();
+    axios.defaults.baseURL = '';
   });
 
   it('fetchBookstores は lat/lng/type をクエリに含めて GET する', async () => {
+    getAuthInfo.mockReturnValue({
+      'access-token': 'token',
+      client: 'client-id',
+      uid: 'uid-123',
+    });
     axios.get.mockResolvedValue({ data: { places: [] } });
 
     await fetchBookstores(35.0, 139.0, 'Bookstore');
 
-    expect(axios.get).toHaveBeenCalledWith('/api/v1/places', {
+    expect(axios.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/places', {
+      headers: {
+        'access-token': 'token',
+        client: 'client-id',
+        uid: 'uid-123',
+      },
       params: { lat: 35.0, lng: 139.0, type: 'Bookstore' },
     });
   });
 
   it('fetchCafes は lat/lng/type をクエリに含めて GET する', async () => {
+    getAuthInfo.mockReturnValue({
+      'access-token': 'token',
+      client: 'client-id',
+      uid: 'uid-123',
+    });
     axios.get.mockResolvedValue({ data: { places: [] } });
 
     await fetchCafes(35.0, 139.0, 'Cafe');
 
-    expect(axios.get).toHaveBeenCalledWith('/api/v1/places', {
+    expect(axios.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/places', {
+      headers: {
+        'access-token': 'token',
+        client: 'client-id',
+        uid: 'uid-123',
+      },
       params: { lat: 35.0, lng: 139.0, type: 'Cafe' },
     });
   });
 
   it('fetchCafesNearBookstore は geometry の結果を使って Pair リクエストを送る', async () => {
+    getAuthInfo.mockReturnValue({
+      'access-token': 'token',
+      client: 'client-id',
+      uid: 'uid-123',
+    });
     axios.get
       .mockResolvedValueOnce({ data: { geometry: { lat: 10, lng: 20 } } })
       .mockResolvedValueOnce({ data: { places: ['cafe-1'] } });
 
     const result = await fetchCafesNearBookstore('bp1', 'Pair');
 
-    expect(axios.get).toHaveBeenNthCalledWith(1, '/api/v1/places/bp1/geometry');
-    expect(axios.get).toHaveBeenNthCalledWith(2, '/api/v1/places', {
+    expect(axios.get).toHaveBeenNthCalledWith(1, 'http://localhost:3000/api/v1/places/bp1/geometry');
+    expect(axios.get).toHaveBeenNthCalledWith(2, 'http://localhost:3000/api/v1/places', {
+      headers: {
+        'access-token': 'token',
+        client: 'client-id',
+        uid: 'uid-123',
+      },
       params: { lat: 10, lng: 20, type: 'Pair', bpid: 'bp1' },
     });
     expect(result).toEqual(['cafe-1']);
@@ -69,7 +102,7 @@ describe('places api client', () => {
 
     const result = await fetchGeometry('pid');
 
-    expect(axios.get).toHaveBeenCalledWith('/api/v1/places/pid/geometry');
+    expect(axios.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/places/pid/geometry');
     expect(result).toEqual({ lat: 1, lng: 2 });
   });
 
@@ -78,7 +111,7 @@ describe('places api client', () => {
 
     const result = await fetchPlaceDetails('pid');
 
-    expect(axios.get).toHaveBeenCalledWith('/api/v1/places/pid');
+    expect(axios.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/places/pid');
     expect(result).toEqual({ name: 'foo' });
   });
 
@@ -87,7 +120,7 @@ describe('places api client', () => {
 
     const result = await fetchPlaceDetailsBulk(['pid1', 'pid2']);
 
-    expect(axios.get).toHaveBeenCalledWith('/api/v1/places/get_details_bulk/', {
+    expect(axios.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/places/get_details_bulk/', {
       params: { place_ids: ['pid1', 'pid2'] },
     });
     expect(result).toEqual(['foo']);
@@ -103,7 +136,7 @@ describe('places api client', () => {
 
     await fetchLikes();
 
-    expect(axios.get).toHaveBeenCalledWith('/api/v1/likes', {
+    expect(axios.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/likes', {
       headers: {
         'access-token': 'token',
         client: 'client-id',
@@ -123,7 +156,7 @@ describe('places api client', () => {
     const result = await likePlace('pid', 'Bookstore');
 
     expect(axios.post).toHaveBeenCalledWith(
-      '/api/v1/likes',
+      'http://localhost:3000/api/v1/likes',
       {
         place_id: 'pid',
         type: 'Bookstore',
@@ -149,7 +182,7 @@ describe('places api client', () => {
 
     const result = await unlikePlace(3);
 
-    expect(axios.delete).toHaveBeenCalledWith('/api/v1/likes/3', {
+    expect(axios.delete).toHaveBeenCalledWith('http://localhost:3000/api/v1/likes/3', {
       headers: {
         'access-token': 'token',
         client: 'client-id',
@@ -169,8 +202,7 @@ describe('places api client', () => {
 
     const result = await likePair('book-id', 'cafe-id');
 
-    expect(axios.post).toHaveBeenCalledWith(
-      '/api/v1/likes',
+    expect(axios.post).toHaveBeenCalledWith('http://localhost:3000/api/v1/likes',
       {
         bookstore_place_id: 'book-id',
         cafe_place_id: 'cafe-id',
