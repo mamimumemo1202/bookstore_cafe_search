@@ -36,7 +36,7 @@ export function LikePairButton({ bookstorePlaceId, activeCafePlaceId, pairLikeId
     <>
       <CloverIcon
         weight='fill'
-        color={`${liked ? '#6CA20C' : '#c7cad4'}`}
+        color={`${liked ? '#6CA20C' : '#FFFFFF'}`}
         className="w-6 h-6"
         onClick={() => handleLike()}
       />
