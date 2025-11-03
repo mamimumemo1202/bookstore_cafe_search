@@ -56,12 +56,10 @@ export function ResetPasswordPage() {
         <BackButton />
       </div>
 
-      <div className='text-center mt-5'>新しいパスワードを入力してください</div>
+      <div className="text-center mt-5">新しいパスワードを入力してください</div>
 
       {notice && <div className="alert alert-info p-2 rounded mb-2">{notice}</div>}
-      {errorMessage && (
-        <div className="alert alert-error p-2 rounded mb-2">{errorMessage}</div>
-      )}
+      {errorMessage && <div className="alert alert-error p-2 rounded mb-2">{errorMessage}</div>}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 mt-9 items-center">
         <input
@@ -82,11 +80,7 @@ export function ResetPasswordPage() {
           onChange={(e) => setPasswordConfirmation(e.target.value)}
         />
 
-        <button
-          type="submit"
-          disabled={submitting}
-          className="btn btn-wide"
-        >
+        <button type="submit" disabled={submitting} className="btn btn-wide">
           パスワードを更新
         </button>
       </form>

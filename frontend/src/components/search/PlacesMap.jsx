@@ -5,8 +5,6 @@ import coffee from '../../assets/coffee.png';
 import book from '../../assets/book.png';
 import pin from '../../assets/pin.png';
 
-
-
 // 地図のスタイルを定数化
 const containerStyle = {
   width: '100%',
@@ -41,10 +39,7 @@ export const PlacesMap = ({ lat, lng, bookstores, cafes, activeBookstore, active
         }}
         onLoad={(map) => (mapRef.current = map)} // map インスタンスを保存
       >
-          <Marker
-          position={{lat: lat, lng: lng}}
-          title='current location'
-          icon={pin}/>
+        <Marker position={{ lat: lat, lng: lng }} title="current location" icon={pin} />
         {/* 本屋のピン */}
         {bookstores.map((bookstore) => (
           <Marker

@@ -6,7 +6,6 @@ import { useModal } from '../contexts/ModalContext';
 import { fetchGeometry, autocomplete } from '../../apis/places';
 import { toast } from 'react-toastify';
 
-
 export function SearchBar({ searchMode: propSearchMode }) {
   const [query, setQuery] = useState('');
   const [predictions, setPredictions] = useState([]);
@@ -15,9 +14,9 @@ export function SearchBar({ searchMode: propSearchMode }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const notify= (status) => {
-    if(status) toast.error("エラーが発生しました。ホームに戻ってください。")
-    }
+  const notify = (status) => {
+    if (status) toast.error('エラーが発生しました。ホームに戻ってください。');
+  };
 
   // INFO: URLからsearchModeを取得するー＞モーダルからのpropと評価し、props優先
   const searchModeParams = new URLSearchParams(location.search).get('mode') || 'bookstore';
@@ -34,10 +33,10 @@ export function SearchBar({ searchMode: propSearchMode }) {
     const autocompleteTimer = setTimeout(() => {
       const fetchSearchPredictions = async () => {
         try {
-          const res = await autocomplete(query)
+          const res = await autocomplete(query);
           setPredictions(res);
         } catch (error) {
-          notify(error.response.status)
+          notify(error.response.status);
           setPredictions([]);
         }
       };
@@ -56,7 +55,7 @@ export function SearchBar({ searchMode: propSearchMode }) {
       closeModal();
       navigate(`/search?lat=${res.lat}&lng=${res.lng}&mode=${searchMode}`);
     } catch (error) {
-      notify(error.response.status)
+      notify(error.response.status);
       closeModal();
     }
   };

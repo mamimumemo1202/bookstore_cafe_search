@@ -47,8 +47,11 @@ export function BookstoreCard({
               {/* 本文といいね */}
               <div className="flex w-full items-center justify-between">
                 <h2 className="text-lg font-semibold cursor-pointer ">{bookstore.name}</h2>
-                
-                <button className='btn btn-square shrink-0 mr-3' onClick={(e) => e.stopPropagation()}>
+
+                <button
+                  className="btn btn-square shrink-0 mr-3"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <LikeButton
                     placeId={bookstore.place_id}
                     type="Bookstore"

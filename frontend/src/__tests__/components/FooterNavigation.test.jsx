@@ -52,23 +52,21 @@ describe('FooterNavigation', () => {
     const mylist = screen.getByRole('button', { name: 'マイリスト' });
 
     await userEvent.click(mypage);
-    expect(navigateMock).toHaveBeenCalledWith('/auth')
+    expect(navigateMock).toHaveBeenCalledWith('/auth');
     await userEvent.click(mylist);
-    expect(navigateMock).toHaveBeenCalledWith('/auth')
-
-
-  })
+    expect(navigateMock).toHaveBeenCalledWith('/auth');
+  });
 
   it('ログインユーザがマイページ、マイリストを押すとそれぞれ画面に遷移する', async () => {
     authValue = { isLoggedIn: true };
-    
+
     render(<FooterNavigation />);
     const mypage = screen.getByRole('button', { name: 'マイページ' });
     const mylist = screen.getByRole('button', { name: 'マイリスト' });
 
     await userEvent.click(mypage);
-    expect(navigateMock).toHaveBeenCalledWith('/mypage')
+    expect(navigateMock).toHaveBeenCalledWith('/mypage');
     await userEvent.click(mylist);
-    expect(navigateMock).toHaveBeenCalledWith('/mylist')
-  })
+    expect(navigateMock).toHaveBeenCalledWith('/mylist');
+  });
 });

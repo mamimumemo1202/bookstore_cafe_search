@@ -6,7 +6,7 @@ import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { toast } from 'react-toastify';
 import { useLoading } from '../components/contexts/LoadingContext';
 import { TextUnderlineIcon } from '@phosphor-icons/react';
-import { PairLikesList } from '../components/mylist/PairLikesList'
+import { PairLikesList } from '../components/mylist/PairLikesList';
 
 export function MyList() {
   // 期待される値: [{place_id: {place_id, name, ...}}]
@@ -14,18 +14,15 @@ export function MyList() {
   const [cafes, setCafes] = useState([]);
   const [bookstores, setBookstores] = useState([]);
   const [pairs, setPairs] = useState([]);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
-
-  const notify= (status) => {
-    if(status) toast.error("エラーが発生しました。ホームに戻ってください。")
-    }
-
+  const notify = (status) => {
+    if (status) toast.error('エラーが発生しました。ホームに戻ってください。');
+  };
 
   useEffect(() => {
-
     const fetchLikedPlaces = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       try {
         const likes = await fetchLikes();
 
@@ -47,29 +44,31 @@ export function MyList() {
         setBookstores(likes.filter((like) => like.likeable_type === 'Bookstore'));
         setPairs(likes.filter((like) => like.likeable_type === 'Pair'));
       } catch (error) {
-       notify(error.response.status)
-      } finally { setIsLoading(false) }
+        notify(error.response.status);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchLikedPlaces();
   }, []);
 
   const TABS = [
-  {
-    key: "bookstore",
-    label: "本屋",
-    likedPlaces: bookstores
-  },
-  {
-    key: "cafe",
-    label: "カフェ",
-    likedPlaces: cafes
-  },
-  {
-    key: "pair",
-    label: "ペア",
-    likedPlaces: pairs
-  }]
-  
+    {
+      key: 'bookstore',
+      label: '本屋',
+      likedPlaces: bookstores,
+    },
+    {
+      key: 'cafe',
+      label: 'カフェ',
+      likedPlaces: cafes,
+    },
+    {
+      key: 'pair',
+      label: 'ペア',
+      likedPlaces: pairs,
+    },
+  ];
 
   return (
     <>
@@ -79,25 +78,33 @@ export function MyList() {
         </div>
 
         {/* INFO: DaisyUIのTabは.tabs直下に.tab-contentを期待するためFragmentで包む */}
-        <div className='text-3xl mb-3 text-center font-bold'>いいねリスト</div>
-        <div className='tabs tabs-box justify-center mx-1'>
-          {TABS.map(({key, label, likedPlaces}, index) => (
+        <div className="text-3xl mb-3 text-center font-bold">いいねリスト</div>
+        <div className="tabs tabs-box justify-center mx-1">
+          {TABS.map(({ key, label, likedPlaces }, index) => (
             <Fragment key={key}>
-              <input type="radio" name="list" className="tab" aria-label={label} defaultChecked={index === 0} />
-              <div className='tab-content'>
-                { ( key === "bookstore" || key === "cafe" ) ?
-                <LikesList
-                placeDetails={placeDetails}
-                likedPlaces={likedPlaces}
-                isLoading={isLoading}
-                type={key}
-                label={label}
-                />
-              :
-              <PairLikesList
-                placeDetails={placeDetails}
-                likedPlaces={likedPlaces}
-                isLoading={isLoading}/>}
+              <input
+                type="radio"
+                name="list"
+                className="tab"
+                aria-label={label}
+                defaultChecked={index === 0}
+              />
+              <div className="tab-content">
+                {key === 'bookstore' || key === 'cafe' ? (
+                  <LikesList
+                    placeDetails={placeDetails}
+                    likedPlaces={likedPlaces}
+                    isLoading={isLoading}
+                    type={key}
+                    label={label}
+                  />
+                ) : (
+                  <PairLikesList
+                    placeDetails={placeDetails}
+                    likedPlaces={likedPlaces}
+                    isLoading={isLoading}
+                  />
+                )}
               </div>
             </Fragment>
           ))}

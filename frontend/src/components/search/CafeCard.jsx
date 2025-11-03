@@ -44,20 +44,23 @@ export function CafeCard({ cafes, onSelectCafe, activeBookstore, onClick, active
               <div className="flex w-full items-center justify-between">
                 <h2 className="text-lg font-semibold cursor-pointer ">{cafe.name}</h2>
 
-                <div className='flex gap-3 mx-3'>
-                <button className='btn btn-square shrink-0' onClick={(e) => e.stopPropagation()}>
-                  <LikeButton placeId={cafe.place_id} type="cafe" likeId={cafe.like_id} />
-                </button>
-
-                {activeBookstore && (
-                  <button className='btn btn-square shrink-0' onClick={(e) => e.stopPropagation()}>
-                    <LikePairButton
-                      bookstorePlaceId={activeBookstore.place_id}
-                      activeCafePlaceId={cafe.place_id}
-                      pairLikeId={cafe.pair_like_id}
-                    />
+                <div className="flex gap-3 mx-3">
+                  <button className="btn btn-square shrink-0" onClick={(e) => e.stopPropagation()}>
+                    <LikeButton placeId={cafe.place_id} type="cafe" likeId={cafe.like_id} />
                   </button>
-                )}
+
+                  {activeBookstore && (
+                    <button
+                      className="btn btn-square shrink-0"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <LikePairButton
+                        bookstorePlaceId={activeBookstore.place_id}
+                        activeCafePlaceId={cafe.place_id}
+                        pairLikeId={cafe.pair_like_id}
+                      />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

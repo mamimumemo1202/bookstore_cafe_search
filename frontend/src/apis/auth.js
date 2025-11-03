@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getAuthInfo } from './index';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const signUp = async ({ email, password, passwordConfirmation }) => {
   return axios.post(`${BASE_URL}/auth`, {
@@ -89,6 +89,6 @@ export const requestPasswordChange = async ({
   );
 };
 
-export const resentConfirmation = async( email ) => {
-  await axios.post(`${BASE_URL}/auth/confirmation`, {email})
-}
+export const resentConfirmation = async (email) => {
+  await axios.post(`${BASE_URL}/auth/confirmation`, { email });
+};

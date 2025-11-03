@@ -29,7 +29,7 @@ describe('ModalProvider', () => {
     render(
       <ModalProvider>
         <ModalConsumer />
-      </ModalProvider>,
+      </ModalProvider>
     );
 
     const state = screen.getByTestId('modal-state');
@@ -42,4 +42,3 @@ describe('ModalProvider', () => {
     expect(state).toHaveTextContent('closed');
   });
 });
-

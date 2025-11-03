@@ -5,7 +5,9 @@ import { BookstoreCard } from '../../components/search/BookstoreCard';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
 
 vi.mock('../../components/search/PlaceDetailCard', () => ({
-  PlaceDetailCard: ({ placeId }) => <div data-testid={`bookstore-detail-${placeId}`}>detail {placeId}</div>,
+  PlaceDetailCard: ({ placeId }) => (
+    <div data-testid={`bookstore-detail-${placeId}`}>detail {placeId}</div>
+  ),
 }));
 
 vi.mock('../../components/search/LikeButton', () => ({
@@ -43,7 +45,7 @@ describe('BookstoreCard', () => {
         onSelectBookstore={onSelectBookstore}
         onBookstoreClick={onBookstoreClick}
         activeBookstore={null}
-      />,
+      />
     );
 
     expect(screen.queryByTestId('bookstore-detail-bp1')).toBeNull();
@@ -67,7 +69,7 @@ describe('BookstoreCard', () => {
         onSelectBookstore={onSelectBookstore}
         onBookstoreClick={onBookstoreClick}
         activeBookstore={bookstore}
-      />,
+      />
     );
 
     const likeButton = screen.getByRole('button', { name: 'MockLike' });

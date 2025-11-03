@@ -3,7 +3,7 @@ export function Logo({ variant }) {
     <div className="flex items-center">
       <svg
         viewBox="0 0 500 500"
-        className={`${variant === "home" ? "w-40" : "w-10"} h-auto text-primary transform -scale-x-100`}
+        className={`${variant === 'home' ? 'w-40' : 'w-10'} h-auto text-primary transform -scale-x-100`}
         role="img"
         aria-label="ロゴ"
       >

@@ -9,36 +9,37 @@ export function FooterNavigation() {
   const { openModal } = useModal();
 
   return (
-    <nav aria-label="footer navigation" className="fixed bottom-0 w-full h-16 flex justify-around items-center border-t-2 border-base-200 bg-base-100">
-      <button className="flex flex-col items-center"
-        onClick={() => navigate('/')}>
-        <HomeIcon className="w-6 h-6"  />
+    <nav
+      aria-label="footer navigation"
+      className="fixed bottom-0 w-full h-16 flex justify-around items-center border-t-2 border-base-200 bg-base-100"
+    >
+      <button className="flex flex-col items-center" onClick={() => navigate('/')}>
+        <HomeIcon className="w-6 h-6" />
         <p>ホーム</p>
       </button>
 
-      <button className="flex flex-col items-center"
+      <button
+        className="flex flex-col items-center"
         onClick={() => {
-              isLoggedIn ? navigate('/mylist') : navigate('/auth');
-            }}>
-        <HeartIcon
-          className="w-6 h-6"
-          
-        />
+          isLoggedIn ? navigate('/mylist') : navigate('/auth');
+        }}
+      >
+        <HeartIcon className="w-6 h-6" />
         <p>マイリスト</p>
       </button>
 
       <button className="flex flex-col items-center" onClick={openModal}>
-        <MagnifyingGlassIcon className="w-6 h-6"  />
+        <MagnifyingGlassIcon className="w-6 h-6" />
         <p>検索</p>
       </button>
       {/* TODO: ログイン時にアイコンの写真を挿入 */}
-      <button className="flex flex-col items-center"
+      <button
+        className="flex flex-col items-center"
         onClick={() => {
-              isLoggedIn ? navigate('/mypage') : navigate('/auth');
-            }}>
-        <UserIcon
-          className="w-6 h-6"
-        />
+          isLoggedIn ? navigate('/mypage') : navigate('/auth');
+        }}
+      >
+        <UserIcon className="w-6 h-6" />
         <p>マイページ</p>
       </button>
     </nav>

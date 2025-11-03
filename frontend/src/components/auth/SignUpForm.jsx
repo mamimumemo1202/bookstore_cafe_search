@@ -5,14 +5,13 @@ import { useAuthContext } from '../contexts/AuthContext';
 import { useLoading } from '../contexts/LoadingContext';
 import { toast } from 'react-toastify';
 
-
 export function SignUpForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { withLoading, isLoading } = useLoading();
-  const [notice, setNotice] = useState("")
+  const [notice, setNotice] = useState('');
 
   const navigate = useNavigate();
 
@@ -36,24 +35,23 @@ export function SignUpForm() {
 
   return (
     <>
-      {errorMessage && (
-        <div className="p-2 rounded mb-2 alert alert-error">
-          {errorMessage}
-        </div>
-      )}
+      {errorMessage && <div className="p-2 rounded mb-2 alert alert-error">{errorMessage}</div>}
       {notice && (
         <div className="p-2 rounded mb-2 alert alert-info">
           {notice}
-          <button 
-          type='button' 
-          className='underline'
-          onClick={() => {resentConfirmation(email)}}>
+          <button
+            type="button"
+            className="underline"
+            onClick={() => {
+              resentConfirmation(email);
+            }}
+          >
             再送する
           </button>
         </div>
       )}
 
-      <form className="flex flex-col gap-5 my-5" onSubmit={handleSubmit} >
+      <form className="flex flex-col gap-5 my-5" onSubmit={handleSubmit}>
         <input
           type="email"
           value={email}
@@ -78,11 +76,7 @@ export function SignUpForm() {
           className="input"
           disabled={isLoading}
         />
-        <button
-          type="submit"
-          className=" btn disabled:cursor-not-allowed"
-          disabled={isLoading}
-        >
+        <button type="submit" className=" btn disabled:cursor-not-allowed" disabled={isLoading}>
           {isLoading ? '登録中...' : '登録'}
         </button>
       </form>

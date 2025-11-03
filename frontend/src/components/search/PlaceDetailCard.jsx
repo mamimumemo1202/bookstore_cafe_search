@@ -17,33 +17,34 @@ import { LikeButton } from './LikeButton';
 export function PlaceDetailCard({ placeId, type, likeId }) {
   const [place, setPlace] = useState(false);
   const [openToggle, setOpenToggle] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
-  const notify= (status) => {
-      if(status === 401) toast.info("ログインしてください") 
-      else if (status === 400) toast.error("不正なリクエストです")
-      else if(status) toast.error("予期せぬエラーです")
-    }
-
+  const notify = (status) => {
+    if (status === 401) toast.info('ログインしてください');
+    else if (status === 400) toast.error('不正なリクエストです');
+    else if (status) toast.error('予期せぬエラーです');
+  };
 
   useEffect(() => {
     const placeDetails = async () => {
       try {
-        setIsLoading(true)
+        setIsLoading(true);
         const res = await fetchPlaceDetails(placeId);
         setPlace(res);
       } catch (error) {
-        notify(error.response.status)
-      } finally{ setIsLoading(false) }
-    };placeDetails()
+        notify(error.response.status);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    placeDetails();
   }, [placeId]);
 
   return (
     <>
       <div className="flex flex-col p-2 gap-1">
         <div className="grid grid-cols-3 gap-3 py-5">
-          
-          { isLoading && <ImageSkeleton/>}
+          {isLoading && <ImageSkeleton />}
 
           {place?.photos?.length ? (
             place?.photos
@@ -62,7 +63,7 @@ export function PlaceDetailCard({ placeId, type, likeId }) {
               src={noImage}
               alt="No image"
               loading="eager"
-              className={`col-span-3 h-24 w-full object-cover ${isLoading? "opacity-0" : "opacity-100" }`}
+              className={`col-span-3 h-24 w-full object-cover ${isLoading ? 'opacity-0' : 'opacity-100'}`}
             />
           )}
         </div>
@@ -107,7 +108,7 @@ export function PlaceDetailCard({ placeId, type, likeId }) {
         {openToggle && (
           <div className="mt-2 text-sm">
             {place?.opening_hours ? (
-              place?.opening_hours['weekday_text'].map((h, i) => <div key={i}>  {h}</div>)
+              place?.opening_hours['weekday_text'].map((h, i) => <div key={i}> {h}</div>)
             ) : (
               <div className="">営業時間情報がありません</div>
             )}
@@ -115,25 +116,24 @@ export function PlaceDetailCard({ placeId, type, likeId }) {
         )}
 
         <div className="flex gap-1 mb-2">
-          <Rating
-          rating={place?.rating}/>
+          <Rating rating={place?.rating} />
           <p>{place?.rating}</p>
         </div>
 
         <div className="flex items-center gap-2">
           <a
-          href={`https://www.google.com/maps/search/?api=1&query=${place?.geometry?.location?.lat},${place?.geometry?.location?.lng}`}
-          target="_blank"
-          rel="noopener noreferrer" 
-          className="btn flex-1 justify-center">
+            href={`https://www.google.com/maps/search/?api=1&query=${place?.geometry?.location?.lat},${place?.geometry?.location?.lng}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn flex-1 justify-center"
+          >
             ルートや口コミを詳しく見る
           </a>
-          {likeId && <button className="btn" onClick={(e) => e.stopPropagation()}>
-            <LikeButton
-              placeId={placeId}
-              type={type}
-              likeId={likeId}/>
-          </button>}
+          {likeId && (
+            <button className="btn" onClick={(e) => e.stopPropagation()}>
+              <LikeButton placeId={placeId} type={type} likeId={likeId} />
+            </button>
+          )}
         </div>
       </div>
     </>

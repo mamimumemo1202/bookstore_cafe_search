@@ -7,7 +7,6 @@ import { PlaceDetailCard } from '../search/PlaceDetailCard';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { CardSkeleton } from '../search/Skeleton';
 
-
 export function LikesList({ placeDetails, likedPlaces, isLoading, type, label }) {
   const { isOpenModal, closeModal } = useModal();
   const [openId, setOpenId] = useState(null);
@@ -22,9 +21,14 @@ export function LikesList({ placeDetails, likedPlaces, isLoading, type, label })
 
       <div>
         <div className="grid grid-cols-1 gap-2">
-          { isLoading && <><CardSkeleton /><CardSkeleton /></>}
+          {isLoading && (
+            <>
+              <CardSkeleton />
+              <CardSkeleton />
+            </>
+          )}
 
-          { likedPlaces?.length > 0 ? (
+          {likedPlaces?.length > 0 ? (
             likedPlaces?.map((like) => (
               <ul
                 key={like.id}
@@ -47,18 +51,18 @@ export function LikesList({ placeDetails, likedPlaces, isLoading, type, label })
                   </div>
                 </li>
 
-                {openId === like.id && 
-                <PlaceDetailCard 
-                  placeId={like.likeable?.place_id}
-                  type={type}
-                  likeId={like.id} />}
+                {openId === like.id && (
+                  <PlaceDetailCard placeId={like.likeable?.place_id} type={type} likeId={like.id} />
+                )}
               </ul>
             ))
           ) : (
-            <div className={` my-2 ${isLoading? "hidden" : " "}`}>いいねした{label}がありません</div>
+            <div className={` my-2 ${isLoading ? 'hidden' : ' '}`}>
+              いいねした{label}がありません
+            </div>
           )}
         </div>
       </div>
     </>
   );
-} 
+}

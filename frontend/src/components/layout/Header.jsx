@@ -24,10 +24,7 @@ export function Header({ variant }) {
 
             <div className="flex flex-row items-end gap-3 mr-6 justify-self-end">
               {!isLoggedIn && (
-                <button
-                  className="hover:font-bold underline"
-                  onClick={() => navigate('/auth')}
-                >
+                <button className="hover:font-bold underline" onClick={() => navigate('/auth')}>
                   新規登録・ログイン
                 </button>
               )}

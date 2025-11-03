@@ -5,8 +5,7 @@ import { useState } from 'react';
 import { PlaceDetailCard } from '../search/PlaceDetailCard';
 import { CardSkeleton } from '../search/Skeleton';
 
-
-export function PairLikesList({ placeDetails, likedPlaces, isLoading}) {
+export function PairLikesList({ placeDetails, likedPlaces, isLoading }) {
   const { isOpenModal, closeModal } = useModal();
   const [openId, setOpenId] = useState(null);
 
@@ -20,8 +19,13 @@ export function PairLikesList({ placeDetails, likedPlaces, isLoading}) {
 
       <div>
         <div className="grid grid-cols-1 gap-2">
-          { isLoading && <><CardSkeleton /><CardSkeleton /></>}
-          { likedPlaces.length > 0 ? (
+          {isLoading && (
+            <>
+              <CardSkeleton />
+              <CardSkeleton />
+            </>
+          )}
+          {likedPlaces.length > 0 ? (
             likedPlaces?.map((like) => (
               <ul
                 key={like.id}
@@ -36,9 +40,7 @@ export function PairLikesList({ placeDetails, likedPlaces, isLoading}) {
                     <p>本屋: {placeDetails[like.likeable.bookstore.place_id]?.name}</p>
                     <p>カフェ: {placeDetails[like.likeable.cafe.place_id]?.name}</p>
                   </div>
-                  <button 
-                  onClick={(e) => e.stopPropagation()}
-                  className='mr-5'>
+                  <button onClick={(e) => e.stopPropagation()} className="mr-5">
                     <LikePairButton
                       bookstorePlaceId={like.likeable.bookstore.place_id}
                       activeCafePlaceId={like.likeable.cafe.place_id}
@@ -47,19 +49,18 @@ export function PairLikesList({ placeDetails, likedPlaces, isLoading}) {
                   </button>
                 </li>
 
-                  {openId === like.id && (
-                    <div className="px-1 pb-2">
-                      <div className="font-semibold">本屋</div>
-                      <PlaceDetailCard placeId={like.likeable.bookstore.place_id} />
-                      <div className="font-semibold mt-4">カフェ</div>
-                      <PlaceDetailCard placeId={like.likeable.cafe.place_id} />
-                    </div>
-                  )}
-                
+                {openId === like.id && (
+                  <div className="px-1 pb-2">
+                    <div className="font-semibold">本屋</div>
+                    <PlaceDetailCard placeId={like.likeable.bookstore.place_id} />
+                    <div className="font-semibold mt-4">カフェ</div>
+                    <PlaceDetailCard placeId={like.likeable.cafe.place_id} />
+                  </div>
+                )}
               </ul>
             ))
           ) : (
-            <div className={`${isLoading? "hidden" : " "}`}>いいねしたペアがありません</div>
+            <div className={`${isLoading ? 'hidden' : ' '}`}>いいねしたペアがありません</div>
           )}
         </div>
       </div>

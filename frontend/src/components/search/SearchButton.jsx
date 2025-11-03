@@ -4,7 +4,6 @@ import { useModal } from '../contexts/ModalContext';
 import { useLoading } from '../contexts/LoadingContext';
 import { toast } from 'react-toastify';
 
-
 export function SearchButton({ label, searchMode }) {
   const { getLocation } = useGeolocation();
   const navigate = useNavigate();
@@ -27,10 +26,7 @@ export function SearchButton({ label, searchMode }) {
 
   return (
     <>
-      <button
-        className="btn text-base-content"
-        onClick={() => handleSearch()}
-      >
+      <button className="btn text-base-content" onClick={() => handleSearch()}>
         {label}
       </button>
     </>

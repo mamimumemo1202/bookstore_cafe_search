@@ -13,7 +13,7 @@ export function Mypage() {
   const handleSignOut = async () => {
     try {
       await signOut();
-    } catch  {
+    } catch {
       await signOut();
     } finally {
       clearAuthInfo();
@@ -35,13 +35,11 @@ export function Mypage() {
 
       <div className="flex flex-col justify-center mx-10">
         <div className="avator avatar-placeholder flex justify-center">
-          <div className=' bg-neutral text-neutral-content h-24 w-24 rounded-full'>
-            <span className='text-3xl'>
-              DEV
-            </span>
+          <div className=" bg-neutral text-neutral-content h-24 w-24 rounded-full">
+            <span className="text-3xl">DEV</span>
           </div>
         </div>
-        
+
         <div className="flex flex-col items-center mb-10">
           <div className="text-gray-900 text-3xl pt-5">{user?.name}</div>
 

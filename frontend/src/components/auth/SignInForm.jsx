@@ -27,7 +27,7 @@ export function SignInForm() {
         setUser(tokenRes.data.data);
         setIsLoggedIn(true);
         navigate('/');
-        toast.info("ログインしました！")
+        toast.info('ログインしました！');
       } catch (error) {
         if (error.response) {
           const messages = error.response.data.errors ?? [];
@@ -48,9 +48,7 @@ export function SignInForm() {
 
   return (
     <>
-      {errorMessage && (
-        <div className="mb-2 rounded alert alert-error">{errorMessage}</div>
-      )}
+      {errorMessage && <div className="mb-2 rounded alert alert-error">{errorMessage}</div>}
 
       <form className="flex flex-col gap-5 my-5" onSubmit={handleSubmit}>
         <input
@@ -77,11 +75,7 @@ export function SignInForm() {
         >
           パスワードを忘れた方はこちら
         </button>
-        <button
-          type="submit"
-          className="btn disabled:cursor-not-allowed "
-          disabled={isLoading}
-        >
+        <button type="submit" className="btn disabled:cursor-not-allowed " disabled={isLoading}>
           {isLoading ? 'ログイン中...' : 'ログイン'}
         </button>
       </form>

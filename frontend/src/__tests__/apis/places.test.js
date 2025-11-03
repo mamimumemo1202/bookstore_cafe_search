@@ -134,7 +134,7 @@ describe('places api client', () => {
           client: 'client-id',
           uid: 'uid-123',
         },
-      },
+      }
     );
     expect(result).toBe(99);
   });
@@ -182,9 +182,8 @@ describe('places api client', () => {
           client: 'client-id',
           uid: 'uid-123',
         },
-      },
+      }
     );
     expect(result).toEqual({ pair_like_id: 77 });
   });
 });
-

@@ -3,12 +3,17 @@ import { PlacesMap } from '../components/search/PlacesMap';
 import { BookstoreSelector } from '../components/search/BookstoreSelector';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CafeCard } from '../components/search/CafeCard';
-import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPlaceDetails } from '../apis/places';
+import {
+  fetchBookstores,
+  fetchCafes,
+  fetchCafesNearBookstore,
+  fetchPlaceDetails,
+} from '../apis/places';
 import { BookstoreCard } from '../components/search/BookstoreCard';
 import { Header } from '../components/layout/Header';
 import { SearchModal } from '../components/search/SearchModal';
 import { useModal } from '../components/contexts/ModalContext';
-import { useLoading } from "../components/contexts/LoadingContext";
+import { useLoading } from '../components/contexts/LoadingContext';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { likePair } from '../apis/places';
 import { toast } from 'react-toastify';
@@ -25,9 +30,9 @@ export function SearchResultsPage() {
 
   const navigate = useNavigate();
 
-  const notify= (status) => {
-    if(status) toast.error("エラーが発生しました。ホームに戻ってください。")
-    }
+  const notify = (status) => {
+    if (status) toast.error('エラーが発生しました。ホームに戻ってください。');
+  };
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -40,8 +45,7 @@ export function SearchResultsPage() {
     setActiveCafe(cafe);
 
     const p = new URLSearchParams(searchParams);
-    p.set('bpid',activeBookstore.place_id),
-    p.set('cpid', cafe.place_id)
+    (p.set('bpid', activeBookstore.place_id), p.set('cpid', cafe.place_id));
     p.set('mode', 'pair');
     setSearchParams(p);
   };
@@ -71,28 +75,28 @@ export function SearchResultsPage() {
     if (!lat || !lng) return;
 
     const fetchPlaces = async () => {
-      
       try {
-        await withLoading( async () => {
-        if (searchMode === 'bookstore') {
-          const res = await fetchBookstores(lat, lng);
-          setBookstores(res);
-        } else if (searchMode === 'cafe') {
-          const res = await fetchCafes(lat, lng);
-          setCafes(res);
-        } else if (searchMode === 'pair') {
-          const bpid = searchParams.get('bpid');
-          if (bpid) {
-            const res = await fetchCafesNearBookstore(bpid, 'Pair');
+        await withLoading(async () => {
+          if (searchMode === 'bookstore') {
+            const res = await fetchBookstores(lat, lng);
+            setBookstores(res);
+          } else if (searchMode === 'cafe') {
+            const res = await fetchCafes(lat, lng);
             setCafes(res);
+          } else if (searchMode === 'pair') {
+            const bpid = searchParams.get('bpid');
+            if (bpid) {
+              const res = await fetchCafesNearBookstore(bpid, 'Pair');
+              setCafes(res);
 
-            const bs = await fetchBookstores(lat, lng);
-            const b = bs.find((b) => b.place_id === bpid);
-            setActiveBookstore(b)
+              const bs = await fetchBookstores(lat, lng);
+              const b = bs.find((b) => b.place_id === bpid);
+              setActiveBookstore(b);
+            }
           }
-        }})
+        });
       } catch (error) {
-       notify(error.response.status)
+        notify(error.response.status);
       }
     };
     fetchPlaces();
@@ -158,14 +162,14 @@ export function SearchResultsPage() {
         <div className="flex-1 overflow-y-auto pb-16">
           {searchMode === 'bookstore' && (
             <div className="sticky top-0">
-              <div className={`flex p-3 ${isOpenCafeCard? "justify-starts" : "justify-end"}`}>
-              <button
-                type="button"
-                className="text-md underline"
-                onClick={() => setIsOpenCafeCard((prev) => !prev)}
-              >
-                {isOpenCafeCard ? '本屋を選びなおす' : 'カフェも選ぶ'}
-              </button>
+              <div className={`flex p-3 ${isOpenCafeCard ? 'justify-starts' : 'justify-end'}`}>
+                <button
+                  type="button"
+                  className="text-md underline"
+                  onClick={() => setIsOpenCafeCard((prev) => !prev)}
+                >
+                  {isOpenCafeCard ? '本屋を選びなおす' : 'カフェも選ぶ'}
+                </button>
               </div>
             </div>
           )}
@@ -174,11 +178,12 @@ export function SearchResultsPage() {
             <div className="h-full overflow-y-auto px-2">
               {/* 本屋カード */}
               {isLoading && (
-                <div className='grid grid-col gap-2'>
+                <div className="grid grid-col gap-2">
                   <CardSkeleton />
                   <CardSkeleton />
                   <CardSkeleton />
-                </div>)}
+                </div>
+              )}
 
               <BookstoreCard
                 bookstores={bookstores}
@@ -204,7 +209,13 @@ export function SearchResultsPage() {
 
               {/* カフェカード */}
               <div className="flex-1 overflow-y-auto">
-                {isLoading && (<><CardSkeleton /><CardSkeleton /><CardSkeleton /></>)}
+                {isLoading && (
+                  <>
+                    <CardSkeleton />
+                    <CardSkeleton />
+                    <CardSkeleton />
+                  </>
+                )}
 
                 <CafeCard
                   cafes={cafes}
