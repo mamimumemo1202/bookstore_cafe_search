@@ -3,17 +3,21 @@ import { PlacesMap } from '../components/search/PlacesMap';
 import { BookstoreSelector } from '../components/search/BookstoreSelector';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CafeCard } from '../components/search/CafeCard';
-import { fetchBookstores, fetchCafes, fetchCafesNearBookstore, fetchPlaceDetails } from '../apis/places';
+import {
+  fetchBookstores,
+  fetchCafes,
+  fetchCafesNearBookstore,
+  fetchPlaceDetails,
+} from '../apis/places';
 import { BookstoreCard } from '../components/search/BookstoreCard';
-import { LoadingIcon } from '../components/common/LoadingIcon';
-import { useLoading } from '../hooks/useLoading';
 import { Header } from '../components/layout/Header';
 import { SearchModal } from '../components/search/SearchModal';
 import { useModal } from '../components/contexts/ModalContext';
+import { useLoading } from '../components/contexts/LoadingContext';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { likePair } from '../apis/places';
 import { toast } from 'react-toastify';
-import { CardSkeleton } from '../components/search/CardSkelton';
+import { CardSkeleton } from '../components/search/Skeleton';
 
 export function SearchResultsPage() {
   const [bookstores, setBookstores] = useState([]);
@@ -21,14 +25,14 @@ export function SearchResultsPage() {
   const [activeBookstore, setActiveBookstore] = useState(null);
   const [activeCafe, setActiveCafe] = useState(null);
   const [isOpenCafeCard, setIsOpenCafeCard] = useState(false);
-  const { isLoading, startLoading, stopLoading } = useLoading();
+  const { isLoading, withLoading } = useLoading();
   const { isOpenModal, closeModal } = useModal();
 
   const navigate = useNavigate();
 
-  const notify= (status) => {
-    if(status) toast.error("エラーが発生しました。ホームに戻ってください。")
-    }
+  const notify = (status) => {
+    if (status) toast.error('エラーが発生しました。ホームに戻ってください。');
+  };
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -41,8 +45,7 @@ export function SearchResultsPage() {
     setActiveCafe(cafe);
 
     const p = new URLSearchParams(searchParams);
-    p.set('bpid',activeBookstore.place_id),
-    p.set('cpid', cafe.place_id)
+    (p.set('bpid', activeBookstore.place_id), p.set('cpid', cafe.place_id));
     p.set('mode', 'pair');
     setSearchParams(p);
   };
@@ -72,29 +75,28 @@ export function SearchResultsPage() {
     if (!lat || !lng) return;
 
     const fetchPlaces = async () => {
-      startLoading();
       try {
-        if (searchMode === 'bookstore') {
-          const res = await fetchBookstores(lat, lng);
-          setBookstores(res);
-        } else if (searchMode === 'cafe') {
-          const res = await fetchCafes(lat, lng);
-          setCafes(res);
-        } else if (searchMode === 'pair') {
-          const bpid = searchParams.get('bpid');
-          if (bpid) {
-            const res = await fetchCafesNearBookstore(bpid, 'Pair');
+        await withLoading(async () => {
+          if (searchMode === 'bookstore') {
+            const res = await fetchBookstores(lat, lng);
+            setBookstores(res);
+          } else if (searchMode === 'cafe') {
+            const res = await fetchCafes(lat, lng);
             setCafes(res);
+          } else if (searchMode === 'pair') {
+            const bpid = searchParams.get('bpid');
+            if (bpid) {
+              const res = await fetchCafesNearBookstore(bpid, 'Pair');
+              setCafes(res);
 
-            const bs = await fetchBookstores(lat, lng);
-            const b = bs.find((b) => b.place_id === bpid);
-            setActiveBookstore(b)
+              const bs = await fetchBookstores(lat, lng);
+              const b = bs.find((b) => b.place_id === bpid);
+              setActiveBookstore(b);
+            }
           }
-        }
+        });
       } catch (error) {
-       notify(error.response.status)
-      } finally {
-        stopLoading();
+        notify(error.response.status);
       }
     };
     fetchPlaces();
@@ -144,8 +146,8 @@ export function SearchResultsPage() {
 
       {isOpenModal && <SearchModal onClose={closeModal} />}
 
-      <div className="mt-16 flex flex-col sm:flex-row h-[calc(100vh-4rem)]">
-        <div className="h-2/5 w-full  sm:w-1/2 sm:h-full">
+      <div className="pt-16 min-h-screen flex flex-col">
+        <div className="h-60 w-full">
           {/* 検索結果マップ */}
           <PlacesMap
             lat={lat}
@@ -157,23 +159,32 @@ export function SearchResultsPage() {
           />
         </div>
 
-        <div className="h-3/5 w-full sm:w-1/2 sm:h-full overflow-hidden pb-16">
+        <div className="flex-1 overflow-y-auto pb-16">
           {searchMode === 'bookstore' && (
-            <div className="sticky top-0 p-2 bg-white">
-              <button
-                type="button"
-                className="justify-end text-sm text-primary-600 hover:underline"
-                onClick={() => setIsOpenCafeCard((prev) => !prev)}
-              >
-                {isOpenCafeCard ? '本屋を選びなおす' : 'カフェも選ぶ'}
-              </button>
+            <div className="sticky top-0">
+              <div className={`flex p-3 ${isOpenCafeCard ? 'justify-starts' : 'justify-end'}`}>
+                <button
+                  type="button"
+                  className="text-md underline"
+                  onClick={() => setIsOpenCafeCard((prev) => !prev)}
+                >
+                  {isOpenCafeCard ? '本屋を選びなおす' : 'カフェも選ぶ'}
+                </button>
+              </div>
             </div>
           )}
 
           {searchMode === 'bookstore' && !isOpenCafeCard ? (
             <div className="h-full overflow-y-auto px-2">
               {/* 本屋カード */}
-              {isLoading && (<><CardSkeleton /><CardSkeleton /><CardSkeleton /></>)}
+              {isLoading && (
+                <div className="grid grid-col gap-2">
+                  <CardSkeleton />
+                  <CardSkeleton />
+                  <CardSkeleton />
+                </div>
+              )}
+
               <BookstoreCard
                 bookstores={bookstores}
                 onSelectBookstore={setActiveBookstore}
@@ -197,7 +208,15 @@ export function SearchResultsPage() {
                 ))}
 
               {/* カフェカード */}
-              <div className="flex-1 overflow-y-auto px-2">
+              <div className="flex-1 overflow-y-auto">
+                {isLoading && (
+                  <>
+                    <CardSkeleton />
+                    <CardSkeleton />
+                    <CardSkeleton />
+                  </>
+                )}
+
                 <CafeCard
                   cafes={cafes}
                   onSelectCafe={setActiveCafe}

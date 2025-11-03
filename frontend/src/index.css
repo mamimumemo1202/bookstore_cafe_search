@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+@plugin "daisyui" {
+  themes: all;
+}
 
 @theme {
   /* Primary */
@@ -31,7 +34,6 @@ html,
 body,
 #root {
   height: 100%;
-  background: #fff;
 }
 body {
   margin: 0;
