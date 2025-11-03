@@ -28,6 +28,7 @@ export function HomePage() {
               <p className="text-xs mb-2">Bookstore Cafe Map</p>
               <p className="text-sm whitespace-nowrap">本を買ったら、次はカフェで一息。</p>
               <p className="text-sm whitespace-nowrap">お気に入りの本屋とカフェを探そう。</p>
+              <p className="text-sm whitespace-nowrap">本屋→カフェの順で検索できます。</p>
             </div>
           </div>
 
