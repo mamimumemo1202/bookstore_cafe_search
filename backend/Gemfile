@@ -33,11 +33,11 @@ gem "devise_token_auth"
 
 gem 'rack-cors'
 gem 'httparty'
-
+gem 'resend'
 
 group :production do
   gem 'pg'
-  gem 'resend'
+
 end
 
 group :development, :test do
