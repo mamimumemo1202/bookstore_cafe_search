@@ -92,10 +92,10 @@ export function PlaceDetailCard({ placeId, type, likeId }) {
         <div className="flex gap-1">
           <ClockIcon className="w-6 h-6" />
           <button
-            className={`flex ${place.open_now ? 'text-success-500' : 'text-error-500'}`}
+            className={`flex ${place?.opening_hours?.open_now ? 'text-primary' : 'text-error-500'}`}
             onClick={(e) => (e.stopPropagation(), setOpenToggle((openToggle) => !openToggle))}
           >
-            {place.open_now ? '営業中' : '営業時間外'}
+            {place?.opening_hours?.open_now ? '営業中' : '営業時間外'}
 
             {openToggle ? (
               <ChevronUpIcon className="w-6 h-6" />
