@@ -1,8 +1,8 @@
-export function SignOutButton({ handleSignOut }) {
+export function SignOutButton({ handleSignOut, isSigningOut }) {
   return (
     <>
       <button type="button" className="btn" onClick={() => handleSignOut()}>
-        ログアウト
+        {isSigningOut? "ログアウト中..." : "ログアウト"}
       </button>
     </>
   );
