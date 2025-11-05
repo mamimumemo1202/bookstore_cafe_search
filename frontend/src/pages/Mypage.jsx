@@ -1,31 +1,37 @@
+import { useState } from 'react';
 import { SignOutButton } from '../components/auth/SignOutButton';
 import { useAuthContext } from '../components/contexts/AuthContext';
 import { signOut } from '../apis/auth';
 import { clearAuthInfo } from '../apis';
 import { useNavigate } from 'react-router-dom';
 import { BackButton } from '../components/common/BackButton';
-import { Avatar } from '../components/common/Avatar';
+
 
 export function Mypage() {
   const { isLoggedIn, setIsLoggedIn, user, setUser, isLoading } = useAuthContext();
   const navigate = useNavigate();
+  const [ isSigningOut, setIsSigningOut ] = useState(false)
 
   const handleSignOut = async () => {
+    setIsSigningOut(true)
     try {
       await signOut();
     } catch {
       await signOut();
     } finally {
       clearAuthInfo();
-      setUser(null);
-      setIsLoggedIn(false);
-      navigate('/');
+      navigate('/', { replace: true });
+      // ログインの評価に時間がかかるため少し待ってから、状態破棄
+      setTimeout(() => {
+        setUser(null);
+        setIsLoggedIn(false);
+      }, 1)
+      setIsSigningOut(false)
     }
   };
 
   if (isLoading) return null;
 
-  // アイコン、名前、メアド、パスワード変更リンク、いいねリスト、ブックマークリスト
   // TODO: 編集できるようにする
   return (
     <>
@@ -57,7 +63,7 @@ export function Mypage() {
         >
           パスワードを変更する
         </button>
-        <SignOutButton handleSignOut={handleSignOut} />
+        <SignOutButton handleSignOut={handleSignOut} isSigningOut={isSigningOut} />
       </div>
     </>
   );
