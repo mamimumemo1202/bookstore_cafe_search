@@ -1,13 +1,14 @@
-// TODO: 解除1->いいね->解除2をすると解除1のlike_idを送ってエラーがでる（本屋、カフェ共通）
-
-import { HeartIcon, PuzzlePieceIcon } from '@heroicons/react/24/solid';
 import { CloverIcon } from '@phosphor-icons/react';
 import { likePair, unlikePlace } from '../../apis/places';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useAuthContext } from "../contexts/AuthContext"
+import { useNavigate } from 'react-router-dom';
 
 export function LikePairButton({ bookstorePlaceId, activeCafePlaceId, pairLikeId }) {
   const [liked, setLiked] = useState(false);
+  const { isLoading } = useAuthContext()
+  const navigate = useNavigate();
 
   const notify = (status) => {
     if (status === 401) toast.info('ログインしてください');
@@ -21,7 +22,12 @@ export function LikePairButton({ bookstorePlaceId, activeCafePlaceId, pairLikeId
 
   const handleLike = async () => {
     const prev = liked;
-    setLiked(!liked);
+
+    if(isLoading) {
+    setLiked(!liked)
+    } else {
+      navigate('/auth')
+    }
 
     try {
       prev ? await unlikePlace(pairLikeId) : await likePair(bookstorePlaceId, activeCafePlaceId);
@@ -33,12 +39,12 @@ export function LikePairButton({ bookstorePlaceId, activeCafePlaceId, pairLikeId
 
   return (
     <>
+    <button onClick={() => handleLike()}>
       <CloverIcon
         weight="fill"
         color={`${liked ? '#6CA20C' : '#FFFFFF'}`}
-        className="w-6 h-6"
-        onClick={() => handleLike()}
-      />
+        className="w-6 h-6"/>
+    </button>
     </>
   );
 }
