@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { signIn, validateToken } from '../../apis/auth';
+import { signIn, validateToken, resentConfirmation } from '../../apis/auth';
 import { saveAuthInfo } from '../../apis/index';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
 import { useLoading } from '../contexts/LoadingContext';
 import { toast } from 'react-toastify';
+
 
 export function SignInForm() {
   const [email, setEmail] = useState('');
@@ -33,7 +34,8 @@ export function SignInForm() {
           const messages = error.response.data.errors ?? [];
 
           if (messages.some((msg) => msg.toLowerCase().includes('confirm'))) {
-            setErrorMessage('認証を完了してください（確認メールを再送できます）');
+            await resentConfirmation(email)
+            setErrorMessage('認証メールを送信しました。認証を完了してください');
           } else if (error.response.status === 401) {
             setErrorMessage('メールアドレスかパスワードが間違っています');
           } else {
@@ -48,7 +50,10 @@ export function SignInForm() {
 
   return (
     <>
-      {errorMessage && <div className="mb-2 rounded alert alert-error">{errorMessage}</div>}
+      {errorMessage && <div className="mb-2 rounded alert alert-error">
+        {errorMessage} {errorMessage ==="認証メールを送信しました。認証を完了してください" && 
+        <button onClick={() => {resentConfirmation(email)}} className='font-bold underline'>再送する</button>}
+      </div>}
 
       <form className="flex flex-col gap-5 my-5" onSubmit={handleSubmit}>
         <input
