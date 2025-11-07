@@ -5,10 +5,11 @@ class Api::V1::Overrides::ConfirmationsController < DeviseTokenAuth::Confirmatio
     def show
         
     super do
-      uri = URI.parse(@redirect_url) rescue nil
-      Rails.logger.info("[CONFIRM] redirect_url=#{@redirect_url} env=#{ENV['FRONTEND_BASE_URL']}")
+      target = "#{ENV['FRONTEND_BASE_URL']}/auth?verified=1"
+      uri = URI.parse(target) rescue nil
+      Rails.logger.info("[CONFIRM] redirect_url=#{target} env=#{ENV['FRONTEND_BASE_URL']}")
       if uri && ALLOWED_REDIRECT_HOSTS.include?(uri.host)
-        return redirect_to(@redirect_url, allow_other_host: true)
+        return redirect_to(target, allow_other_host: true)
       end
       raise AppErrors::BadRequest, "not include valid URL"
     end
