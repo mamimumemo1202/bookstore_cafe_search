@@ -5,9 +5,7 @@ import { BackButton } from '../components/common/BackButton';
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const { notice, setNotice } = useState(
-    '送信しました。届かない場合はメールアドレスをご確認ください。'
-  );
+  const [notice, setNotice] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,7 +31,7 @@ export function ForgotPasswordPage() {
       <div className="text-center mt-5">
         リセットするアカウントのメールアドレスを入力してください。
       </div>
-      {notice && <div className="alert alert-info p-2 rounded mb-2">{notice}</div>}
+      {notice && <div className="alert alert-info p-2 rounded mb-2 mx-5">{notice}</div>}
 
       <form onSubmit={handleSubmit} className="flex flex-col items-center gap-5 px-9 mt-5">
         <input

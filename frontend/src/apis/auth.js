@@ -2,6 +2,7 @@ import axios from 'axios';
 import { getAuthInfo } from './index';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const FRONTEND_BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL;
 
 export const signUp = async ({ email, password, passwordConfirmation }) => {
   return axios.post(`${BASE_URL}/auth`, {
@@ -46,29 +47,37 @@ export const validateToken = async () => {
   return res;
 };
 
-// TODO: 要修正
-
 export const requestPasswordReset = async ({ email }) => {
   await axios.post(`${BASE_URL}/auth/password`, {
     email,
-    redirect_url: `${BASE_URL}/reset-password`,
+    redirect_url: `${FRONTEND_BASE_URL}/reset-password`,
   });
 };
 
 export const resetPassword = async ({
   password,
   passwordConfirmation,
+  resetPasswordToken,
   accessToken,
-  client,
-  uid,
+  client, 
+  uid
 }) => {
   await axios.put(
     `${BASE_URL}/auth/password`,
     {
       password,
       password_confirmation: passwordConfirmation,
+      reset_password_token: resetPasswordToken,
     },
-    { headers: { 'access-token': accessToken, client, uid } }
+     {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'access-token': accessToken,
+        client: client,
+        uid: uid,
+      },
+    }
   );
 };
 
