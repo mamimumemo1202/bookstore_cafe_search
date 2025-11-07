@@ -66,4 +66,6 @@ DeviseTokenAuth.setup do |config|
 
   # TODO: 本番環境ではFalse
   config.change_headers_on_each_request = false
+
+  config.require_client_password_reset_token = true
 end
