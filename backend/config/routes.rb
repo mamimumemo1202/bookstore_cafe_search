@@ -8,7 +8,8 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for "User", at: "auth",
       controllers: { 
         registrations: "api/v1/overrides/registrations",
-        confirmations: "api/v1/overrides/confirmations" }
+        confirmations: "api/v1/overrides/confirmations",
+        passwords: "api/v1/overrides/passwords"}
 
       resources :places, only: [ :index, :create, :show ] do
         collection do

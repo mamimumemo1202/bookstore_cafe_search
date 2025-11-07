@@ -4,6 +4,18 @@ import { getAuthInfo } from './index';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const FRONTEND_BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL;
 
+const buildAuthHeader = () => {
+  const authInfo = getAuthInfo();
+
+  if (!authInfo['access-token'] || !authInfo.client || !authInfo.uid) return {};
+
+  return {
+    'access-token': authInfo['access-token'],
+    client: authInfo.client,
+    uid: authInfo.uid,
+  };
+};
+
 export const signUp = async ({ email, password, passwordConfirmation }) => {
   return axios.post(`${BASE_URL}/auth`, {
     email,
@@ -20,28 +32,16 @@ export const signIn = async ({ email, password }) => {
 };
 
 export const signOut = async () => {
-  const authInfo = getAuthInfo();
 
   return axios.delete(`${BASE_URL}/auth/sign_out`, {
-    headers: {
-      'access-token': authInfo['access-token'],
-      client: authInfo['client'],
-      uid: authInfo['uid'],
-    },
+    headers: buildAuthHeader()
   });
 };
 
 export const validateToken = async () => {
-  const authInfo = getAuthInfo();
-
-  if (!authInfo['access-token'] || !authInfo['client'] || !authInfo['uid']) return null;
 
   const res = await axios.get(`${BASE_URL}/auth/validate_token`, {
-    headers: {
-      'access-token': authInfo['access-token'],
-      client: authInfo['client'],
-      uid: authInfo['uid'],
-    },
+    headers: buildAuthHeader()
   });
 
   return res;
@@ -57,10 +57,7 @@ export const requestPasswordReset = async ({ email }) => {
 export const resetPassword = async ({
   password,
   passwordConfirmation,
-  resetPasswordToken,
-  accessToken,
-  client, 
-  uid
+  resetPasswordToken
 }) => {
   await axios.put(
     `${BASE_URL}/auth/password`,
@@ -73,9 +70,9 @@ export const resetPassword = async ({
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'access-token': accessToken,
-        client: client,
-        uid: uid,
+        // 'access-token': accessToken,
+        // client: client,
+        // uid: uid,
       },
     }
   );
