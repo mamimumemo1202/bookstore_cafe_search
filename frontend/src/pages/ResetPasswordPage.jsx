@@ -12,19 +12,10 @@ export function ResetPasswordPage() {
   const [submitting, setSubmitting] = useState(false);
   const [notice, setNotice] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
-  // const accessToken = searchParams.get('access-token');
-  // const client = searchParams.get('client');
-  // const uid = searchParams.get('uid');
   const resetPasswordToken = searchParams.get('reset_password_token')
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // if (!accessToken || !client || !uid) {
-    //   setErrorMessage('トークンが無効です。もう一度メールを送信してください。');
-    //   return;
-    // }
 
     if (password !== passwordConfirmation) {
       setErrorMessage('パスワードが一致しません。');
@@ -38,7 +29,7 @@ export function ResetPasswordPage() {
       await resetPassword({ password, passwordConfirmation, resetPasswordToken });
 
       setNotice('パスワードを更新しました。ログインしてください。');
-      navigate('/auth');
+      navigate('/auth', {state: { from: "resetPassword"}});
     } catch (error) {
       setErrorMessage('リンクが無効です。もう一度送信してください。');
     } finally {
