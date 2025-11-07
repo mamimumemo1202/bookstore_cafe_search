@@ -16,12 +16,7 @@ export function ResetPasswordPage() {
   const accessToken = searchParams.get('access-token');
   const client = searchParams.get('client');
   const uid = searchParams.get('uid');
-
-  useEffect(() => {
-    if (accessToken || client || uid) {
-      navigate('/reset-password', { replace: true });
-    }
-  }, [accessToken, client, uid]);
+  const resetPasswordToken = searchParams.get('token')
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +34,7 @@ export function ResetPasswordPage() {
     setSubmitting(true);
 
     try {
-      await resetPassword({ password, passwordConfirmation, accessToken, client, uid });
+      await resetPassword({ password, passwordConfirmation, resetPasswordToken, accessToken, client, uid });
 
       setNotice('パスワードを更新しました。ログインしてください。');
       navigate('/auth');
