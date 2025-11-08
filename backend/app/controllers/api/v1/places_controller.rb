@@ -7,8 +7,8 @@ class Api::V1::PlacesController < Api::V1::BaseController
       bookstore_pid: params[:bpid],
       user: current_api_v1_user
     )
-
-    render json: { places: payload }
+    # { places: [...], next_page_token:  } 
+    render json: payload 
   end
 
 

@@ -48,12 +48,12 @@ export function LikeButton({ placeId, type, likeId }) {
 
   return (
     <>
-    <button
+    <div
      onClick={() => handleLike()}>
       <HeartIcon
         className={`w-6 h-6 ${liked ? 'text-accent-500' : 'text-white'}`}
       />
-    </button>
+    </div>
     </>
   );
 }

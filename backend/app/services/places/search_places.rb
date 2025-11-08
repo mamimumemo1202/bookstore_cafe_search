@@ -10,7 +10,8 @@ module Places
                 places: places,
                 bookstore_pid: bookstore_pid,
                 user: user,
-                type: type
+                type: type,
+                next_page_token: raw["next_page_token"]
             )
         end
     end

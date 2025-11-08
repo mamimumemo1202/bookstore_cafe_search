@@ -7,7 +7,7 @@ import {
   fetchBookstores,
   fetchCafes,
   fetchCafesNearBookstore,
-  fetchPlaceDetails,
+  fetchMorePlaces
 } from '../apis/places';
 import { BookstoreCard } from '../components/search/BookstoreCard';
 import { Header } from '../components/layout/Header';
@@ -25,6 +25,8 @@ export function SearchResultsPage() {
   const [activeBookstore, setActiveBookstore] = useState(null);
   const [activeCafe, setActiveCafe] = useState(null);
   const [isOpenCafeCard, setIsOpenCafeCard] = useState(false);
+  const [bookstoreNextPageToken, setBookstoreNextPageToken] = useState("")
+  const [cafeNextPageToken, setCafeNextPageToken] = useState("")
   const { isLoading, withLoading } = useLoading();
   const { isOpenModal, closeModal } = useModal();
 
@@ -79,18 +81,21 @@ export function SearchResultsPage() {
         await withLoading(async () => {
           if (searchMode === 'bookstore') {
             const res = await fetchBookstores(lat, lng);
-            setBookstores(res);
+            setBookstores(res.places);
+            setBookstoreNextPageToken("testttttttttttt")
           } else if (searchMode === 'cafe') {
             const res = await fetchCafes(lat, lng);
-            setCafes(res);
+            setCafes(res.places);
+            setCafeNextPageToken(res.next_page_token)
           } else if (searchMode === 'pair') {
             const bpid = searchParams.get('bpid');
             if (bpid) {
               const res = await fetchCafesNearBookstore(bpid, 'Pair');
-              setCafes(res);
+              setCafes(res.places);
+              setCafeNextPageToken(res.next_page_token)
 
               const bs = await fetchBookstores(lat, lng);
-              const b = bs.find((b) => b.place_id === bpid);
+              const b = bs.places.find((b) => b.place_id === bpid);
               setActiveBookstore(b);
             }
           }
@@ -109,7 +114,8 @@ export function SearchResultsPage() {
     if (searchMode === 'bookstore' && activeBookstore) {
       const fetchPlaces = async () => {
         const res = await fetchCafesNearBookstore(activeBookstore.place_id, 'Cafe');
-        setCafes(res);
+        setCafes(res.places);
+        setCafeNextPageToken(res.next_page_token)
       };
       fetchPlaces();
     }
@@ -193,6 +199,8 @@ export function SearchResultsPage() {
                 lat={lat}
                 lng={lng}
                 onBookstoreClick={onBookstoreClick}
+                canLoadMore={!!bookstoreNextPageToken}
+                onLoadMore={() => {fetchMorePlaces(bookstoreNextPageToken)}}
               />
             </div>
           ) : (
@@ -229,6 +237,8 @@ export function SearchResultsPage() {
                       onCafeClick(cafe);
                     }
                   }}
+                  canLoadMore={!!cafeNextPageToken}
+                  onLoadMore={() => {fetchMorePlaces(cafeNextPageToken)}}
                 />
               </div>
             </div>

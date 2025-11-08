@@ -27,7 +27,7 @@ export const fetchBookstores = async (lat, lng, type = 'Bookstore') => {
     params: { lat, lng, type },
     headers: buildAuthHeader(),
   });
-  return response.data.places;
+  return response.data;
 };
 
 export const fetchCafes = async (lat, lng, type = 'Cafe') => {
@@ -35,7 +35,7 @@ export const fetchCafes = async (lat, lng, type = 'Cafe') => {
     params: { lat, lng, type },
     headers: buildAuthHeader(),
   });
-  return response.data.places;
+  return response.data;
 };
 
 export const fetchCafesNearBookstore = async (bpid, type = 'Pair') => {
@@ -45,8 +45,18 @@ export const fetchCafesNearBookstore = async (bpid, type = 'Pair') => {
     params: { lat: geo.lat, lng: geo.lng, type, bpid },
     headers: buildAuthHeader(),
   });
-  return response.data.places;
+  return response.data;
 };
+
+export const fetchMorePlaces = async( nextPageToken ) => {
+  console.log("TODO: バックエンドの処理に依存")
+  // const res = await axios.get(`${BASE_URL}/places`, {
+  //   params:  {pagetoken: nextPageToken },
+  //   headers: buildAuthHeader(),
+  // })
+
+  // return res.data;
+}
 
 export const fetchGeometry = async (place_id) => {
   const response = await axios.get(`${BASE_URL}/places/${place_id}/geometry`);

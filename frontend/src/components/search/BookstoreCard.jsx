@@ -3,12 +3,7 @@ import { LikeButton } from './LikeButton';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { PlaceDetailCard } from './PlaceDetailCard';
 
-export function BookstoreCard({
-  bookstores,
-  onSelectBookstore,
-  activeBookstore,
-  onBookstoreClick,
-}) {
+export function BookstoreCard({ bookstores, onSelectBookstore, activeBookstore, onBookstoreClick, canLoadMore, onLoadMore }) {
   const [openIds, setOpenIds] = useState({});
 
   const detailedToggle = (id) => {
@@ -69,6 +64,12 @@ export function BookstoreCard({
           </div>
         ))}
       </div>
+      {canLoadMore? 
+      <button 
+      className="btn btn-sm mx-auto block mt-4"
+      onClick={onLoadMore}>もっと見る</button>
+      :
+      <div className='text-center'>"すべての結果を表示中"</div>}
     </>
   );
 }

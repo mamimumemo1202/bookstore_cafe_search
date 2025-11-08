@@ -23,7 +23,7 @@ class GooglePlacesClient
       type: gtype,
       language: "ja"
     )
-    ensure_google_ok!(json)
+    ensure_google_ok!(json) 
     json
   end
 
@@ -79,7 +79,6 @@ class GooglePlacesClient
           photo_ref: r.dig("photos", 0, "photo_reference")
         }
       rescue ExternalApiErrors::Error => e
-        Rails.logger.warn("[PlacesBulk] skip pid=#{pid} #{e.class}: #{e.message}")
         next nil
       end
     end
@@ -91,6 +90,7 @@ class GooglePlacesClient
     resp = self.class.get(path, query: params.merge(key: @api_key))
 
     json = resp.parsed_response rescue {}
+    puts json
 
     case resp.code.to_i
     when 200..299 then json

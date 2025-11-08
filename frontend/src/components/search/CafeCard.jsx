@@ -4,7 +4,7 @@ import { LikePairButton } from './LikePairButton';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { PlaceDetailCard } from './PlaceDetailCard';
 
-export function CafeCard({ cafes, onSelectCafe, activeBookstore, onClick, activecafe }) {
+export function CafeCard({ cafes, onSelectCafe, activeBookstore, onClick, activecafe, canLoadMore, onLoadMore }) {
   const [openIds, setOpenIds] = useState({});
 
   const detailedToggle = (id) => {
@@ -73,6 +73,13 @@ export function CafeCard({ cafes, onSelectCafe, activeBookstore, onClick, active
           </div>
         ))}
       </div>
+
+      {canLoadMore? 
+      <button 
+      className="btn btn-sm mx-auto block mt-4"
+      onClick={onLoadMore}>もっと見る</button>
+      :
+      <div className='text-center'>"すべての結果を表示中"</div>}
     </>
   );
 }
