@@ -49,13 +49,12 @@ export const fetchCafesNearBookstore = async (bpid, type = 'Pair') => {
 };
 
 export const fetchMorePlaces = async( nextPageToken ) => {
-  console.log("TODO: バックエンドの処理に依存")
-  // const res = await axios.get(`${BASE_URL}/places`, {
-  //   params:  {pagetoken: nextPageToken },
-  //   headers: buildAuthHeader(),
-  // })
+  const res = await axios.get(`${BASE_URL}/places/next_page`, {
+    params:  {pagetoken: nextPageToken },
+    headers: buildAuthHeader(),
+  })
 
-  // return res.data;
+  return res.data;
 }
 
 export const fetchGeometry = async (place_id) => {

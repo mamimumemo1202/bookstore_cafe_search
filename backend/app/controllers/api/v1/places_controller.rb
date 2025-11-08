@@ -45,4 +45,16 @@ class Api::V1::PlacesController < Api::V1::BaseController
 
       render json: { details_bulk: details_bulk }
     end
+
+    def next_page
+      pagetoken = params[:pagetoken]
+      raise AppErrors::BadRequest, "invalid pagetoken" unless pagetoken
+
+      client = ::GooglePlacesClient.new
+      payload = client.fetch_next_page(pagetoken)
+
+      render json: payload
+      
+    end
+
 end

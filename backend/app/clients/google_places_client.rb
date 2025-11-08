@@ -57,6 +57,7 @@ class GooglePlacesClient
     res
   end
 
+  # 複数のPlaceに対してFiledsのデータを返す（カード表示用）
   def fetch_place_details_bulk(place_ids)
     return [] if place_ids.empty?
     
@@ -84,13 +85,24 @@ class GooglePlacesClient
     end
   end
 
+  def fetch_next_page(pagetoken)
+    json = get_json!("/nearbysearch/json", pagetoken: pagetoken)
+
+    if json["status"] == "INVALID_REQUEST"
+      raise ExternalApiErrors::BadRequest, "Too early request"
+    end
+    
+    ensure_google_ok!(json)
+    json
+
+  end
+
   private
 
   def get_json!(path, **params)
     resp = self.class.get(path, query: params.merge(key: @api_key))
 
     json = resp.parsed_response rescue {}
-    puts json
 
     case resp.code.to_i
     when 200..299 then json
