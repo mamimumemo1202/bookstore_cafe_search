@@ -3,7 +3,15 @@ import { LikeButton } from './LikeButton';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { PlaceDetailCard } from './PlaceDetailCard';
 
-export function BookstoreCard({ bookstores, onSelectBookstore, activeBookstore, onBookstoreClick, canLoadMore, onLoadMore }) {
+export function BookstoreCard({
+  bookstores,
+  onSelectBookstore,
+  activeBookstore,
+  onBookstoreClick,
+  canLoadMore,
+  onLoadMore,
+  onToggleDetail,
+}) {
   const [openIds, setOpenIds] = useState({});
 
   const detailedToggle = (id) => {
@@ -14,9 +22,11 @@ export function BookstoreCard({ bookstores, onSelectBookstore, activeBookstore, 
   };
 
   const handleBookstoreSelect = (bookstore) => {
+    const nextOpen = !openIds[bookstore.place_id];
     detailedToggle(bookstore.place_id);
     onSelectBookstore(bookstore);
     onBookstoreClick(bookstore);
+    onToggleDetail?.(bookstore, nextOpen);
   };
 
   return (

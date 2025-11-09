@@ -15,7 +15,6 @@ import { SearchModal } from '../components/search/SearchModal';
 import { useModal } from '../components/contexts/ModalContext';
 import { useLoading } from '../components/contexts/LoadingContext';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
-import { likePair } from '../apis/places';
 import { toast } from 'react-toastify';
 import { CardSkeleton } from '../components/search/Skeleton';
 
@@ -42,6 +41,7 @@ export function SearchResultsPage() {
   const lat = Number(searchParams.get('lat'));
   const lng = Number(searchParams.get('lng'));
   const searchMode = searchParams.get('mode') ?? 'bookstore';
+  const view = searchParams.get('view') ?? 'bookstore'
 
   const handleLoadMoreBookstores = async () => {
     if (!bookstoreNextPageToken) return;
@@ -99,6 +99,7 @@ export function SearchResultsPage() {
     const p = new URLSearchParams(searchParams);
     (p.set('bpid', activeBookstore.place_id), p.set('cpid', cafe.place_id));
     p.set('mode', 'pair');
+    p.set('view', 'cafe')
     setSearchParams(p);
   };
 
@@ -106,6 +107,7 @@ export function SearchResultsPage() {
     const p = new URLSearchParams(searchParams);
     p.set('bpid', activeBookstore.place_id);
     p.set('mode', 'bookstore');
+    p.set('view', 'bookstore')
     setSearchParams(p);
   };
 
@@ -115,6 +117,48 @@ export function SearchResultsPage() {
     p.set('mode', 'cafe');
     setSearchParams(p);
   };
+
+  const handleBookstoreDetailToggle = (bookstore, isOpen) => {
+    const p = new URLSearchParams(searchParams);
+    if (isOpen) {
+      p.set('bpid', bookstore.place_id);
+      p.set('mode', 'bookstore');
+    } else if (p.get('bpid') === bookstore.place_id) {
+      p.delete('bpid');
+    }
+
+    setSearchParams(p);
+  };
+
+  const handleCafeDetailToggle = (cafe, isOpen) => {
+    const p = new URLSearchParams(searchParams);
+    if (isOpen) {
+      p.set('cpid', cafe.place_id);
+    } else if (p.get('cpid') === cafe.place_id) {
+      p.delete('cpid');
+    }
+
+    setSearchParams(p);
+  };
+
+  const onChangeViewClick = () => {
+    const p = new URLSearchParams(searchParams)
+    if(searchMode === 'pair') {
+      p.set('mode', 'bookstore');
+      p.delete('cpid')
+      p.delete('bpid')
+      p.set('view', 'bookstore')
+    } else {
+      p.set('view', isOpenCafeCard? 'bookstore': 'cafe')
+    }
+    
+    setSearchParams(p);
+
+  }
+
+  useEffect(() => {
+    setIsOpenCafeCard(view === 'cafe')
+  }, [view])
 
   useEffect(() => {
     if (!activeCafe && cafes.length > 0) {
@@ -216,13 +260,13 @@ export function SearchResultsPage() {
         </div>
 
         <div className="flex-1 overflow-y-auto pb-16">
-          {searchMode === 'bookstore' && (
+          {(searchMode === 'bookstore' || searchMode === 'pair' || view === 'cafe') && (
             <div className="sticky top-0">
               <div className={`flex p-3 ${isOpenCafeCard ? 'justify-starts' : 'justify-end'}`}>
                 <button
                   type="button"
                   className="text-md underline"
-                  onClick={() => setIsOpenCafeCard((prev) => !prev)}
+                  onClick={() => onChangeViewClick()}
                 >
                   {isOpenCafeCard ? '本屋を選びなおす' : 'カフェも選ぶ'}
                 </button>
@@ -245,25 +289,14 @@ export function SearchResultsPage() {
                 bookstores={bookstores}
                 onSelectBookstore={setActiveBookstore}
                 activeBookstore={activeBookstore}
-                setIsOpenCafeCard={setIsOpenCafeCard}
-                lat={lat}
-                lng={lng}
                 onBookstoreClick={onBookstoreClick}
                 canLoadMore={!!bookstoreNextPageToken}
                 onLoadMore={handleLoadMoreBookstores}
+                onToggleDetail={handleBookstoreDetailToggle}
               />
             </div>
           ) : (
             <div className="flex h-full flex-col overflow-hidden">
-              {/* 書店セレクター */}
-              {searchMode === 'bookstore' ||
-                (searchMode === 'pair' && (
-                  <BookstoreSelector
-                    bookstores={bookstores}
-                    onSelectBookstore={setActiveBookstore}
-                    activeBookstore={activeBookstore}
-                  />
-                ))}
 
               {/* カフェカード */}
               <div className="flex-1 overflow-y-auto">
@@ -289,6 +322,7 @@ export function SearchResultsPage() {
                   }}
                   canLoadMore={!!cafeNextPageToken}
                   onLoadMore={handleLoadMoreCafes}
+                  onToggleDetail={handleCafeDetailToggle}
                 />
               </div>
             </div>

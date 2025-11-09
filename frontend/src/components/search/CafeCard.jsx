@@ -4,7 +4,16 @@ import { LikePairButton } from './LikePairButton';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { PlaceDetailCard } from './PlaceDetailCard';
 
-export function CafeCard({ cafes, onSelectCafe, activeBookstore, onClick, activecafe, canLoadMore, onLoadMore }) {
+export function CafeCard({
+  cafes,
+  onSelectCafe,
+  activeBookstore,
+  onClick,
+  activecafe,
+  canLoadMore,
+  onLoadMore,
+  onToggleDetail,
+}) {
   const [openIds, setOpenIds] = useState({});
 
   const detailedToggle = (id) => {
@@ -15,9 +24,11 @@ export function CafeCard({ cafes, onSelectCafe, activeBookstore, onClick, active
   };
 
   const handleCafeSelect = (cafe) => {
+    const nextOpen = !openIds[cafe.place_id];
     detailedToggle(cafe.place_id);
     onSelectCafe(cafe);
     onClick(cafe);
+    onToggleDetail?.(cafe, nextOpen);
   };
 
   return (
