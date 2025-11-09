@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { PlacesMap } from '../components/search/PlacesMap';
 import { BookstoreSelector } from '../components/search/BookstoreSelector';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CafeCard } from '../components/search/CafeCard';
 import {
   fetchBookstores,
@@ -17,6 +17,7 @@ import { useLoading } from '../components/contexts/LoadingContext';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { toast } from 'react-toastify';
 import { CardSkeleton } from '../components/search/Skeleton';
+import { useSearchQuerySync } from '../hooks/useSearchQuerySync';
 
 export function SearchResultsPage() {
   const [bookstores, setBookstores] = useState([]);
@@ -28,20 +29,24 @@ export function SearchResultsPage() {
   const [cafeNextPageToken, setCafeNextPageToken] = useState('');
   const { isLoading, withLoading } = useLoading();
   const { isOpenModal, closeModal } = useModal();
+  const { 
+        searchParams,  
+        onPairClick, 
+        onBookstoreClick, 
+        onCafeClick,
+        handleBookstoreDetailToggle,  
+        handleCafeDetailToggle,
+        onChangeViewClick,
+        lat, 
+        lng, 
+        searchMode, 
+        view } = useSearchQuerySync(isOpenCafeCard)
 
   const navigate = useNavigate();
 
   const notify = (status) => {
     if (status) toast.error('エラーが発生しました。ホームに戻ってください。');
   };
-
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  // 現在地とモード
-  const lat = Number(searchParams.get('lat'));
-  const lng = Number(searchParams.get('lng'));
-  const searchMode = searchParams.get('mode') ?? 'bookstore';
-  const view = searchParams.get('view') ?? 'bookstore'
 
   const handleLoadMoreBookstores = async () => {
     if (!bookstoreNextPageToken) return;
@@ -92,69 +97,6 @@ export function SearchResultsPage() {
       notify(error?.response?.status);
     }
   };
-
-  const onPairClick = (activeBookstore, cafe) => {
-    setActiveCafe(cafe);
-
-    const p = new URLSearchParams(searchParams);
-    (p.set('bpid', activeBookstore.place_id), p.set('cpid', cafe.place_id));
-    p.set('mode', 'pair');
-    p.set('view', 'cafe')
-    setSearchParams(p);
-  };
-
-  const onBookstoreClick = (activeBookstore) => {
-    const p = new URLSearchParams(searchParams);
-    p.set('bpid', activeBookstore.place_id);
-    p.set('mode', 'bookstore');
-    p.set('view', 'bookstore')
-    setSearchParams(p);
-  };
-
-  const onCafeClick = (activeCafe) => {
-    const p = new URLSearchParams(searchParams);
-    p.set('cpid', activeCafe.place_id);
-    p.set('mode', 'cafe');
-    setSearchParams(p);
-  };
-
-  const handleBookstoreDetailToggle = (bookstore, isOpen) => {
-    const p = new URLSearchParams(searchParams);
-    if (isOpen) {
-      p.set('bpid', bookstore.place_id);
-      p.set('mode', 'bookstore');
-    } else if (p.get('bpid') === bookstore.place_id) {
-      p.delete('bpid');
-    }
-
-    setSearchParams(p);
-  };
-
-  const handleCafeDetailToggle = (cafe, isOpen) => {
-    const p = new URLSearchParams(searchParams);
-    if (isOpen) {
-      p.set('cpid', cafe.place_id);
-    } else if (p.get('cpid') === cafe.place_id) {
-      p.delete('cpid');
-    }
-
-    setSearchParams(p);
-  };
-
-  const onChangeViewClick = () => {
-    const p = new URLSearchParams(searchParams)
-    if(searchMode === 'pair') {
-      p.set('mode', 'bookstore');
-      p.delete('cpid')
-      p.delete('bpid')
-      p.set('view', 'bookstore')
-    } else {
-      p.set('view', isOpenCafeCard? 'bookstore': 'cafe')
-    }
-    
-    setSearchParams(p);
-
-  }
 
   useEffect(() => {
     setIsOpenCafeCard(view === 'cafe')
@@ -266,7 +208,12 @@ export function SearchResultsPage() {
                 <button
                   type="button"
                   className="text-md underline"
-                  onClick={() => onChangeViewClick()}
+                  onClick={() => {
+                    const next = !isOpenCafeCard;
+                    console.log('[toggle view]', { current: isOpenCafeCard, next, searchMode, view });
+                    onChangeViewClick(next);
+                    setIsOpenCafeCard(next);
+                  }}
                 >
                   {isOpenCafeCard ? '本屋を選びなおす' : 'カフェも選ぶ'}
                 </button>
@@ -274,7 +221,7 @@ export function SearchResultsPage() {
             </div>
           )}
 
-          {searchMode === 'bookstore' && !isOpenCafeCard ? (
+          {view === 'bookstore' ? (
             <div className="h-full overflow-y-auto px-2">
               {/* 本屋カード */}
               {isLoading && (
