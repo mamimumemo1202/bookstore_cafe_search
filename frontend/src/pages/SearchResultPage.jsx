@@ -25,8 +25,8 @@ export function SearchResultsPage() {
   const [activeBookstore, setActiveBookstore] = useState(null);
   const [activeCafe, setActiveCafe] = useState(null);
   const [isOpenCafeCard, setIsOpenCafeCard] = useState(false);
-  const [bookstoreNextPageToken, setBookstoreNextPageToken] = useState("")
-  const [cafeNextPageToken, setCafeNextPageToken] = useState("")
+  const [bookstoreNextPageToken, setBookstoreNextPageToken] = useState('');
+  const [cafeNextPageToken, setCafeNextPageToken] = useState('');
   const { isLoading, withLoading } = useLoading();
   const { isOpenModal, closeModal } = useModal();
 
@@ -42,6 +42,56 @@ export function SearchResultsPage() {
   const lat = Number(searchParams.get('lat'));
   const lng = Number(searchParams.get('lng'));
   const searchMode = searchParams.get('mode') ?? 'bookstore';
+
+  const handleLoadMoreBookstores = async () => {
+    if (!bookstoreNextPageToken) return;
+
+    try {
+      const res = await fetchMorePlaces({
+        pagetoken: bookstoreNextPageToken,
+        type: 'Bookstore',
+      });
+      setBookstores((prev) => [...prev, ...res.places]);
+      setBookstoreNextPageToken(res.next_page_token || '');
+    } catch (error) {
+      notify(error?.response?.status);
+    }
+  };
+
+  const resolveCafePaginationContext = () => {
+    if (searchMode === 'cafe') {
+      return { type: 'Cafe', bpid: undefined };
+    }
+
+    if (searchMode === 'pair') {
+      const bpid = searchParams.get('bpid') || activeBookstore?.place_id;
+      return { type: 'Pair', bpid };
+    }
+
+    return {
+      type: 'Cafe',
+      bpid: activeBookstore?.place_id,
+    };
+  };
+
+  const handleLoadMoreCafes = async () => {
+    if (!cafeNextPageToken) return;
+
+    const { type, bpid } = resolveCafePaginationContext();
+    if (!type) return;
+
+    try {
+      const res = await fetchMorePlaces({
+        pagetoken: cafeNextPageToken,
+        type,
+        bpid,
+      });
+      setCafes((prev) => [...prev, ...res.places]);
+      setCafeNextPageToken(res.next_page_token || '');
+    } catch (error) {
+      notify(error?.response?.status);
+    }
+  };
 
   const onPairClick = (activeBookstore, cafe) => {
     setActiveCafe(cafe);
@@ -82,17 +132,17 @@ export function SearchResultsPage() {
           if (searchMode === 'bookstore') {
             const res = await fetchBookstores(lat, lng);
             setBookstores(res.places);
-            setBookstoreNextPageToken("testttttttttttt")
+            setBookstoreNextPageToken(res.next_page_token || '');
           } else if (searchMode === 'cafe') {
             const res = await fetchCafes(lat, lng);
             setCafes(res.places);
-            setCafeNextPageToken(res.next_page_token)
+            setCafeNextPageToken(res.next_page_token || '');
           } else if (searchMode === 'pair') {
             const bpid = searchParams.get('bpid');
             if (bpid) {
               const res = await fetchCafesNearBookstore(bpid, 'Pair');
               setCafes(res.places);
-              setCafeNextPageToken(res.next_page_token)
+              setCafeNextPageToken(res.next_page_token || '');
 
               const bs = await fetchBookstores(lat, lng);
               const b = bs.places.find((b) => b.place_id === bpid);
@@ -101,7 +151,7 @@ export function SearchResultsPage() {
           }
         });
       } catch (error) {
-        notify(error.response.status);
+        notify(error?.response?.status);
       }
     };
     fetchPlaces();
@@ -115,7 +165,7 @@ export function SearchResultsPage() {
       const fetchPlaces = async () => {
         const res = await fetchCafesNearBookstore(activeBookstore.place_id, 'Cafe');
         setCafes(res.places);
-        setCafeNextPageToken(res.next_page_token)
+        setCafeNextPageToken(res.next_page_token || '');
       };
       fetchPlaces();
     }
@@ -200,7 +250,7 @@ export function SearchResultsPage() {
                 lng={lng}
                 onBookstoreClick={onBookstoreClick}
                 canLoadMore={!!bookstoreNextPageToken}
-                onLoadMore={() => {fetchMorePlaces(bookstoreNextPageToken)}}
+                onLoadMore={handleLoadMoreBookstores}
               />
             </div>
           ) : (
@@ -238,7 +288,7 @@ export function SearchResultsPage() {
                     }
                   }}
                   canLoadMore={!!cafeNextPageToken}
-                  onLoadMore={() => {fetchMorePlaces(cafeNextPageToken)}}
+                  onLoadMore={handleLoadMoreCafes}
                 />
               </div>
             </div>

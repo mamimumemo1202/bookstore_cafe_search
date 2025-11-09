@@ -1,12 +1,23 @@
 class Api::V1::PlacesController < Api::V1::BaseController
   def index
-    payload = Places::SearchPlaces.call(
-      lat: params[:lat],
-      lng: params[:lng],
-      type: params[:type],
-      bookstore_pid: params[:bpid],
-      user: current_api_v1_user
-    )
+    payload =
+      if params[:pagetoken].present?
+        Places::SearchPlaces.call_next_page(
+          pagetoken: params[:pagetoken],
+          user: current_api_v1_user,
+          type: params[:type],
+          bookstore_pid: params[:bpid],
+        )
+      else
+        Places::SearchPlaces.call(
+          lat: params[:lat],
+          lng: params[:lng],
+          type: params[:type],
+          bookstore_pid: params[:bpid],
+          user: current_api_v1_user
+        )
+      end
+
     # { places: [...], next_page_token:  } 
     render json: payload 
   end
@@ -45,16 +56,4 @@ class Api::V1::PlacesController < Api::V1::BaseController
 
       render json: { details_bulk: details_bulk }
     end
-
-    def next_page
-      pagetoken = params[:pagetoken]
-      raise AppErrors::BadRequest, "invalid pagetoken" unless pagetoken
-
-      client = ::GooglePlacesClient.new
-      payload = client.fetch_next_page(pagetoken)
-
-      render json: payload
-      
-    end
-
 end

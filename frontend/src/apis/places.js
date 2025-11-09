@@ -48,14 +48,14 @@ export const fetchCafesNearBookstore = async (bpid, type = 'Pair') => {
   return response.data;
 };
 
-export const fetchMorePlaces = async( nextPageToken ) => {
-  const res = await axios.get(`${BASE_URL}/places/next_page`, {
-    params:  {pagetoken: nextPageToken },
+export const fetchMorePlaces = async ({ pagetoken, type, bpid }) => {
+  const response = await axios.get(`${BASE_URL}/places`, {
+    params: { pagetoken, type, bpid },
     headers: buildAuthHeader(),
-  })
+  });
 
-  return res.data;
-}
+  return response.data;
+};
 
 export const fetchGeometry = async (place_id) => {
   const response = await axios.get(`${BASE_URL}/places/${place_id}/geometry`);

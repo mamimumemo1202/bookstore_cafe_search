@@ -39,12 +39,12 @@ export function LikePairButton({ bookstorePlaceId, activeCafePlaceId, pairLikeId
 
   return (
     <>
-    <button onClick={() => handleLike()}>
+    <div onClick={() => handleLike()}>
       <CloverIcon
         weight="fill"
         color={`${liked ? '#6CA20C' : '#FFFFFF'}`}
         className="w-6 h-6"/>
-    </button>
+    </div>
     </>
   );
 }
