@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { ImageSkeleton } from './Skeleton';
 import { Rating } from '../search/rating';
 import { LikeButton } from './LikeButton';
+import { ShareButton } from './ShareButton';
 
 export function PlaceDetailCard({ placeId, type, likeId }) {
   const [place, setPlace] = useState(false);
@@ -129,11 +130,12 @@ export function PlaceDetailCard({ placeId, type, likeId }) {
           >
             ルートや口コミを詳しく見る
           </a>
-          {likeId && (
+          {likeId ? (
             <button className="btn" onClick={(e) => e.stopPropagation()}>
               <LikeButton placeId={placeId} type={type} likeId={likeId} />
             </button>
-          )}
+          )
+          : <ShareButton/>}
         </div>
       </div>
     </>
