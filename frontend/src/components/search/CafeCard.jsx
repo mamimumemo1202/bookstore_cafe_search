@@ -4,7 +4,15 @@ import { LikePairButton } from './LikePairButton';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { PlaceDetailCard } from './PlaceDetailCard';
 
-export function CafeCard({ cafes, onSelectCafe, activeBookstore, onClick, activecafe, canLoadMore, onLoadMore }) {
+export function CafeCard({
+  cafes,
+  onSelectCafe,
+  activeBookstore,
+  onClick,
+  activeCafe,
+  canLoadMore,
+  onLoadMore,
+}) {
   const [openIds, setOpenIds] = useState({});
 
   const detailedToggle = (id) => {
@@ -26,7 +34,7 @@ export function CafeCard({ cafes, onSelectCafe, activeBookstore, onClick, active
         {cafes.map((cafe) => (
           <div
             key={cafe.place_id}
-            className={` rounded-md shadow-md bg-base-100${activecafe?.place_id === cafe.place_id ? '' : ''} `}
+            className={` rounded-md shadow-md bg-base-100${activeCafe?.place_id === cafe.place_id ? '' : ''} `}
             onClick={() => handleCafeSelect(cafe)}
           >
             {/* 左サムネ + 右テキスト */}
