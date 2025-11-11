@@ -260,21 +260,21 @@ export function SearchResultsPage() {
         </div>
 
         <div className="flex-1 overflow-y-auto pb-16">
-          {(searchMode === 'bookstore' || searchMode === 'pair' || view === 'cafe') && (
+          {searchMode !== 'cafe' && (
             <div className="sticky top-0">
-              <div className={`flex p-3 ${isOpenCafeCard ? 'justify-starts' : 'justify-end'}`}>
+              <div className={`flex p-3 ${view === 'cafe' ? 'justify-starts' : 'justify-end'}`}>
                 <button
                   type="button"
                   className="text-md underline"
                   onClick={() => onChangeViewClick()}
                 >
-                  {isOpenCafeCard ? '本屋を選びなおす' : 'カフェも選ぶ'}
+                  {view === 'cafe' ? '本屋を選びなおす' : 'カフェも選ぶ'}
                 </button>
               </div>
             </div>
           )}
 
-          {searchMode === 'bookstore' && !isOpenCafeCard ? (
+          {searchMode === 'bookstore' && view ==='bookstore' ? (
             <div className="h-full overflow-y-auto px-2">
               {/* 本屋カード */}
               {isLoading && (
