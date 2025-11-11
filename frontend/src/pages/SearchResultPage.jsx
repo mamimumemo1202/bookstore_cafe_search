@@ -45,6 +45,85 @@ export function SearchResultsPage() {
     if (status) toast.error('エラーが発生しました。ホームに戻ってください。');
   };
 
+  // 1. 現在地が取得できない場合、'/'にリダイレクト
+  useEffect(() => {
+    if (!lat || !lng || !searchMode) {
+      navigate('/', {
+        replace: true,
+        state: 'missing_location',
+      });
+    }
+  }, [lat, lng, searchMode]);
+
+
+  useEffect(() => {
+    const initializeActiveBookstore = () => {
+      if (bookstores.length > 0 && !activeBookstore) {
+        setActiveBookstore(bookstores[0]);
+      }
+    }
+
+    initializeActiveBookstore();
+  }, [bookstores]);
+
+  useEffect(() => {
+    const initializeActiveCafe = () => {
+      if (cafes.length > 0 && !activeCafe) {
+        setActiveCafe(cafes[0]);
+      }
+    }
+    
+    initializeActiveCafe()
+    }, [cafes]);
+
+  
+
+  useEffect(() => {
+    if (!lat || !lng || !searchMode) return;
+
+    const fetchPlaces = async () => {
+      try {
+        await withLoading(async () => {
+          if (searchMode === 'bookstore') {
+            const res = await fetchBookstores(lat, lng);
+            setBookstores(res.places);
+            setBookstoreNextPageToken(res.next_page_token || '');
+          } else if (searchMode === 'cafe') {
+            const res = await fetchCafes(lat, lng);
+            setCafes(res.places);
+            setCafeNextPageToken(res.next_page_token || '');
+          } else if (searchMode === 'pair') {
+            const bpid = searchParams.get('bpid');
+            if (bpid) {
+              const res = await fetchCafesNearBookstore(bpid, 'Pair');
+              setCafes(res.places);
+              setCafeNextPageToken(res.next_page_token || '');
+
+              const bs = await fetchBookstores(lat, lng);
+              const b = bs.places.find((b) => b.place_id === bpid);
+              setActiveBookstore(b);
+            }
+          }
+        });
+      } catch (error) {
+        notify(error?.response?.status);
+      }
+    };
+    fetchPlaces();
+  }, [lat, lng, searchMode]);
+
+  // マップのピン表示のため、本屋を検索した時点で本屋を基準にしたカフェを呼び出す
+  useEffect(() => {
+    if (searchMode === 'bookstore' && activeBookstore ) {
+      const fetchPlaces = async () => {
+        const res = await fetchCafesNearBookstore(activeBookstore.place_id, 'Cafe');
+        setCafes(res.places);
+        setCafeNextPageToken(res.next_page_token || '');
+      };
+      fetchPlaces();
+    }
+  }, [activeBookstore, searchMode]);
+
   const handleLoadMoreBookstores = async () => {
     if (!bookstoreNextPageToken) return;
 
@@ -94,85 +173,7 @@ export function SearchResultsPage() {
       notify(error?.response?.status);
     }
   };
-  useEffect(() => {
-    if (!activeCafe && cafes.length > 0) {
-      const first = cafes[0];
-      setActiveCafe(first);
-    }
-  }, [cafes]);
 
-  useEffect(() => {
-    if (!lat || !lng) return;
-
-    const fetchPlaces = async () => {
-      try {
-        await withLoading(async () => {
-          if (searchMode === 'bookstore') {
-            const res = await fetchBookstores(lat, lng);
-            setBookstores(res.places);
-            setBookstoreNextPageToken(res.next_page_token || '');
-          } else if (searchMode === 'cafe') {
-            const res = await fetchCafes(lat, lng);
-            setCafes(res.places);
-            setCafeNextPageToken(res.next_page_token || '');
-          } else if (searchMode === 'pair') {
-            const bpid = searchParams.get('bpid');
-            if (bpid) {
-              const res = await fetchCafesNearBookstore(bpid, 'Pair');
-              setCafes(res.places);
-              setCafeNextPageToken(res.next_page_token || '');
-
-              const bs = await fetchBookstores(lat, lng);
-              const b = bs.places.find((b) => b.place_id === bpid);
-              setActiveBookstore(b);
-            }
-          }
-        });
-      } catch (error) {
-        notify(error?.response?.status);
-      }
-    };
-    fetchPlaces();
-  }, [lat, lng, searchMode]);
-
-  // ピンを表示するために必要です
-  // カフェも選ぶボタンを押すと新しく取得せず、そのまま渡してる
-  // リロードしたらこれらのデータは消える＝また新しく取得しなければならない
-  useEffect(() => {
-    if (searchMode === 'bookstore' && activeBookstore) {
-      const fetchPlaces = async () => {
-        const res = await fetchCafesNearBookstore(activeBookstore.place_id, 'Cafe');
-        setCafes(res.places);
-        setCafeNextPageToken(res.next_page_token || '');
-      };
-      fetchPlaces();
-    }
-  }, [activeBookstore, searchMode]);
-
-  // 1. 現在地が取得できない場合、'/'にリダイレクト
-  useEffect(() => {
-    if (!lat || !lng || !searchMode) {
-      navigate('/', {
-        replace: true,
-        state: 'missing_location',
-      });
-    }
-  }, [lat, lng, searchMode]);
-
-  useEffect(() => {
-    const initializeActiveBookstore = () => {
-      if (bookstores.length > 0 && !activeBookstore) {
-        setActiveBookstore(bookstores[0]);
-      }
-    };
-
-    initializeActiveBookstore();
-  }, [bookstores]);
-
-  // useEffectは描画完成した後に副作用として発砲する。つまり、これが先に発砲されnullで描画終了後useEffectが作動し'/'に遷移
-  if (!lat || !lng || !searchMode) {
-    return null;
-  }
 
   return (
     <>
@@ -200,12 +201,7 @@ export function SearchResultsPage() {
                 <button
                   type="button"
                   className="text-md underline"
-                  onClick={() => {
-                    const next = !isOpenCafeCard;
-                    console.log('[toggle view]', { current: isOpenCafeCard, next, searchMode, view });
-                    onChangeViewClick(next);
-                    setIsOpenCafeCard(next);
-                  }}
+                  onClick={() => onChangeViewClick()}
                 >
                   {view === 'cafe' ? '本屋を選びなおす' : 'カフェも選ぶ'}
                 </button>
