@@ -9,12 +9,13 @@ export function SearchButton({ label, searchMode }) {
   const navigate = useNavigate();
   const { closeModal } = useModal();
   const { withLoading } = useLoading();
+  const view = searchMode
 
   const handleSearch = async () => {
     await withLoading(async () => {
       try {
         const pos = await getLocation();
-        navigate(`/search?lat=${pos.lat}&lng=${pos.lng}&mode=${searchMode}`);
+        navigate(`/search?lat=${pos.lat}&lng=${pos.lng}&mode=${searchMode}&view=${searchMode}`);
         closeModal();
       } catch (error) {
         toast.error('位置情報を取得できませんでした');
