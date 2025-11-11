@@ -12,7 +12,6 @@ export function CafeCard({
   activeCafe,
   canLoadMore,
   onLoadMore,
-  onToggleDetail,
 }) {
   const [openIds, setOpenIds] = useState({});
 
@@ -24,11 +23,9 @@ export function CafeCard({
   };
 
   const handleCafeSelect = (cafe) => {
-    const nextOpen = !openIds[cafe.place_id];
     detailedToggle(cafe.place_id);
     onSelectCafe(cafe);
     onClick(cafe);
-    onToggleDetail?.(cafe, nextOpen);
   };
 
   return (

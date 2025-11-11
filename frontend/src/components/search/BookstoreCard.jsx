@@ -7,10 +7,8 @@ export function BookstoreCard({
   bookstores,
   onSelectBookstore,
   activeBookstore,
-  onBookstoreClick,
   canLoadMore,
   onLoadMore,
-  onToggleDetail,
 }) {
   const [openIds, setOpenIds] = useState({});
 
@@ -22,11 +20,8 @@ export function BookstoreCard({
   };
 
   const handleBookstoreSelect = (bookstore) => {
-    const nextOpen = !openIds[bookstore.place_id];
     detailedToggle(bookstore.place_id);
     onSelectBookstore(bookstore);
-    onBookstoreClick(bookstore);
-    onToggleDetail?.(bookstore, nextOpen);
   };
 
   return (

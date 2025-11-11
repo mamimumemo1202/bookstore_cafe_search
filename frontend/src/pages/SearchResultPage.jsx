@@ -24,7 +24,6 @@ export function SearchResultsPage() {
   const [cafes, setCafes] = useState([]);
   const [activeBookstore, setActiveBookstore] = useState(null);
   const [activeCafe, setActiveCafe] = useState(null);
-  const [isOpenCafeCard, setIsOpenCafeCard] = useState(false);
   const [bookstoreNextPageToken, setBookstoreNextPageToken] = useState('');
   const [cafeNextPageToken, setCafeNextPageToken] = useState('');
   const { isLoading, withLoading } = useLoading();
@@ -34,13 +33,11 @@ export function SearchResultsPage() {
         onPairClick, 
         onBookstoreClick, 
         onCafeClick,
-        handleBookstoreDetailToggle,  
-        handleCafeDetailToggle,
         onChangeViewClick,
         lat, 
         lng, 
         searchMode, 
-        view } = useSearchQuerySync(isOpenCafeCard)
+        view } = useSearchQuerySync()
 
   const navigate = useNavigate();
 
@@ -97,11 +94,6 @@ export function SearchResultsPage() {
       notify(error?.response?.status);
     }
   };
-
-  useEffect(() => {
-    setIsOpenCafeCard(view === 'cafe')
-  }, [view])
-
   useEffect(() => {
     if (!activeCafe && cafes.length > 0) {
       const first = cafes[0];
@@ -202,9 +194,9 @@ export function SearchResultsPage() {
         </div>
 
         <div className="flex-1 overflow-y-auto pb-16">
-          {(searchMode === 'bookstore' || searchMode === 'pair' || view === 'cafe') && (
+          {searchMode !== 'cafe' && (
             <div className="sticky top-0">
-              <div className={`flex p-3 ${isOpenCafeCard ? 'justify-starts' : 'justify-end'}`}>
+              <div className={`flex p-3 ${view === 'cafe' ? 'justify-starts' : 'justify-end'}`}>
                 <button
                   type="button"
                   className="text-md underline"
@@ -215,13 +207,13 @@ export function SearchResultsPage() {
                     setIsOpenCafeCard(next);
                   }}
                 >
-                  {isOpenCafeCard ? '本屋を選びなおす' : 'カフェも選ぶ'}
+                  {view === 'cafe' ? '本屋を選びなおす' : 'カフェも選ぶ'}
                 </button>
               </div>
             </div>
           )}
 
-          {view === 'bookstore' ? (
+          {searchMode === 'bookstore' && view ==='bookstore' ? (
             <div className="h-full overflow-y-auto px-2">
               {/* 本屋カード */}
               {isLoading && (
@@ -232,15 +224,16 @@ export function SearchResultsPage() {
                 </div>
               )}
 
-              <BookstoreCard
-                bookstores={bookstores}
-                onSelectBookstore={setActiveBookstore}
-                activeBookstore={activeBookstore}
-                onBookstoreClick={onBookstoreClick}
-                canLoadMore={!!bookstoreNextPageToken}
-                onLoadMore={handleLoadMoreBookstores}
-                onToggleDetail={handleBookstoreDetailToggle}
-              />
+                <BookstoreCard
+                  bookstores={bookstores}
+                  onSelectBookstore={(bookstore) => {
+                    setActiveBookstore(bookstore);
+                    onBookstoreClick(bookstore);
+                  }}
+                  activeBookstore={activeBookstore}
+                  canLoadMore={!!bookstoreNextPageToken}
+                  onLoadMore={handleLoadMoreBookstores}
+                />
             </div>
           ) : (
             <div className="flex h-full flex-col overflow-hidden">
@@ -263,13 +256,13 @@ export function SearchResultsPage() {
                   onClick={(cafe) => {
                     if (activeBookstore) {
                       onPairClick(activeBookstore, cafe);
+                      setActiveCafe(cafe)
                     } else {
                       onCafeClick(cafe);
                     }
                   }}
                   canLoadMore={!!cafeNextPageToken}
                   onLoadMore={handleLoadMoreCafes}
-                  onToggleDetail={handleCafeDetailToggle}
                 />
               </div>
             </div>
