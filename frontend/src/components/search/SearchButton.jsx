@@ -8,7 +8,7 @@ export function SearchButton({ label, searchMode }) {
   const { getLocation } = useGeolocation();
   const navigate = useNavigate();
   const { closeModal } = useModal();
-  const { withLoading } = useLoading();
+  const { isLoading, withLoading } = useLoading();
 
   const handleSearch = async () => {
     await withLoading(async () => {
@@ -27,7 +27,10 @@ export function SearchButton({ label, searchMode }) {
   return (
     <>
       <button className="btn text-base-content" onClick={() => handleSearch()}>
-        {label}
+        {isLoading? 
+        <span className="loading loading-dots loading-xl"></span>
+        :
+         label}
       </button>
     </>
   );
