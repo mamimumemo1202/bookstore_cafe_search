@@ -200,7 +200,12 @@ export function SearchResultsPage() {
                 <button
                   type="button"
                   className="text-md underline"
-                  onClick={() => onChangeViewClick()}
+                  onClick={() => {
+                    const next = !isOpenCafeCard;
+                    console.log('[toggle view]', { current: isOpenCafeCard, next, searchMode, view });
+                    onChangeViewClick(next);
+                    setIsOpenCafeCard(next);
+                  }}
                 >
                   {view === 'cafe' ? '本屋を選びなおす' : 'カフェも選ぶ'}
                 </button>

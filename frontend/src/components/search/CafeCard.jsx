@@ -9,7 +9,7 @@ export function CafeCard({
   onSelectCafe,
   activeBookstore,
   onClick,
-  activecafe,
+  activeCafe,
   canLoadMore,
   onLoadMore,
 }) {
@@ -34,7 +34,7 @@ export function CafeCard({
         {cafes.map((cafe) => (
           <div
             key={cafe.place_id}
-            className={` rounded-md shadow-md bg-base-100${activecafe?.place_id === cafe.place_id ? '' : ''} `}
+            className={` rounded-md shadow-md bg-base-100${activeCafe?.place_id === cafe.place_id ? '' : ''} `}
             onClick={() => handleCafeSelect(cafe)}
           >
             {/* 左サムネ + 右テキスト */}

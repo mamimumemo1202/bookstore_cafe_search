@@ -9,6 +9,7 @@ export function SearchButton({ label, searchMode }) {
   const navigate = useNavigate();
   const { closeModal } = useModal();
   const { withLoading } = useLoading();
+  const view = searchMode
 
   const handleSearch = async () => {
     await withLoading(async () => {
