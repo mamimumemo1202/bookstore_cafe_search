@@ -5,7 +5,7 @@ RSpec.describe GooglePlacesClient do
 
   describe '#search_nearby' do
     it 'returns parsed response body' do
-      body = { 'status' => 'OK', 'results' => [{ 'place_id' => 'pid' }] }
+      body = { 'status' => 'OK', 'results' => [ { 'place_id' => 'pid' } ] }
       response = instance_double(HTTParty::Response, code: 200, parsed_response: body)
       allow(described_class).to receive(:get).with('/nearbysearch/json', anything).and_return(response)
 
@@ -16,12 +16,12 @@ RSpec.describe GooglePlacesClient do
 
   describe '#fetch_place_geometry' do
     it 'returns result only' do
-      payload = { 'status' => 'OK', 'result' => {"geometry"=> {"location"=> { "lat" => 1.23, "lng" => 4.56 } } } }  
+      payload = { 'status' => 'OK', 'result' => { "geometry"=> { "location"=> { "lat" => 1.23, "lng" => 4.56 } } } }
       response = instance_double(HTTParty::Response, code: 200, parsed_response: payload)
       allow(described_class).to receive(:get).with('/details/json', anything).and_return(response)
 
       out = client.fetch_place_geometry('PLACE_ID')
-      expect(out).to eq({ :lat => 1.23, :lng => 4.56 })
+      expect(out).to eq({ lat: 1.23, lng: 4.56 })
     end
   end
 
@@ -55,7 +55,7 @@ RSpec.describe GooglePlacesClient do
           'result' => {
             'place_id' => 'p1', 'name' => 'A', 'formatted_address' => 'addr',
             'geometry' => { 'location' => { 'lat' => 1, 'lng' => 2 } },
-            'photos' => [{ 'photo_reference' => 'r1' }]
+            'photos' => [ { 'photo_reference' => 'r1' } ]
           }
         }
       )
@@ -80,4 +80,3 @@ RSpec.describe GooglePlacesClient do
     end
   end
 end
-

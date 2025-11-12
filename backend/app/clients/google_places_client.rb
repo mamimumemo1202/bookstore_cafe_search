@@ -37,10 +37,9 @@ class GooglePlacesClient
     geo = json["result"]
 
     {
-     lat: geo.dig("geometry","location","lat") ,
-     lng: geo.dig("geometry","location","lng")
+     lat: geo.dig("geometry", "location", "lat"),
+     lng: geo.dig("geometry", "location", "lng")
     }
-
   end
 
   def fetch_place_details(place_id)
@@ -59,7 +58,7 @@ class GooglePlacesClient
 
   def fetch_place_details_bulk(place_ids)
     return [] if place_ids.empty?
-    
+
     fields = %w[place_id name formatted_address geometry/location photos].join(",")
     place_ids.filter_map do |pid|
       begin
@@ -95,7 +94,7 @@ class GooglePlacesClient
     case resp.code.to_i
     when 200..299 then json
     when 400      then raise ExternalApiErrors::BadRequest,   json["error_message"]
-    when 401,403  then raise ExternalApiErrors::AuthError,    json["error_message"]
+    when 401, 403  then raise ExternalApiErrors::AuthError,    json["error_message"]
     when 404      then raise ExternalApiErrors::NotFound,     json["error_message"]
     when 429      then raise ExternalApiErrors::RateLimited,  json["error_message"]
     when 500..599 then raise ExternalApiErrors::ServerError, "HTTP #{resp.code}"
@@ -113,7 +112,7 @@ class GooglePlacesClient
 
   def ensure_google_ok!(json)
     case json["status"]
-    when "OK", "ZERO_RESULTS" then return
+    when "OK", "ZERO_RESULTS" then nil
     when "OVER_QUERY_LIMIT"    then raise ExternalApiErrors::RateLimited, json["error_message"]
     when "REQUEST_DENIED"      then raise ExternalApiErrors::AuthError,   json["error_message"]
     when "INVALID_REQUEST"     then raise ExternalApiErrors::BadRequest,  json["error_message"]

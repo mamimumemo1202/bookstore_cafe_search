@@ -65,7 +65,7 @@ RSpec.describe 'Likes API', type: :request do
 
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
-      
+
       expect(body['like_id']).to be_present
       expect(body['likes_count']).to eq(1)
     end
@@ -80,10 +80,9 @@ RSpec.describe 'Likes API', type: :request do
 
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
-      
+
       expect(body['like_id']).to be_present
       expect(body['likes_count']).to eq(1)
-
     end
 
     it '認証なしのアクセスは401を返す' do
@@ -120,9 +119,8 @@ RSpec.describe 'Likes API', type: :request do
 
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
-      
-      expect(body['likes_count']).to eq(0)
 
+      expect(body['likes_count']).to eq(0)
     end
 
     it '他ユーザーのlikeは削除できない' do
@@ -140,4 +138,3 @@ RSpec.describe 'Likes API', type: :request do
     end
   end
 end
-

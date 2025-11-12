@@ -9,7 +9,7 @@ RSpec.describe Bookstore, type: :model do
   it 'place_idが一意' do
     Bookstore.create!(place_id: 'pid_1')
     dup = Bookstore.new(place_id: 'pid_1')
-    
+
     expect(dup).not_to be_valid
     expect(dup.errors[:place_id]).to be_present
   end
