@@ -21,6 +21,7 @@ COPY . .
 
 
 ENV RAILS_ENV=production
+ENV PORT=3000
 EXPOSE 3000
 
-CMD ["bash","-lc","bundle exec rails db:migrate && bundle exec rails server -e production -b 0.0.0.0 -p ${PORT: -3000}"]
+CMD ["bash","-lc","bundle exec rails db:migrate && bundle exec rails server -e production -b 0.0.0.0 -p=$PORT"]
