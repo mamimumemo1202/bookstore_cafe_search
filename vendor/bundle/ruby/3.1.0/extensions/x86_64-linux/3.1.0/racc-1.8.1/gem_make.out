@@ -1,0 +1,15 @@
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/racc-1.8.1/ext/racc/cparse
+/opt/hostedtoolcache/Ruby/3.1.7/x64/bin/ruby -I /opt/hostedtoolcache/Ruby/3.1.7/x64/lib/ruby/3.1.0 extconf.rb
+creating Makefile
+
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20251112-2077-u1i2a6 sitelibdir\=./.gem.20251112-2077-u1i2a6 clean
+
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20251112-2077-u1i2a6 sitelibdir\=./.gem.20251112-2077-u1i2a6
+compiling cparse.c
+linking shared-object racc/cparse.so
+
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20251112-2077-u1i2a6 sitelibdir\=./.gem.20251112-2077-u1i2a6 install
+/usr/bin/install -c -m 0755 cparse.so ./.gem.20251112-2077-u1i2a6/racc

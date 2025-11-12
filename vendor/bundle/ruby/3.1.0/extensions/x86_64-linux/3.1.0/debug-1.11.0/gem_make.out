@@ -1,0 +1,16 @@
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/debug-1.11.0/ext/debug
+/opt/hostedtoolcache/Ruby/3.1.7/x64/bin/ruby -I /opt/hostedtoolcache/Ruby/3.1.7/x64/lib/ruby/3.1.0 extconf.rb
+creating Makefile
+
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/debug-1.11.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20251112-2077-kszvfm sitelibdir\=./.gem.20251112-2077-kszvfm clean
+
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/debug-1.11.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20251112-2077-kszvfm sitelibdir\=./.gem.20251112-2077-kszvfm
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.so
+
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/debug-1.11.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20251112-2077-kszvfm sitelibdir\=./.gem.20251112-2077-kszvfm install
+/usr/bin/install -c -m 0755 debug.so ./.gem.20251112-2077-kszvfm/debug
