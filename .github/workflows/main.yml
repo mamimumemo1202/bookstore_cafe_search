@@ -73,7 +73,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libpq-dev libyaml-dev
 
       - name: database create
-        run: bin/rails db:prepare
+        run: bundle exec rails db:prepare
 
       - name: run tests
         run : bundle exec rspec
