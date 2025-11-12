@@ -14,15 +14,15 @@ jobs:
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
+        env: 
+          BUNDLE_GEMFILE: backend/Gemfile
         with:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - name: run rubocop
-        run: bundle exec rubocop -f github
-
-      - name: auto-correct
-        run: bundle exec rubocop -A --force-exclusion || true
+      - name: run rubocop and auto-correct
+        working-directory: backend
+        run: backend/bundle exec rubocop -A --force-exclusion || true
       
       # - name: (rubocop)commit changes to PR
       #   run:
