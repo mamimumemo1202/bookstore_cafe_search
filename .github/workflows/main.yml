@@ -20,3 +20,9 @@ jobs:
 
       - name: run rubocop
         run: bundle exec rubocop -f github
+
+      - name: auto-correct
+        run: bundle exec rubocop -A --force-exclusion || true
+      
+      # - name: (rubocop)commit changes to PR
+      #   run:
