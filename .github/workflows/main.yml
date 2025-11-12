@@ -2,7 +2,9 @@ name: CI
 
 on:
   pull_request:
+    branches: [ main, development ]
   push:
+    branchs: [ development ]
 
 permissions:
   contents: write
@@ -31,10 +33,15 @@ jobs:
 
       - name: run rubocop and auto-correct
         run: bundle exec rubocop -A --force-exclusion
+
+      - name: Set timestamp (JST)
+        id: ts
+        run: |
+          TZ='Asia/Tokyo' date '+ts=%Y-%m-%d %H:%M:%S %Z' >> "$GITHUB_OUTPUT"
       
       - name: (rubocop)commit changes to PR
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit-message: '[rubocop] automated changes'
+          commit_message: '[rubocop] automated changes (${{ steps.ts.outputs.ts }})'
           branch: ${{ github.head_ref || github.ref_name }}
 
