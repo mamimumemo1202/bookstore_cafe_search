@@ -8,6 +8,9 @@ jobs:
 
   rubocop:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend        
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,7 +24,6 @@ jobs:
           bundler-cache: true
 
       - name: run rubocop and auto-correct
-        working-directory: backend
         run: backend/bundle exec rubocop -A --force-exclusion
       
       # - name: (rubocop)commit changes to PR
