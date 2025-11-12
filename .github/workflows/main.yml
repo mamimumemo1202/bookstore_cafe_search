@@ -4,6 +4,10 @@ on:
   pull_request:
   push:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
 
   rubocop:
@@ -14,6 +18,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -26,5 +32,9 @@ jobs:
       - name: run rubocop and auto-correct
         run: bundle exec rubocop -A --force-exclusion
       
-      # - name: (rubocop)commit changes to PR
-      #   run:
+      - name: (rubocop)commit changes to PR
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit-message: '[rubocop] automated changes'
+          branch: ${{ github.head_ref || github.ref_name }}
+
