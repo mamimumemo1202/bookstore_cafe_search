@@ -49,7 +49,7 @@ jobs:
 
     env:
       RAILS_ENV: test
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
 
     defaults:
       run:
@@ -84,6 +84,7 @@ jobs:
           TZ='Asia/Tokyo' date '+ts=%Y-%m-%d %H:%M:%S %Z' >> "$GITHUB_OUTPUT"
 
       - name: "[rspec] commit changes to PR"
+        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/development'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: '[rspec] test passed (${{ steps.ts.outputs.ts }})'
