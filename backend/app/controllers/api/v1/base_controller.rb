@@ -1,6 +1,6 @@
 ﻿class Api::V1::BaseController < ApplicationController
-  private 
-  
+  private
+
   def render_error(code, message, status, details: nil)
     payload = { error: { code: code, message: message } }
     payload[:error][:details] = details if details
@@ -9,63 +9,61 @@
 
   rescue_from StandardError do |e|
     Rails.logger.error("[500] #{e.class}: #{e.message}")
-    render_error('internal_error', 'internal server error', :internal_server_error)
+    render_error("internal_error", "internal server error", :internal_server_error)
   end
   rescue_from ExternalApiErrors::BadRequest do |e|
-    render_error('bad_request', e.message, :bad_request)
+    render_error("bad_request", e.message, :bad_request)
   end
   rescue_from ExternalApiErrors::AuthError do |e|
-    render_error('auth_error', e.message, :forbidden)
+    render_error("auth_error", e.message, :forbidden)
   end
   rescue_from ExternalApiErrors::NotFound do |e|
-    render_error('not_found', e.message, :not_found)
+    render_error("not_found", e.message, :not_found)
   end
   rescue_from ExternalApiErrors::RateLimited do |e|
-    render_error('rate_limited', e.message, :too_many_requests)
+    render_error("rate_limited", e.message, :too_many_requests)
   end
   rescue_from ExternalApiErrors::Timeout do |e|
-    render_error('timeout', e.message.presence || 'upstream timeout', :service_unavailable)
+    render_error("timeout", e.message.presence || "upstream timeout", :service_unavailable)
   end
   rescue_from ExternalApiErrors::ServerError do |e|
-    render_error('upstream_error', e.message.presence || 'upstream server error', :bad_gateway)
+    render_error("upstream_error", e.message.presence || "upstream server error", :bad_gateway)
   end
   rescue_from ExternalApiErrors::UpstreamError do |e|
-    render_error('upstream_error', e.message.presence || 'upstream error', :bad_gateway)
+    render_error("upstream_error", e.message.presence || "upstream error", :bad_gateway)
   end
 
   rescue_from ActionController::ParameterMissing do |e|
-    render_error('bad_request', e.message, :bad_request)
+    render_error("bad_request", e.message, :bad_request)
   end
 
   rescue_from ActiveRecord::RecordInvalid do |e|
-    render_error('unprocessable', 'validation failed', :unprocessable_entity,
+    render_error("unprocessable", "validation failed", :unprocessable_entity,
                  details: e.record.errors.full_messages)
   end
 
   rescue_from AppErrors::DomainError do |e|
-    render_error('bad_request', e.message, :bad_request)
+    render_error("bad_request", e.message, :bad_request)
   end
 
 
   rescue_from AppErrors::BadRequest do |e|
-    render_error('bad_request', e.message, :bad_request)
+    render_error("bad_request", e.message, :bad_request)
   end
 
   rescue_from AppErrors::Forbidden do |e|
-    render_error('forbidden', e.message, :forbidden)
+    render_error("forbidden", e.message, :forbidden)
   end
 
   rescue_from AppErrors::Unauthorized do |e|
-    render_error('unauthorized', e.message, :unauthorized)
-  end  
-
-  rescue_from ActiveRecord::RecordNotSaved do |_e|
-    render_error('unprocessable', 'resource not saved', :unprocessable_entity)
-  end  
-
-  rescue_from JSON::ParserError do |e|
-    render_error('bad_request', e.message, :bad_request)
+    render_error("unauthorized", e.message, :unauthorized)
   end
 
-end
+  rescue_from ActiveRecord::RecordNotSaved do |_e|
+    render_error("unprocessable", "resource not saved", :unprocessable_entity)
+  end
 
+  rescue_from JSON::ParserError do |e|
+    render_error("bad_request", e.message, :bad_request)
+  end
+end

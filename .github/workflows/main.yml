@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main, development ]
+  push:
+    branches: [ development ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+
+  rubocop:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend        
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        env: 
+          BUNDLE_GEMFILE: backend/Gemfile
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: run rubocop and auto-correct
+        run: bundle exec rubocop -A --force-exclusion
+
+
+  rspec:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s --health-timeout=5s --health-retries=5
+
+    env:
+      RAILS_ENV: test
+      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        env: 
+          BUNDLE_GEMFILE: backend/Gemfile
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Setup system deps
+        run: sudo apt-get update && sudo apt-get install -y libpq-dev libyaml-dev
+
+      - name: database create
+        run: bin/rails db:prepare
+
+      - name: run tests
+        run : bundle exec rspec
+
+      - name: Set timestamp (JST)
+        id: ts
+        run: |
+          TZ='Asia/Tokyo' date '+ts=%Y-%m-%d %H:%M:%S %Z' >> "$GITHUB_OUTPUT"
+
+      - name: "[rspec] commit changes to PR"
+        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/development'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: '[rspec] test passed (${{ steps.ts.outputs.ts }})'
+          branch: ${{ github.head_ref || github.ref_name }}
+

@@ -40,8 +40,7 @@ class Api::V1::PlacesController < Api::V1::BaseController
       client = ::GooglePlacesClient.new
       geometry = client.fetch_place_geometry(place_id)
 
-      return render json: {geometry: geometry}
-
+      render json: { geometry: geometry }
     end
 
     # いいねしたそれぞれの場所のname formatted_address photosを取得し、カードに表示

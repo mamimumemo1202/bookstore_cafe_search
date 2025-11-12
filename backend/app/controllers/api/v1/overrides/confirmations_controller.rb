@@ -1,9 +1,7 @@
 class Api::V1::Overrides::ConfirmationsController < DeviseTokenAuth::ConfirmationsController
-
-    ALLOWED_REDIRECT_HOSTS = [(URI.parse(ENV["FRONTEND_BASE_URL"]).host rescue nil)].compact.freeze
+    ALLOWED_REDIRECT_HOSTS = [ (URI.parse(ENV["FRONTEND_BASE_URL"]).host rescue nil) ].compact.freeze
 
     def show
-        
     super do
       target = "#{ENV['FRONTEND_BASE_URL']}/auth?verified=1"
       uri = URI.parse(target) rescue nil

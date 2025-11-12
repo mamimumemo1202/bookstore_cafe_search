@@ -1,6 +1,5 @@
 class Api::V1::Overrides::PasswordsController < DeviseTokenAuth::PasswordsController
-
-  ALLOWED_REDIRECT_HOSTS = [(URI.parse(ENV["FRONTEND_BASE_URL"]).host rescue nil)].compact.freeze
+  ALLOWED_REDIRECT_HOSTS = [ (URI.parse(ENV["FRONTEND_BASE_URL"]).host rescue nil) ].compact.freeze
 
   def edit
     token = params[:reset_password_token]
