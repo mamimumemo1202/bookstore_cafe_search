@@ -1,4 +1,4 @@
-﻿require "active_support/core_ext/integer/time"
+require "active_support/core_ext/integer/time"
 
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
@@ -47,7 +47,9 @@ Rails.application.configure do
 
   # Unlike controllers, the mailer instance doesn't have any context about the
   # incoming request so you'll need to provide the :host parameter yourself.
-  config.action_mailer.default_url_options = { host: "www.example.com" }
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_options = { from: "onboarding@resend.dev" }
+
 
   # Allow hosts in test. Simplest is to clear restrictions.
   # This prevents HostAuthorization from blocking request specs.
