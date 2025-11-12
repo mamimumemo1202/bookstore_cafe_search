@@ -5,11 +5,13 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { useModal } from '../contexts/ModalContext';
 import { fetchGeometry, autocomplete } from '../../apis/places';
 import { toast } from 'react-toastify';
+import { useLoading } from '../contexts/LoadingContext'
 
 export function SearchBar({ searchMode: propSearchMode }) {
   const [query, setQuery] = useState('');
   const [predictions, setPredictions] = useState([]);
   const [selectedPrediction, setSelectedPrediction] = useState(null);
+  const { isLoading, withLoading } = useLoading();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,14 +52,16 @@ export function SearchBar({ searchMode: propSearchMode }) {
   const handleSearch = async () => {
     if (!selectedPrediction) return;
 
-    try {
-      const res = await fetchGeometry(selectedPrediction?.place_id);
-      closeModal();
-      navigate(`/search?lat=${res.lat}&lng=${res.lng}&mode=${searchMode}`);
-    } catch (error) {
-      notify(error.response.status);
-      closeModal();
-    }
+    await withLoading(async() => {
+      try {
+        const res = await fetchGeometry(selectedPrediction?.place_id);
+        closeModal();
+        navigate(`/search?lat=${res.lat}&lng=${res.lng}&mode=${searchMode}&view=${searchMode}`);
+      } catch (error) {
+        notify(error.response.status);
+        closeModal();
+      }
+   }) 
   };
 
   return (
@@ -77,7 +81,10 @@ export function SearchBar({ searchMode: propSearchMode }) {
           placeholder="例：神保町駅"
         />
         <button type="submit">
-          <MagnifyingGlassIcon className="w-5 h-5 mx-2 hover:text-gray-500 cursor-pointer" />
+          {isLoading? 
+          <span className="loading loading-dots loading-xl"></span>
+          :
+          <MagnifyingGlassIcon className="w-5 h-5 mx-2 hover:text-gray-500 cursor-pointer" />}
         </button>
       </form>
 

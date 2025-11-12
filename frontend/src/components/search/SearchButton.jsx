@@ -8,13 +8,13 @@ export function SearchButton({ label, searchMode }) {
   const { getLocation } = useGeolocation();
   const navigate = useNavigate();
   const { closeModal } = useModal();
-  const { withLoading } = useLoading();
+  const { isLoading, withLoading } = useLoading();
 
   const handleSearch = async () => {
     await withLoading(async () => {
       try {
         const pos = await getLocation();
-        navigate(`/search?lat=${pos.lat}&lng=${pos.lng}&mode=${searchMode}`);
+        navigate(`/search?lat=${pos.lat}&lng=${pos.lng}&mode=${searchMode}&view=${searchMode}`);
         closeModal();
       } catch (error) {
         toast.error('位置情報を取得できませんでした');
@@ -27,7 +27,10 @@ export function SearchButton({ label, searchMode }) {
   return (
     <>
       <button className="btn text-base-content" onClick={() => handleSearch()}>
-        {label}
+        {isLoading? 
+        <span className="loading loading-dots loading-xl"></span>
+        :
+         label}
       </button>
     </>
   );

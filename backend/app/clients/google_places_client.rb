@@ -23,7 +23,7 @@ class GooglePlacesClient
       type: gtype,
       language: "ja"
     )
-    ensure_google_ok!(json)
+    ensure_google_ok!(json) 
     json
   end
 
@@ -56,6 +56,7 @@ class GooglePlacesClient
     res
   end
 
+  # 複数のPlaceに対してFiledsのデータを返す（カード表示用）
   def fetch_place_details_bulk(place_ids)
     return [] if place_ids.empty?
 
@@ -78,10 +79,21 @@ class GooglePlacesClient
           photo_ref: r.dig("photos", 0, "photo_reference")
         }
       rescue ExternalApiErrors::Error => e
-        Rails.logger.warn("[PlacesBulk] skip pid=#{pid} #{e.class}: #{e.message}")
         next nil
       end
     end
+  end
+
+  def fetch_next_page(pagetoken)
+    json = get_json!("/nearbysearch/json", pagetoken: pagetoken)
+
+    if json["status"] == "INVALID_REQUEST"
+      raise ExternalApiErrors::BadRequest, "Too early request"
+    end
+    
+    ensure_google_ok!(json)
+    json
+
   end
 
   private

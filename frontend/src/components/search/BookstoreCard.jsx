@@ -7,7 +7,8 @@ export function BookstoreCard({
   bookstores,
   onSelectBookstore,
   activeBookstore,
-  onBookstoreClick,
+  canLoadMore,
+  onLoadMore,
 }) {
   const [openIds, setOpenIds] = useState({});
 
@@ -21,7 +22,6 @@ export function BookstoreCard({
   const handleBookstoreSelect = (bookstore) => {
     detailedToggle(bookstore.place_id);
     onSelectBookstore(bookstore);
-    onBookstoreClick(bookstore);
   };
 
   return (
@@ -69,6 +69,12 @@ export function BookstoreCard({
           </div>
         ))}
       </div>
+      {canLoadMore? 
+      <button 
+      className="btn btn-sm mx-auto block mt-4"
+      onClick={onLoadMore}>もっと見る</button>
+      :
+      <div className='text-center'>"すべての結果を表示中"</div>}
     </>
   );
 }

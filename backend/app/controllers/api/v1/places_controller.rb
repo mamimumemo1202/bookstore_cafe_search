@@ -1,14 +1,25 @@
 class Api::V1::PlacesController < Api::V1::BaseController
   def index
-    payload = Places::SearchPlaces.call(
-      lat: params[:lat],
-      lng: params[:lng],
-      type: params[:type],
-      bookstore_pid: params[:bpid],
-      user: current_api_v1_user
-    )
+    payload =
+      if params[:pagetoken].present?
+        Places::SearchPlaces.call_next_page(
+          pagetoken: params[:pagetoken],
+          user: current_api_v1_user,
+          type: params[:type],
+          bookstore_pid: params[:bpid],
+        )
+      else
+        Places::SearchPlaces.call(
+          lat: params[:lat],
+          lng: params[:lng],
+          type: params[:type],
+          bookstore_pid: params[:bpid],
+          user: current_api_v1_user
+        )
+      end
 
-    render json: { places: payload }
+    # { places: [...], next_page_token:  } 
+    render json: payload 
   end
 
 

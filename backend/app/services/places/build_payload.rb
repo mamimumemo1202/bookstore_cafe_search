@@ -1,6 +1,6 @@
 module Places
     class BuildPayload
-        def self.call(places:, bookstore_pid: nil, user:, type:)
+        def self.call(places:, bookstore_pid: nil, user:, type:, next_page_token: nil)
             place_ids = places.map { |p| p[:place_id] }
 
             like_map =
@@ -20,6 +20,7 @@ module Places
             counts_map =
             Likes::CountsLookup.call(type:, place_ids:)
 
+            payload =
             places.map do |p| {
                 place_id:     p[:place_id],
                 name:         p[:name],
@@ -32,6 +33,8 @@ module Places
                 photo_ref:    p[:photo_ref]
             }
             end
+
+            {places: payload, next_page_token: next_page_token}
         end
     end
 end

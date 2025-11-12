@@ -4,7 +4,15 @@ import { LikePairButton } from './LikePairButton';
 import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { PlaceDetailCard } from './PlaceDetailCard';
 
-export function CafeCard({ cafes, onSelectCafe, activeBookstore, onClick, activecafe }) {
+export function CafeCard({
+  cafes,
+  onSelectCafe,
+  activeBookstore,
+  onClick,
+  activeCafe,
+  canLoadMore,
+  onLoadMore,
+}) {
   const [openIds, setOpenIds] = useState({});
 
   const detailedToggle = (id) => {
@@ -26,7 +34,7 @@ export function CafeCard({ cafes, onSelectCafe, activeBookstore, onClick, active
         {cafes.map((cafe) => (
           <div
             key={cafe.place_id}
-            className={` rounded-md shadow-md bg-base-100${activecafe?.place_id === cafe.place_id ? '' : ''} `}
+            className={` rounded-md shadow-md bg-base-100${activeCafe?.place_id === cafe.place_id ? '' : ''} `}
             onClick={() => handleCafeSelect(cafe)}
           >
             {/* 左サムネ + 右テキスト */}
@@ -73,6 +81,13 @@ export function CafeCard({ cafes, onSelectCafe, activeBookstore, onClick, active
           </div>
         ))}
       </div>
+
+      {canLoadMore? 
+      <button 
+      className="btn btn-sm mx-auto block mt-4"
+      onClick={onLoadMore}>もっと見る</button>
+      :
+      <div className='text-center'>"すべての結果を表示中"</div>}
     </>
   );
 }

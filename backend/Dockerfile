@@ -1,8 +1,11 @@
-FROM ruby:3.2
+FROM ruby:3.2-slim
 
 RUN apt-get update -qq && apt-get install -y \
   build-essential \
-  libsqlite3-dev \
+  libpq-dev \
+  libpq5 \
+  libyaml-dev \
+  libyaml-0-2 \
   git \
   curl \
   && rm -rf /var/lib/apt/lists/*
@@ -10,11 +13,15 @@ RUN apt-get update -qq && apt-get install -y \
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
-RUN bundle install
+RUN bundle config set deployment 'true' \
+  && bundle config set without 'development test' \
+  && bundle install
 
 COPY . .
 
-RUN chmod +x ./bin/*
 
-ENTRYPOINT ["./entrypoint.sh"]
-CMD ["bin/rails", "server", "-b", "0.0.0.0"]
+ENV RAILS_ENV=production
+ENV PORT=3000
+EXPOSE 3000
+
+CMD ["bash","-lc","bundle exec rails db:migrate && bundle exec rails server -e production -b 0.0.0.0 -p=$PORT"]

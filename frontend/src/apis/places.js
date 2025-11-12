@@ -27,7 +27,7 @@ export const fetchBookstores = async (lat, lng, type = 'Bookstore') => {
     params: { lat, lng, type },
     headers: buildAuthHeader(),
   });
-  return response.data.places;
+  return response.data;
 };
 
 export const fetchCafes = async (lat, lng, type = 'Cafe') => {
@@ -35,7 +35,7 @@ export const fetchCafes = async (lat, lng, type = 'Cafe') => {
     params: { lat, lng, type },
     headers: buildAuthHeader(),
   });
-  return response.data.places;
+  return response.data;
 };
 
 export const fetchCafesNearBookstore = async (bpid, type = 'Pair') => {
@@ -45,7 +45,16 @@ export const fetchCafesNearBookstore = async (bpid, type = 'Pair') => {
     params: { lat: geo.lat, lng: geo.lng, type, bpid },
     headers: buildAuthHeader(),
   });
-  return response.data.places;
+  return response.data;
+};
+
+export const fetchMorePlaces = async ({ pagetoken, type, bpid }) => {
+  const response = await axios.get(`${BASE_URL}/places`, {
+    params: { pagetoken, type, bpid },
+    headers: buildAuthHeader(),
+  });
+
+  return response.data;
 };
 
 export const fetchGeometry = async (place_id) => {

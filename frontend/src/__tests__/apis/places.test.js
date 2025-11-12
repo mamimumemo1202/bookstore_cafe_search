@@ -94,7 +94,7 @@ describe('places api client', () => {
       },
       params: { lat: 10, lng: 20, type: 'Pair', bpid: 'bp1' },
     });
-    expect(result).toEqual(['cafe-1']);
+    expect(result).toEqual({ places: ['cafe-1'] });
   });
 
   it('fetchGeometry は GET /geometry を呼ぶ', async () => {
