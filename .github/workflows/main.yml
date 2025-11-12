@@ -22,7 +22,7 @@ jobs:
 
       - name: run rubocop and auto-correct
         working-directory: backend
-        run: backend/bundle exec rubocop -A --force-exclusion || true
+        run: backend/bundle exec rubocop -A --force-exclusion
       
       # - name: (rubocop)commit changes to PR
       #   run:
