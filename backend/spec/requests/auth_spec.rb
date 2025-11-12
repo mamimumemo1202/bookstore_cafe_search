@@ -54,7 +54,7 @@ RSpec.describe 'Auth (DeviseTokenAuth)', type: :request do
     expect(client).to be_present
     expect(uid).to eq(user.email)
 
-    get '/api/v1/auth/validate_token', 
+    get '/api/v1/auth/validate_token',
       headers: {
         "access-token": access_token,
         "client": client,

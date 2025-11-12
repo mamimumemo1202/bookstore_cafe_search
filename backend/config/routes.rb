@@ -1,15 +1,14 @@
 Rails.application.routes.draw do
-
   root "health#index"
   get  "/healthz", to: "health#index"
 
   namespace :api do
     namespace :v1 do
       mount_devise_token_auth_for "User", at: "auth",
-      controllers: { 
+      controllers: {
         registrations: "api/v1/overrides/registrations",
         confirmations: "api/v1/overrides/confirmations",
-        passwords: "api/v1/overrides/passwords"}
+        passwords: "api/v1/overrides/passwords" }
 
       resources :places, only: [ :index, :create, :show ] do
         collection do

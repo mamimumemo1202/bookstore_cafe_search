@@ -87,9 +87,3 @@ RSpec.configure do |config|
     host! 'localhost'
   end
 end
-
-
-
-
-
-

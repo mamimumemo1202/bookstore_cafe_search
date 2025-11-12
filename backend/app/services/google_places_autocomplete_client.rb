@@ -30,7 +30,7 @@ class GooglePlacesAutocompleteClient
     case resp.code.to_i
     when 200..299 then json
     when 400      then raise ExternalAPI::BadRequest,   json["error_message"]
-    when 401,403  then raise ExternalAPI::AuthError,    json["error_message"]
+    when 401, 403  then raise ExternalAPI::AuthError,    json["error_message"]
     when 404      then raise ExternalAPI::NotFound,     json["error_message"]
     when 429      then raise ExternalAPI::RateLimited,  json["error_message"]
     when 500..599 then raise ExternalAPI::ServerError, "HTTP #{resp.code}"
@@ -48,7 +48,7 @@ class GooglePlacesAutocompleteClient
 
   def ensure_google_ok!(json)
     case json["status"]
-    when "OK", "ZERO_RESULTS" then return
+    when "OK", "ZERO_RESULTS" then nil
     when "OVER_QUERY_LIMIT"    then raise ExternalAPI::RateLimited, json["error_message"]
     when "REQUEST_DENIED"      then raise ExternalAPI::AuthError,   json["error_message"]
     when "INVALID_REQUEST"     then raise ExternalAPI::BadRequest,  json["error_message"]

@@ -1,0 +1,15 @@
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+/opt/hostedtoolcache/Ruby/3.1.7/x64/bin/ruby -I /opt/hostedtoolcache/Ruby/3.1.7/x64/lib/ruby/3.1.0 extconf.rb
+creating Makefile
+
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251112-2077-2f7uje sitelibdir\=./.gem.20251112-2077-2f7uje clean
+
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251112-2077-2f7uje sitelibdir\=./.gem.20251112-2077-2f7uje
+compiling escape.c
+linking shared-object erb/escape.so
+
+current directory: /home/runner/work/bookstore_cafe_search/bookstore_cafe_search/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251112-2077-2f7uje sitelibdir\=./.gem.20251112-2077-2f7uje install
+/usr/bin/install -c -m 0755 escape.so ./.gem.20251112-2077-2f7uje/erb

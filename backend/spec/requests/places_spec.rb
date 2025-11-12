@@ -13,7 +13,7 @@ RSpec.describe 'Places API', type: :request do
 
   describe 'GET /api/v1/places' do
     it '周辺検索の結果を返す（payloadの基本形）' do
-      raw_results = { 'results' => [{ 'place_id' => 'pid1' }, { 'place_id' => 'pid2' }] }
+      raw_results = { 'results' => [ { 'place_id' => 'pid1' }, { 'place_id' => 'pid2' } ] }
       normalized = [
         { place_id: 'pid1', name: 'A', lat: 1.0, lng: 2.0, vicinity: 'addr1', photo_ref: 'ref1' },
         { place_id: 'pid2', name: 'B', lat: 3.0, lng: 4.0, vicinity: 'addr2', photo_ref: 'ref2' }
@@ -103,4 +103,3 @@ RSpec.describe 'Places API', type: :request do
     end
   end
 end
-
