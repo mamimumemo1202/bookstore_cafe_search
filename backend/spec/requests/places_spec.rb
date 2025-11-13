@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Places API', type: :request do
-  ORIGIN = 'http://localhost:5173'.freeze
+  ORIGIN = 'http://localhost:5173'.freeze unless defined?(ORIGIN)
 
   def json_headers
     {
