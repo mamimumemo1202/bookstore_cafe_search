@@ -1,15 +1,23 @@
 name: frontend CI
 
 on:
-  push:
-    branches: [ "main", "development" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main, development ]
+  push:
+    branches: [ development ]
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend   
 
     strategy:
       matrix:
@@ -22,6 +30,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
     - run: npm ci
     - run: npm run build --if-present
+    - run: npm run lint
+    - run: npm run format:check
     - run: npm test
