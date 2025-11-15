@@ -32,7 +32,7 @@ jobs:
           bundler-cache: true
 
       - name: run rubocop
-        run: bundle exec rubocop --force-exclusion
+        run: bundle exec rubocop -A --force-exclusion
 
   rspec:
     runs-on: ubuntu-latest 
