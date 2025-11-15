@@ -7,13 +7,12 @@ import { useLocation } from 'react-router-dom';
 export function AuthPage() {
   const [notice, setNotice] = useState('');
   const location = useLocation();
-  const params = new URLSearchParams(location.search);
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
     if (params.get('verified') === '1') {
       setNotice('認証が完了しました');
-    }
-    // TODO: パスリセ完了後の遷移も調整
+    } else { setNotice('') }
   }, [location.search]);
 
   return (

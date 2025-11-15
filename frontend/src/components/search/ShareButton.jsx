@@ -10,7 +10,7 @@ export function ShareButton(){
         try {
             await navigator.clipboard.writeText(shareUrl)
             setCopySuccess('success')
-        } catch (error) {
+        } catch {
             setCopySuccess('fail')
         }
     }

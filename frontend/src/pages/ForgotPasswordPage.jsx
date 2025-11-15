@@ -15,7 +15,7 @@ export function ForgotPasswordPage() {
     try {
       await requestPasswordReset({ email });
       setNotice('送信しました。届かない場合はメールアドレスをご確認ください。');
-    } catch (error) {
+    } catch {
       setNotice('送信しました。届かない場合はメールアドレスをご確認ください。');
     } finally {
       setSubmitting(false);
