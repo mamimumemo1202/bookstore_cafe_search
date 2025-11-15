@@ -1,9 +1,7 @@
 require 'rails_helper'
 
-# Like API リクエストスペックの外枠（実装しやすい形で雛形を用意）
-
 RSpec.describe 'Likes API', type: :request do
-  ORIGIN = 'http://localhost:5173'.freeze
+  ORIGIN = 'http://localhost:5173'.freeze unless defined?(ORIGIN)
   PASSWORD = 'password123'.freeze
 
   def json_headers

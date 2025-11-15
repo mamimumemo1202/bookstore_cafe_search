@@ -1,5 +1,5 @@
 import { BackButton } from '../components/common/BackButton';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { resetPassword } from '../apis/auth';
 
@@ -23,14 +23,13 @@ export function ResetPasswordPage() {
     }
 
     setSubmitting(true);
-    console.log(resetPasswordToken)
 
     try {
       await resetPassword({ password, passwordConfirmation, resetPasswordToken });
 
       setNotice('パスワードを更新しました。ログインしてください。');
       navigate('/auth', {state: { from: "resetPassword"}});
-    } catch (error) {
+    } catch {
       setErrorMessage('リンクが無効です。もう一度送信してください。');
     } finally {
       setSubmitting(false);

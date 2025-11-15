@@ -53,7 +53,7 @@ export function SearchResultsPage() {
         state: 'missing_location',
       });
     }
-  }, [lat, lng, searchMode]);
+  }, [lat, lng, searchMode, navigate]);
 
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export function SearchResultsPage() {
     }
 
     initializeActiveBookstore();
-  }, [bookstores]);
+  }, [bookstores, activeBookstore]);
 
   useEffect(() => {
     const initializeActiveCafe = () => {
@@ -74,7 +74,7 @@ export function SearchResultsPage() {
     }
     
     initializeActiveCafe()
-    }, [cafes]);
+    }, [cafes, activeCafe]);
 
   
 

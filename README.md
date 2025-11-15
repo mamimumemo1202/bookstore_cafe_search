@@ -51,7 +51,7 @@ https://bookstore-cafe-search.pages.dev
 
 ## UIイメージ
 
-順次追加予定
+準備中
 
 ## 使用技術
 

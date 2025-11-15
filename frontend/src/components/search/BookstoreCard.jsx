@@ -74,7 +74,7 @@ export function BookstoreCard({
       className="btn btn-sm mx-auto block mt-4"
       onClick={onLoadMore}>もっと見る</button>
       :
-      <div className='text-center'>"すべての結果を表示中"</div>}
+      <div className='text-center'>すべての結果を表示中</div>}
     </>
   );
 }

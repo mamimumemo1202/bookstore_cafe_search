@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { signUp, resentConfirmation } from '../../apis/auth';
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../contexts/AuthContext';
 import { useLoading } from '../contexts/LoadingContext';
-import { toast } from 'react-toastify';
 
 export function SignUpForm() {
   const [email, setEmail] = useState('');
@@ -13,7 +10,6 @@ export function SignUpForm() {
   const { withLoading, isLoading } = useLoading();
   const [notice, setNotice] = useState('');
 
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -4,7 +4,7 @@ import { AuthProvider } from '../components/contexts/AuthContext';
 import { LoadingProvider } from '../components/contexts/LoadingContext';
 import { render, screen, cleanup, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, test, expect, afterEach, it } from 'vitest';
+import { describe, expect, afterEach, it } from 'vitest';
 import { HomePage } from '../pages/HomePage';
 
 afterEach(() => cleanup());
