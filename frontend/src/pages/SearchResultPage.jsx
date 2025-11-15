@@ -110,7 +110,7 @@ export function SearchResultsPage() {
       }
     };
     fetchPlaces();
-  }, [lat, lng, searchMode, withLoading, searchParams]);
+  }, [lat, lng, searchMode]);
 
   // マップのピン表示のため、本屋を検索した時点で本屋を基準にしたカフェを呼び出す
   useEffect(() => {
