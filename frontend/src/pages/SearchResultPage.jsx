@@ -252,9 +252,8 @@ export function SearchResultsPage() {
                   onClick={(cafe) => {
                     if (activeBookstore) {
                       onPairClick(activeBookstore, cafe);
-                      setActiveCafe(cafe)
                     } else {
-                      onCafeClick(cafe);
+                      onCafeClick(cafe)
                     }
                   }}
                   canLoadMore={!!cafeNextPageToken}

@@ -49,9 +49,9 @@ describe('BookstoreCard', () => {
       like_id: null,
     }]
 
-  it('本屋カードがクリックされたときに詳細を表示され、再押下で閉じる', async () => {
+  it('本屋カードがクリックされたときに詳細が表示され、再押下で閉じる', async () => {
     const onSelectBookstore = vi.fn();
-    const onLoadMore = vi.fn()
+    const handleLoadMoreBookstores = vi.fn()
 
     render(
       <BookstoreCard
@@ -59,7 +59,7 @@ describe('BookstoreCard', () => {
         onSelectBookstore={onSelectBookstore}
         activeBookstore={null}
         canLoadMore={false}
-        onLoadMore={onLoadMore}
+        onLoadMore={handleLoadMoreBookstores}
       />
     );
 
@@ -78,7 +78,7 @@ describe('BookstoreCard', () => {
 
   it('カードそれぞれで開閉できる', async () => {
     const onSelectBookstore = vi.fn();
-    const onLoadMore = vi.fn()
+    const handleLoadMoreBookstores = vi.fn()
 
     render(
       <BookstoreCard
@@ -86,7 +86,7 @@ describe('BookstoreCard', () => {
         onSelectBookstore={onSelectBookstore}
         activeBookstore={null}
         canLoadMore={false}
-        onLoadMore={onLoadMore}
+        onLoadMore={handleLoadMoreBookstores}
       />
     );
 
@@ -105,7 +105,7 @@ describe('BookstoreCard', () => {
 
   it('いいねしたときに詳細が表示されない', async () => {
     const onSelectBookstore = vi.fn();
-    const onLoadMore = vi.fn()
+    const handleLoadMoreBookstores = vi.fn()
 
     render(
       <BookstoreCard
@@ -113,7 +113,7 @@ describe('BookstoreCard', () => {
         onSelectBookstore={onSelectBookstore}
         activeBookstore={null}
         canLoadMore={false}
-        onLoadMore={onLoadMore}
+        onLoadMore={handleLoadMoreBookstores}
       />
     );
 
@@ -125,7 +125,7 @@ describe('BookstoreCard', () => {
   
   it('canLoadMore={false} "すべての結果を表示中"と表示', async () => {
     const onSelectBookstore = vi.fn();
-    const onLoadMore = vi.fn()
+    const handleLoadMoreBookstores = vi.fn()
 
     render(
       <BookstoreCard
@@ -133,7 +133,7 @@ describe('BookstoreCard', () => {
         onSelectBookstore={onSelectBookstore}
         activeBookstore={null}
         canLoadMore={false}
-        onLoadMore={onLoadMore}
+        onLoadMore={handleLoadMoreBookstores}
       />
     );
 
@@ -143,7 +143,7 @@ describe('BookstoreCard', () => {
 
   it('canLoadMore={true} さらにカードを表示', async () => {
     const onSelectBookstore = vi.fn();
-    const onLoadMore = vi.fn();
+    const handleLoadMoreBookstores = vi.fn();
 
     render(
       <BookstoreCard
@@ -151,14 +151,14 @@ describe('BookstoreCard', () => {
         onSelectBookstore={onSelectBookstore}
         activeBookstore={null}
         canLoadMore={true}
-        onLoadMore={onLoadMore}
+        onLoadMore={handleLoadMoreBookstores}
       />
     );
 
     const button = screen.getByRole('button', { name: 'もっと見る' });
     await userEvent.click(button);
 
-    expect(onLoadMore).toHaveBeenCalled();
+    expect(handleLoadMoreBookstores).toHaveBeenCalled();
   });
 
 });
