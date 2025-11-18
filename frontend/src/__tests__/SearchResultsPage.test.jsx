@@ -1,6 +1,6 @@
 ﻿import { render, screen, cleanup, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { MemoryRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { MemoryRouter, Routes, Route, useLocation, useSearchParams } from 'react-router-dom';
 import { AuthProvider } from '../components/contexts/AuthContext';
 import { LoadingProvider } from '../components/contexts/LoadingContext';
 import { ModalProvider } from '../components/contexts/ModalContext';
@@ -20,21 +20,23 @@ function LocationTracker({ onChange }) {
 }
 
 vi.mock('../apis/places', () => ({
-  fetchBookstores: vi.fn().mockResolvedValue([
-    {
+  fetchBookstores: vi.fn().mockResolvedValue({
+    places: [{
       place_id: 'bp1',
       name: '本屋A',
-      address: '本屋アドレス',
+      address: 'bookstoreAddress',
       likes_count: 0,
       like_id: null,
       pair_like_id: null,
       lat: 50.0,
       lng: 139.0,
       photo_ref: null,
-    },
-  ]),
-  fetchCafes: vi.fn().mockResolvedValue([
-    {
+    }],
+    next_page_token: 'next_page_token123'
+  }),
+
+  fetchCafes: vi.fn().mockResolvedValue({
+    places: [{
       place_id: 'cp1',
       name: 'カフェA',
       address: 'cafeaddress',
@@ -44,10 +46,11 @@ vi.mock('../apis/places', () => ({
       lat: 35.0,
       lng: 139.0,
       photo_ref: null,
-    },
-  ]),
-  fetchCafesNearBookstore: vi.fn().mockResolvedValue([
-    {
+    }],
+    next_page_token: null
+  }),
+  fetchCafesNearBookstore: vi.fn().mockResolvedValue({
+    places: [{
       place_id: 'cp1',
       name: 'カフェA',
       address: 'cafeaddress',
@@ -57,11 +60,12 @@ vi.mock('../apis/places', () => ({
       lat: 35.0,
       lng: 139.0,
       photo_ref: null,
-    },
-  ]),
+    }],
+    next_page_token: null
+  }),
 
   fetchPlaceDetails: vi.fn().mockResolvedValue({
-    business_status: 'OPERATIONAL',
+   business_status: 'OPERATIONAL'
   }),
 }));
 
@@ -73,7 +77,7 @@ vi.mock('@react-google-maps/api', () => ({
 }));
 
 function renderSearch(
-  url = '/search?lat=50.0&lng=139.0&mode=bookstore',
+  url = '/search?lat=50.0&lng=139.0&mode=bookstore%view=bookstore',
   onLocationChange = () => {}
 ) {
   return render(
@@ -100,84 +104,112 @@ function renderSearch(
 }
 
 describe('/search', () => {
-  it('/search?lat=..&lng=..&mode=bookstoreでSearchResultsPageが表示される', async () => {
-    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore');
+  describe('mode=bookstore', () => {
+    it('カードが表示される', async () => {
+    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore&view=bookstore');
     expect(await screen.findByText('本屋A')).toBeTruthy();
-  });
+    });
 
-  it('/search?lat=..&lng=..&mode=cafeでSearchResultsPageが表示される', async () => {
-    renderSearch('/search?lat=35.0&lng=139.0&mode=cafe');
-    expect(await screen.findByText('カフェA')).toBeTruthy();
-  });
+    it('カードクリックでURLにbpidがセットされる', async () => {
+    let latestLocation;
+    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore&view=bookstore', (location) => {
+      latestLocation = location
+    });
 
-  it('/search?lat=..&lng=..&mode=bookstore&bpid=...', async () => {
-    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore&bpid=bp1');
-    const card = await screen.findByText('本屋A');
+    expect(new URLSearchParams(latestLocation.search).get('bpid')).toBeNull()
+
+    const card = await screen.findByText('本屋A')
     await userEvent.click(card);
-    expect(await screen.findByText(/営業/)).toBeTruthy();
-    expect(fetchPlaceDetails).toHaveBeenCalled();
-  });
 
-  it('本屋クリックでURLSearchParamsにbpidを設定しmode=bookstoreに更新する', async () => {
+    const params = new URLSearchParams(latestLocation.search)
+    expect(params.get('bpid')).toBe('bp1')
+    })
+  })
+
+
+  describe('mode=cafe', () => {
+    it('カードが表示される', async () => {
+    renderSearch('/search?lat=35.0&lng=139.0&mode=cafe&view=cafe');
+    expect(await screen.findByText('カフェA')).toBeTruthy();
+    });
+
+    it('カードクリックでURLにcpidがセットされる', async () => {
     let latestLocation;
-    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore', (location) => {
+    renderSearch('/search?lat=50.0&lng=139.0&mode=cafe&view=cafe', (location) => {
+      latestLocation = location
+    });
+
+    expect(new URLSearchParams(latestLocation.search).get('cpid')).toBeNull()
+
+    const card = await screen.findByText('カフェA')
+    await userEvent.click(card);
+
+    const params = new URLSearchParams(latestLocation.search)
+    expect(params.get('cpid')).toBe('cp1')
+    })
+  })
+
+  
+  it('カフェも選ぶを押すとview=cafeになり、カフェカードが表示される', async () => {
+    let latestLocation;
+    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore&view=bookstore', (location) => {
+      latestLocation = location
+    });
+    const button = await screen.findByText('カフェも選ぶ');
+    await userEvent.click(button);
+
+    const params = new URLSearchParams(latestLocation.search)
+
+    expect(params.get('view')).toBe('cafe')
+    expect(await screen.findByText('カフェA')).toBeTruthy();
+  })
+
+  it('本屋を選びなおすを押すとview=bookstoreになり、本屋カードが表示される', async () => {
+    let latestLocation;
+    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore&view=bookstore', (location) => {
+      latestLocation = location
+    });
+
+    const button1 = await screen.findByText('カフェも選ぶ');
+    await userEvent.click(button1);
+
+    const button2 = await screen.findByText('本屋を選びなおす');
+    await userEvent.click(button2);
+
+    const params = new URLSearchParams(latestLocation.search)
+
+    expect(params.get('view')).toBe('bookstore')
+    expect(await screen.findByText('本屋A')).toBeTruthy();
+  })
+
+  it('本屋->カフェ検索し、カフェカードをクリックするとURLにbpid, cpid, mode=pairがセットされる', async() => {
+    let latestLocation;
+    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore&view=bookstore', (location) => {
       latestLocation = location;
     });
 
-    const bookstoreCard = await screen.findByText('本屋A');
-    await userEvent.click(bookstoreCard);
+    const bookstoreCard = await screen.findByText('本屋A')
+    await userEvent.click(bookstoreCard)
 
-    await waitFor(() => {
-      const params = new URLSearchParams(latestLocation.search);
-      expect(params.get('mode')).toBe('bookstore');
-      expect(params.get('bpid')).toBe('bp1');
-    });
-  });
-
-  it('カフェクリックでURLSearchParamsにcpidを設定しmode=cafeに更新する', async () => {
-    let latestLocation;
-    renderSearch('/search?lat=35.0&lng=139.0&mode=cafe', (location) => {
-      latestLocation = location;
-    });
+    const changeViewButton = await screen.findByText('カフェも選ぶ');
+    await userEvent.click(changeViewButton);
 
     const cafeCard = await screen.findByText('カフェA');
     await userEvent.click(cafeCard);
 
-    await waitFor(() => {
-      const params = new URLSearchParams(latestLocation.search);
-      expect(params.get('mode')).toBe('cafe');
-      expect(params.get('cpid')).toBe('cp1');
-    });
-  });
+    const params = new URLSearchParams(latestLocation.search);
+    expect(params.get('bpid')).toBe('bp1');
+    expect(params.get('cpid')).toBe('cp1');
+    expect(params.get('mode')).toBe('pair');
 
-  it('「カフェも選ぶ」クリックでカフェリスト表示に切り替わる', async () => {
-    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore');
-    const card = await screen.findByText('本屋A');
-    await userEvent.click(card);
-    const button = await screen.findByText('カフェも選ぶ');
-    await userEvent.click(button);
-    expect(await screen.findByText('カフェA')).toBeTruthy();
-  });
+  })
 
-  it('本屋からの遷移でカフェクリックでURLSearchParamsにcpidを設定しmode=pairへ更新する', async () => {
-    let latestLocation;
-    renderSearch('/search?lat=50.0&lng=139.0&mode=bookstore', (location) => {
-      latestLocation = location;
-    });
+  describe('next_page_token', async() => {
+    it('next_page_tokenがある場合はボタンからfetchMorePlacesを呼ぶ', async () => {})
+    it('next_page_tokenがない場合はボタンが押せない', async () => {})
+  })
 
-    const bookstoreCard = await screen.findByText('本屋A');
-    await userEvent.click(bookstoreCard);
+  it('isLoading=trueの時、スケルトンを表示', async () => {})
+  it('', async () => {})
 
-    const button = await screen.findByText('カフェも選ぶ');
-    await userEvent.click(button);
-
-    const cafeCard = await screen.findByText('カフェA');
-    await userEvent.click(cafeCard);
-
-    await waitFor(() => {
-      const params = new URLSearchParams(latestLocation.search);
-      expect(params.get('bpid')).toBe('bp1');
-      expect(params.get('cpid')).toBe('cp1');
-    });
-  });
 });

@@ -130,22 +130,6 @@ describe('CafeCard', () => {
         cafes={cafes}
         onSelectCafe={setActiveCafe}
         activeCafe={null}
-        activeBookstore={{place_id: 'bp1'}}
-        onClick={onPairClick}
-        canLoadMore={null}
-        onLoadMore={handleLoadMoreCafes}
-      />
-    );
-
-    expect(screen.getAllByRole('button', { name: 'MockPair' })).toBeTruthy();
-
-    cleanup();
-    
-    render(
-      <CafeCard
-        cafes={cafes}
-        onSelectCafe={setActiveCafe}
-        activeCafe={null}
         activeBookstore={null}
         onClick={onPairClick}
         canLoadMore={null}
@@ -154,6 +138,22 @@ describe('CafeCard', () => {
     );
 
     expect(screen.queryByRole('button', { name: 'MockPair' })).toBeNull();
+
+    cleanup();
+    
+    render(
+      <CafeCard
+        cafes={[cafe]}
+        onSelectCafe={setActiveCafe}
+        activeCafe={null}
+        activeBookstore={{place_id: 'bp1'}}
+        onClick={onPairClick}
+        canLoadMore={null}
+        onLoadMore={handleLoadMoreCafes}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'MockPair' })).toBeTruthy();
   });
 
   it('いいねしたときに詳細が表示されない', async () => {
@@ -178,11 +178,6 @@ describe('CafeCard', () => {
     await userEvent.click(likeButton);
     expect(setActiveCafe).not.toHaveBeenCalled();
     expect(onClick).not.toHaveBeenCalled();
-
-    // const pairButton = screen.getByRole('button', { name: 'MockPair' });
-    // await userEvent.click(pairButton);
-    // expect(onSelectCafe).not.toHaveBeenCalled();
-    // expect(onClick).not.toHaveBeenCalled();
   });
 
   it('canLoadMore={false} "すべての結果を表示中"と表示', async () => {
