@@ -82,7 +82,7 @@ Rails.application.configure do
     api_key: ENV["RESEND_API_KEY"]
   }
 
-  config.action_mailer.default_url_options = { host: "https://bookstore-cafe-search.onrender.com" }
+  config.action_mailer.default_url_options = { host: "https://bookstore-cafe-map.onrender.com" }
 
 
 
