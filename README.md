@@ -11,7 +11,7 @@
 
 ## アプリURL
 
-https://bookstore-cafe-search.pages.dev
+https://bookstore-cafe-map.pages.dev
 
 ※会員登録なしでご利用いただけます。
 
