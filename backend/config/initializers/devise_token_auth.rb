@@ -55,6 +55,7 @@ DeviseTokenAuth.setup do |config|
   # config.other_uid = "foo"
 
   config.default_confirm_success_url = "#{ENV['FRONTEND_BASE_URL']}/auth?verified=1"
+  config.default_password_reset_url = "#{ENV['FRONTEND_BASE_URL']}/reset-password"
 
   # By default, only Bearer Token authentication is implemented out of the box.
   # If, however, you wish to integrate with legacy Devise authentication, you can
