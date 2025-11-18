@@ -1,12 +1,11 @@
-﻿import { render, screen, cleanup, waitFor } from '@testing-library/react';
+﻿import { render, screen, cleanup } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { MemoryRouter, Routes, Route, useLocation, useSearchParams } from 'react-router-dom';
+import { MemoryRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from '../components/contexts/AuthContext';
 import { LoadingProvider } from '../components/contexts/LoadingContext';
 import { ModalProvider } from '../components/contexts/ModalContext';
 import { SearchResultsPage } from '../pages/SearchResultPage';
 import userEvent from '@testing-library/user-event';
-import { fetchPlaceDetails } from '../apis/places';
 import { useEffect } from 'react';
 
 afterEach(() => cleanup());
