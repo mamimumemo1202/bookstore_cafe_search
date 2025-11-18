@@ -15,7 +15,6 @@ RSpec.describe 'Auth (DeviseTokenAuth)', type: :request do
            email: email,
            password: 'password123',
            password_confirmation: 'password123',
-           confirm_success_url: 'http://localhost:5173/confirmed'
          }.to_json,
          headers: headers
 

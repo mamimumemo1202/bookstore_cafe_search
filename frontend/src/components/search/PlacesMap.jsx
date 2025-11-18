@@ -1,5 +1,5 @@
 // src/components/PlacesMap.jsx
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import coffee from '../../assets/coffee.png';
 import book from '../../assets/book.png';

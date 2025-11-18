@@ -8,7 +8,7 @@ import { BackButton } from '../components/common/BackButton';
 
 
 export function Mypage() {
-  const { isLoggedIn, setIsLoggedIn, user, setUser, isLoading } = useAuthContext();
+  const { setIsLoggedIn, user, setUser, isLoading } = useAuthContext();
   const navigate = useNavigate();
   const [ isSigningOut, setIsSigningOut ] = useState(false)
 

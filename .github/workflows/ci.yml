@@ -1,0 +1,136 @@
+name: CI
+
+on:
+  push:
+    branches: [ development ]
+
+  pull_request:
+    branches: [ main, development ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend        
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        env: 
+          BUNDLE_GEMFILE: backend/Gemfile
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: run rubocop
+        run: bundle exec rubocop -A --force-exclusion
+
+  rspec:
+    runs-on: ubuntu-latest 
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s --health-timeout=5s --health-retries=5
+
+    env:
+      RAILS_ENV: test
+      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: backend
+
+      - name: Setup system deps
+        run: sudo apt-get update && sudo apt-get install -y libpq-dev libyaml-dev
+
+      - name: database create
+        run: bundle exec rails db:prepare
+
+      - name: run tests
+        run: bundle exec rspec
+
+  frontend:
+    runs-on: ubuntu-latest
+    env:
+      VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+
+    defaults:
+      run:
+        working-directory: frontend   
+
+    strategy:
+      matrix:
+        node-version: [22.15]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm run lint
+      - run: npm run format
+      - run: npm test
+
+  create-pr:
+    runs-on: ubuntu-latest
+    needs: [rubocop, rspec, frontend]
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set timestamp (JST)
+        id: ts
+        run: |
+          TZ='Asia/Tokyo' date '+%Y-%m-%d %H:%M:%S %Z' | sed 's/^/ts=/' >> "$GITHUB_OUTPUT"
+
+      - name: Auto commit changes to development
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'all tests passed (${{ steps.ts.outputs.ts }})'
+          branch: development
+
+      - name: Create PR to main
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          branch: development
+          title: "[CI] CI passed at ${{ steps.ts.outputs.ts }}"

@@ -4,8 +4,6 @@ import { LikesList } from '../components/mylist/LikesList';
 import { BackButton } from '../components/common/BackButton';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { toast } from 'react-toastify';
-import { useLoading } from '../components/contexts/LoadingContext';
-import { TextUnderlineIcon } from '@phosphor-icons/react';
 import { PairLikesList } from '../components/mylist/PairLikesList';
 
 export function MyList() {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SearchBar } from './SearchByKeyword';
 import { SearchButton } from '../search/SearchButton';
 import { SearchModeSelector } from '../search/SearchModeSelector';
@@ -8,7 +8,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid';
 
 export function SearchModal({ onClose }) {
   const [searchMode, setSearchMode] = useState('bookstore');
-  const { isLoading, startLoading } = useLoading();
+  const { isLoading } = useLoading();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">

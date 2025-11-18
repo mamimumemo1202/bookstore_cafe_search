@@ -16,7 +16,7 @@ export function SearchButton({ label, searchMode }) {
         const pos = await getLocation();
         navigate(`/search?lat=${pos.lat}&lng=${pos.lng}&mode=${searchMode}&view=${searchMode}`);
         closeModal();
-      } catch (error) {
+      } catch {
         toast.error('位置情報を取得できませんでした');
         closeModal();
         navigate('/', { replace: true });

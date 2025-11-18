@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Places API', type: :request do
-  ORIGIN = 'http://localhost:5173'.freeze
+  ORIGIN = 'http://localhost:5173'.freeze unless defined?(ORIGIN)
 
   def json_headers
     {
@@ -18,10 +18,11 @@ RSpec.describe 'Places API', type: :request do
         { place_id: 'pid1', name: 'A', lat: 1.0, lng: 2.0, vicinity: 'addr1', photo_ref: 'ref1' },
         { place_id: 'pid2', name: 'B', lat: 3.0, lng: 4.0, vicinity: 'addr2', photo_ref: 'ref2' }
       ]
-      payload = [
+      places_array = [
         { place_id: 'pid1', name: 'A', address: 'addr1', likes_count: 0, like_id: nil, pair_like_id: nil, lat: 1.0, lng: 2.0, photo_ref: 'ref1' },
         { place_id: 'pid2', name: 'B', address: 'addr2', likes_count: 3, like_id: 123, pair_like_id: nil, lat: 3.0, lng: 4.0, photo_ref: 'ref2' }
       ]
+      payload = { next_page_token: "next123", places: places_array }
 
       allow_any_instance_of(GooglePlacesClient).to receive(:search_nearby).and_return(raw_results)
       allow(Places::Normalize).to receive(:normalize_nearby_results).with(raw_results['results']).and_return(normalized)
@@ -31,6 +32,9 @@ RSpec.describe 'Places API', type: :request do
 
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
+
+      expect(body).to include("places", "next_page_token")
+
       expect(body['places']).to be_a(Array)
       expect(body['places'].size).to eq(2)
       expect(body['places'].first.keys).to include('place_id', 'name', 'address', 'lat', 'lng', 'photo_ref', 'likes_count', 'like_id', 'pair_like_id')

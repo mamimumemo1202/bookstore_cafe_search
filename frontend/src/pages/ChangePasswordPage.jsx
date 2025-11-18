@@ -1,5 +1,5 @@
 import { BackButton } from '../components/common/BackButton';
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { requestPasswordChange } from '../apis/auth';
 import { getAuthInfo } from '../apis';
@@ -33,7 +33,7 @@ export function ChangePasswordPage() {
 
       setNotice('パスワードを更新しました。');
       navigate('/');
-    } catch (error) {
+    } catch {
       setErrorMessage('やり直してください。（何度してもできない場合は、リセットをお試しください）');
     } finally {
       setSubmitting(false);
