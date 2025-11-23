@@ -31,7 +31,7 @@ export function HomePage() {
               </div>
             </div>
 
-            <div className="h-px w-20 mx-auto bg-neutral-200/80 my-5" />
+            <div className="h-px w-20 mx-auto bg-neutral-200/80 my-5 sm:hidden" />
 
             <div className="m-5 flex flex-col gap-5">
               <h1 className="text-xl">現在地からさがしてみる</h1>
