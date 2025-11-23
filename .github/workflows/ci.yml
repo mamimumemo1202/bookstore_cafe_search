@@ -137,7 +137,8 @@ jobs:
             gh pr create \
               --base main \
               --head develop \
-              --title "[CI] CI passed at ${{ steps.ts.outputs.ts }}"
+              --title "[CI] CI passed at ${{ steps.ts.outputs.ts }}" \
+              --body "[CI] CI passed at ${{ steps.ts.outputs.ts }}"
           else
             echo "PR #$pr_number already exists. Skip creating new one."
           fi
