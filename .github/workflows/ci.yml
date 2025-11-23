@@ -108,11 +108,10 @@ jobs:
   create-pr:
     runs-on: ubuntu-latest
     needs: [rubocop, rspec, frontend]
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -121,16 +120,24 @@ jobs:
         run: |
           TZ='Asia/Tokyo' date '+%Y-%m-%d %H:%M:%S %Z' | sed 's/^/ts=/' >> "$GITHUB_OUTPUT"
 
-      - name: Auto commit changes to develop
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'all tests passed (${{ steps.ts.outputs.ts }})'
-          branch: develop
+      - name: create PR from develop to main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 既存のPRを探す
+          pr_number=$(gh pr list \
+            --base main \
+            --head develop \
+            --state open \
+            --json number \
+            --jq '.[0].number' || true)
 
-      - name: Create PR to main
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: main
-          branch: develop
-          title: "[CI] CI passed at ${{ steps.ts.outputs.ts }}"
+          # まだPRがないときだけ作成する
+          if [ -z "$pr_number" ]; then
+            gh pr create \
+              --base main \
+              --head develop \
+              --title "[CI] CI passed at ${{ steps.ts.outputs.ts }}"
+          else
+            echo "PR #$pr_number already exists. Skip creating new one."
+          fi
