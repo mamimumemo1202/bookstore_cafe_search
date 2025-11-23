@@ -1,10 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import {
-  BookOpenIcon,
-  UserIcon,
-  MagnifyingGlassIcon,
-  ChevronDownIcon,
-} from '@heroicons/react/24/outline';
+
 import { SearchBar } from '../search/SearchByKeyword';
 import { BackButton } from '../common/BackButton';
 import { useAuthContext } from '../contexts/AuthContext';

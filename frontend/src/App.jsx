@@ -11,6 +11,7 @@ import { LoadingProvider } from './components/contexts/LoadingContext';
 import { ResetPasswordPage } from './pages/ResetPasswordPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { ChangePasswordPage } from './pages/ChangePasswordPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { RequireAuth, GuestOnly } from './routes';
@@ -50,7 +51,7 @@ export function App() {
                     <Route path="/auth" element={<AuthPage />} />
                   </Route>
 
-                  <Route path="*" element={<test />} />
+                  <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </LoadingProvider>
             </ModalProvider>
