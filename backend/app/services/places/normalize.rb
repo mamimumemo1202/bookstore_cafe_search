@@ -10,6 +10,7 @@ module Places
                     lat: p.dig("geometry", "location", "lat"),
                     lng: p.dig("geometry", "location", "lng"),
                     vicinity: p["vicinity"],
+                    photo_attribution: p.dig("photos", 0, "html_attributions"),
                     photo_ref: p.dig("photos", 0, "photo_reference")
                 }
             end
@@ -21,7 +22,7 @@ module Places
             name: place["name"],
             lat: place.dig("geometry", "location", "lat"),
             lng: place.dig("geometry", "location", "lng"),
-            # TODO: テスト用に一枚目を取得
+            photo_attribution: p.dig("photos", 0, "html_attributions"),
             photo_ref: place.dig("photos", 0, "photo_reference"),
             business_status: place["business_status"],
             website: place["website"],

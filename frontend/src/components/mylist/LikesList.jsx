@@ -1,11 +1,9 @@
-import { LikeButton } from '../search/LikeButton';
-import { LikePairButton } from '../search/LikePairButton';
 import { useModal } from '../contexts/ModalContext';
 import { SearchModal } from '../search/SearchModal';
 import { useState } from 'react';
 import { PlaceDetailCard } from '../search/PlaceDetailCard';
-import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { CardSkeleton } from '../search/Skeleton';
+import { PhotoWithAttribution } from '../search/PhotoWithAttribution';
 
 export function LikesList({ placeDetails, likedPlaces, isLoading, type, label }) {
   const { isOpenModal, closeModal } = useModal();
@@ -39,15 +37,15 @@ export function LikesList({ placeDetails, likedPlaces, isLoading, type, label })
               >
                 <li className="flex justfy-center">
                   <div className="shrink-0 overflow-hidden rounded-md ">
-                    <img
-                      src={getPlacePhotoUrl(placeDetails[like.likeable?.place_id].photo_ref)}
-                      alt="No image"
-                      loading="eager"
-                      className="w-17 h-17 object-cover"
+                    <PhotoWithAttribution
+                      photoRef={placeDetails[like.likeable?.place_id]?.photo_ref}
+                      photoAttribution={placeDetails[like.likeable?.place_id]?.photo_attribution}
+                      imgClassName="w-17 h-17 object-cover"
+                      alt="liked place photo"
                     />
                   </div>
                   <div className="text-lg font-semibold cursor-pointer p-2">
-                    {placeDetails[like.likeable?.place_id].name}
+                    {placeDetails[like.likeable?.place_id]?.name}
                   </div>
                 </li>
 

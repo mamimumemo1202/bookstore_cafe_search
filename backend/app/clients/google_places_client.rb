@@ -76,6 +76,7 @@ class GooglePlacesClient
           address:   r["formatted_address"] || r["vicinity"],
           lat:       r.dig("geometry", "location", "lat"),
           lng:       r.dig("geometry", "location", "lng"),
+          photo_attribution: r.dig("photos", 0, "html_attributions"),
           photo_ref: r.dig("photos", 0, "photo_reference")
         }
       rescue ExternalApiErrors::Error => e

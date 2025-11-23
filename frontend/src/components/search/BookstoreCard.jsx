@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { LikeButton } from './LikeButton';
-import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { PlaceDetailCard } from './PlaceDetailCard';
+import { PhotoWithAttribution } from './PhotoWithAttribution';
 
 export function BookstoreCard({
   bookstores,
@@ -37,11 +37,11 @@ export function BookstoreCard({
             <div className="flex gap-3">
               {/* サムネ（正方形） */}
               <div className="shrink-0 overflow-hidden rounded-md ">
-                <img
-                  src={getPlacePhotoUrl(bookstore.photo_ref)}
-                  alt="No image"
-                  loading="eager"
-                  className="w-17 h-17 object-cover"
+                <PhotoWithAttribution
+                  photoRef={bookstore.photo_ref}
+                  photoAttribution={bookstore.photo_attribution}
+                  alt="bookstore photo"
+                  imgClassName="w-17 h-17 object-cover"
                 />
               </div>
               {/* 本文といいね */}

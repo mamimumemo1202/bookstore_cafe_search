@@ -3,7 +3,5 @@ export function getPlacePhotoUrl(photoRef) {
 
   if (!photoRef) return null;
 
-  return null
-
-  // return `${BASE_URL}/photos?photo_ref=${encodeURIComponent(photoRef)}`;
+  return `${BASE_URL}/photos?photo_ref=${encodeURIComponent(photoRef)}`;
 }

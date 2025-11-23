@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { LikeButton } from './LikeButton';
 import { LikePairButton } from './LikePairButton';
-import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { PlaceDetailCard } from './PlaceDetailCard';
+import { PhotoWithAttribution } from './PhotoWithAttribution';
 
 export function CafeCard({
   cafes,
@@ -41,11 +41,11 @@ export function CafeCard({
             <div className="flex gap-3">
               {/* サムネ（正方形） */}
               <div className="shrink-0 overflow-hidden rounded-md ">
-                <img
-                  src={getPlacePhotoUrl(cafe.photo_ref)}
-                  alt="No image"
-                  loading="eager"
-                  className="w-17 h-17 object-cover"
+                <PhotoWithAttribution
+                  photoRef={cafe.photo_ref}
+                  photoAttribution={cafe.photo_attribution}
+                  alt="cafe photo"
+                  imgClassName="w-17 h-17 object-cover"
                 />
               </div>
               {/* 本文といいね */}

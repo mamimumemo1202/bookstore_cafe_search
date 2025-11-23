@@ -5,6 +5,7 @@ import { BackButton } from '../components/common/BackButton';
 import { FooterNavigation } from '../components/layout/FooterNavigation';
 import { toast } from 'react-toastify';
 import { PairLikesList } from '../components/mylist/PairLikesList';
+import GoogleMaps_Logo_Gray_1x from '../assets/GoogleMaps_Logo_Gray_1x.png'
 
 export function MyList() {
   // 期待される値: [{place_id: {place_id, name, ...}}]
@@ -78,6 +79,7 @@ export function MyList() {
         {/* INFO: DaisyUIのTabは.tabs直下に.tab-contentを期待するためFragmentで包む */}
         <div className="text-3xl mb-3 text-center font-bold">いいねリスト</div>
         <div className="tabs tabs-box justify-center mx-1">
+
           {TABS.map(({ key, label, likedPlaces }, index) => (
             <Fragment key={key}>
               <input
@@ -88,6 +90,11 @@ export function MyList() {
                 defaultChecked={index === 0}
               />
               <div className="tab-content">
+                <img
+                  src={GoogleMaps_Logo_Gray_1x}
+                  alt="Google"
+                  className='my-3 mx-2'/>    
+
                 {key === 'bookstore' || key === 'cafe' ? (
                   <LikesList
                     placeDetails={placeDetails}
