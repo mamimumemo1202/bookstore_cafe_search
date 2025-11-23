@@ -182,8 +182,8 @@ export function SearchResultsPage() {
 
       {isOpenModal && <SearchModal onClose={closeModal} />}
 
-      <div className="pt-16 min-h-screen flex flex-col">
-        <div className="h-60 w-full">
+      <div className="pt-16 min-h-screen flex flex-col lg:flex-row lg:h-screen">
+        <div className="h-60 w-full lg:w-1/2 lg:h-full">
           {/* 検索結果マップ */}
           <PlacesMap
             lat={lat}

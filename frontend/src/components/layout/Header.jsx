@@ -28,8 +28,8 @@ export function Header({ variant }) {
         )}
 
         {variant === 'search' && (
-          <div className="mx-auto max-w-screen-md h-full flex items-center">
-            <div className=" w-6 h-6 mx-5">
+          <div className="mx-auto max-w-screen-md h-full flex items-center lg:justify-center">
+            <div className=" w-6 h-6 mx-5 lg:hidden">
               <BackButton />
             </div>
             <div className="mx-5">

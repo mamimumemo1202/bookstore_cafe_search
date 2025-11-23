@@ -71,7 +71,7 @@ export function BookstoreCard({
       </div>
       {canLoadMore? 
       <button 
-      className="btn btn-sm mx-auto block mt-4"
+      className="btn btn-sm mx-auto block my-4"
       onClick={onLoadMore}>もっと見る</button>
       :
       <div className='text-center'>すべての結果を表示中</div>}
