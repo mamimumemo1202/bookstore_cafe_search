@@ -47,7 +47,7 @@ export function SignUpForm() {
         </div>
       )}
 
-      <form className="flex flex-col gap-5 my-5" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-5 my-5 items-center" onSubmit={handleSubmit}>
         <input
           type="email"
           value={email}
@@ -72,7 +72,7 @@ export function SignUpForm() {
           className="input"
           disabled={isLoading}
         />
-        <button type="submit" className=" btn disabled:cursor-not-allowed" disabled={isLoading}>
+        <button type="submit" className=" btn disabled:cursor-not-allowed sm:btn-wide" disabled={isLoading}>
           {isLoading ? '登録中...' : '登録'}
         </button>
       </form>

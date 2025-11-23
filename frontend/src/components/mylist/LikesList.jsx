@@ -18,7 +18,7 @@ export function LikesList({ placeDetails, likedPlaces, isLoading, type, label })
       {isOpenModal && <SearchModal onClose={closeModal} />}
 
       <div>
-        <div className="grid grid-cols-1 gap-2">
+        <div className="grid grid-cols-1 gap-2 sm:gap-4">
           {isLoading && (
             <>
               <CardSkeleton />

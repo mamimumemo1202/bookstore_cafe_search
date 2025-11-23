@@ -26,7 +26,7 @@ export function SearchButton({ label, searchMode }) {
 
   return (
     <>
-      <button className="btn text-base-content" onClick={() => handleSearch()}>
+      <button className="btn text-base-content sm:px-10" onClick={() => handleSearch()}>
         {isLoading? 
         <span className="loading loading-dots loading-xl"></span>
         :
