@@ -30,6 +30,7 @@ module Places
                 pair_like_id: pair_map[p[:place_id]],
                 lat:          p[:lat],
                 lng:          p[:lng],
+                photo_attribution: p[:photo_attribution],
                 photo_ref:    p[:photo_ref]
             }
             end

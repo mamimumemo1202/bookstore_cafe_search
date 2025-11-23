@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { PlacesMap } from '../components/search/PlacesMap';
 import { BookstoreSelector } from '../components/search/BookstoreSelector';
+import GoogleMaps_Logo_Gray_1x from '../assets/GoogleMaps_Logo_Gray_1x.png';
 import { useNavigate } from 'react-router-dom';
 import { CafeCard } from '../components/search/CafeCard';
 import {
@@ -197,7 +198,7 @@ export function SearchResultsPage() {
         <div className="flex-1 overflow-y-auto pb-16">
           {searchMode !== 'cafe' && (
             <div className="sticky top-0">
-              <div className={`flex p-3 ${view === 'cafe' ? 'justify-starts' : 'justify-end'}`}>
+              <div className='flex p-3 justify-end'>
                 <button
                   type="button"
                   className="text-md underline"
@@ -205,6 +206,12 @@ export function SearchResultsPage() {
                 >
                   {view === 'cafe' ? '本屋を選びなおす' : 'カフェも選ぶ'}
                 </button>
+              </div>
+              <div className='justify-starts'>
+                <img
+                src={GoogleMaps_Logo_Gray_1x}
+                alt="Google"
+                className='my-3 mx-2'/>
               </div>
             </div>
           )}

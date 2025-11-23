@@ -8,12 +8,12 @@ import {
   ChevronUpIcon,
 } from '@heroicons/react/24/outline';
 import noImage from '../../assets/no-image.png';
-import { getPlacePhotoUrl } from '../../lib/placePhoto';
 import { toast } from 'react-toastify';
 import { ImageSkeleton } from './Skeleton';
 import { Rating } from '../search/rating';
 import { LikeButton } from './LikeButton';
 import { ShareButton } from './ShareButton';
+import { PhotoWithAttribution } from './PhotoWithAttribution';
 
 export function PlaceDetailCard({ placeId, type, likeId }) {
   const [place, setPlace] = useState(false);
@@ -48,17 +48,14 @@ export function PlaceDetailCard({ placeId, type, likeId }) {
           {isLoading && <ImageSkeleton />}
 
           {place?.photos?.length ? (
-            place?.photos
-              ?.slice(0, 3)
-              .map((p, i) => (
-                <img
-                  key={i}
-                  src={getPlacePhotoUrl(p.photo_reference)}
-                  alt="place photo"
-                  loading="eager"
-                  className="h-24 w-full object-cover"
-                />
-              ))
+            place?.photos?.slice(0, 3).map((p, i) => (
+              <PhotoWithAttribution
+                key={i}
+                photoRef={p.photo_reference}
+                photoAttribution={p.html_attributions}
+                imgClassName="h-24 w-full object-cover"
+              />
+            ))
           ) : (
             <img
               src={noImage}

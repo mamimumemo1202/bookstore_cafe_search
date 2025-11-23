@@ -2,10 +2,10 @@ name: CI
 
 on:
   push:
-    branches: [ development ]
+    branches: [ develop ]
 
   pull_request:
-    branches: [ main, development ]
+    branches: [ main, develop ]
 
 permissions:
   contents: write
@@ -121,16 +121,16 @@ jobs:
         run: |
           TZ='Asia/Tokyo' date '+%Y-%m-%d %H:%M:%S %Z' | sed 's/^/ts=/' >> "$GITHUB_OUTPUT"
 
-      - name: Auto commit changes to development
+      - name: Auto commit changes to develop
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'all tests passed (${{ steps.ts.outputs.ts }})'
-          branch: development
+          branch: develop
 
       - name: Create PR to main
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: main
-          branch: development
+          branch: develop
           title: "[CI] CI passed at ${{ steps.ts.outputs.ts }}"
