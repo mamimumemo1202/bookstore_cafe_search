@@ -11,7 +11,8 @@
 
 ## アプリURL
 
-https://bookstore-cafe-map.pages.dev
+<a href="https://bookstore-cafe-map.pages.dev" target="_blank">ほんカフェマップ</a>
+
 
 ※会員登録なしでご利用いただけます。
 
