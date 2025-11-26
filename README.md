@@ -99,5 +99,5 @@ likes は polymorphic: true で likeable_type(Bookstore, Cafe, Pair) に応じ�
 
 ## インフラ構成図
 
-![インフラ構成図](./others/infrastructure.png)
+![インフラ構成図](./)
 作成ツール：https://app.diagrams.net/
