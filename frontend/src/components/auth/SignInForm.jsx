@@ -55,7 +55,7 @@ export function SignInForm() {
         <button onClick={() => {resentConfirmation(email)}} className='font-bold underline'>再送する</button>}
       </div>}
 
-      <form className="flex flex-col gap-5 my-5" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-5 my-5 items-center" onSubmit={handleSubmit}>
         <input
           type="email"
           value={email}
@@ -80,7 +80,7 @@ export function SignInForm() {
         >
           パスワードを忘れた方はこちら
         </button>
-        <button type="submit" className="btn disabled:cursor-not-allowed " disabled={isLoading}>
+        <button type="submit" className="btn disabled:cursor-not-allowed sm:btn-wide " disabled={isLoading}>
           {isLoading ? 'ログイン中...' : 'ログイン'}
         </button>
       </form>

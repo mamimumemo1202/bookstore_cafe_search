@@ -78,7 +78,7 @@ export function MyList() {
 
         {/* INFO: DaisyUIのTabは.tabs直下に.tab-contentを期待するためFragmentで包む */}
         <div className="text-3xl mb-3 text-center font-bold">いいねリスト</div>
-        <div className="tabs tabs-box justify-center mx-1">
+        <div className="tabs tabs-box justify-center mx-1 sm:mx-10 sm:px-10 sm:py-3">
 
           {TABS.map(({ key, label, likedPlaces }, index) => (
             <Fragment key={key}>

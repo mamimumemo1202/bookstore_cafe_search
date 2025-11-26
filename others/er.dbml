@@ -1,0 +1,49 @@
+
+Table "bookstores" {
+  "id" varchar
+  "place_id" string
+  "likes_count" integer
+  "created_at" datetime
+  "updated_at" datetime
+}
+
+Table "cafes" {
+  "id" varchar
+  "place_id" string
+  "likes_count" integer
+  "created_at" datetime
+  "updated_at" datetime
+}
+
+Table "likes" {
+  "id" varchar
+  "user_id" integer
+  "likeable_type" string
+  "likeable_id" integer
+  "created_at" datetime
+  "updated_at" datetime
+}
+
+Table "pairs" {
+  "id" varchar
+  "bookstore_id" integer
+  "cafe_id" integer
+  "created_at" datetime
+  "updated_at" datetime
+  "likes_count" integer
+}
+
+Table "users" {
+  "id" varchar
+  "uid" string
+  "name" string
+  "tokens" text
+  "created_at" datetime
+  "updated_at" datetime
+}
+
+Ref "fk_rails_likes_users":"likes"."user_id" - "users"."id"
+
+Ref "fk_rails_pairs_bookstores":"pairs"."bookstore_id" - "bookstores"."id"
+
+Ref "fk_rails_pairs_cafes":"pairs"."cafe_id" - "cafes"."id"
