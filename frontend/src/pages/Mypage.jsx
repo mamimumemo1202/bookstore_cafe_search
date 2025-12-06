@@ -52,7 +52,7 @@ export function Mypage() {
           <div className="text-gray-500 truncate">{user?.email}</div>
 
           <div className="text-gray-900 break-words sm:max-w-220 mt-2">
-            本屋に行ってカフェによく行きます。好きな本は「コンビニ人間」です。よろしくお願いいたします。あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
+            本屋に行ってカフェによく行きます。好きな本は「コンビニ人間」です。
           </div>
         </div>
 
